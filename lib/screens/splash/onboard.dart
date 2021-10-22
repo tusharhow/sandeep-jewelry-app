@@ -51,7 +51,7 @@ class _Intro2State extends State<Intro2> {
                   images: List.generate(imgList.length, (int index) {
                     return Column(
                       children: [
-                        SizedBox(
+                    const    SizedBox(
                           height: 50,
                         ),
                         Container(
@@ -59,7 +59,7 @@ class _Intro2State extends State<Intro2> {
                           child: Text(
                             labellist[index].toString(),
                             style: GoogleFonts.lora(
-                              textStyle: TextStyle(
+                              textStyle:const TextStyle(
                                 color: Colors.white60,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800,
@@ -68,7 +68,7 @@ class _Intro2State extends State<Intro2> {
                           ),
                         ),
                   
-                        SizedBox(
+                    const    SizedBox(
                           height: 50,
                         ),
                         Image(
@@ -76,7 +76,7 @@ class _Intro2State extends State<Intro2> {
                           height: 350,
                           width: 350,
                         ),
-                        SizedBox(
+                 const SizedBox(
                           height: 50,
                         ),
                         Container(
@@ -126,7 +126,7 @@ class _Intro2State extends State<Intro2> {
               ReusablePrimaryButton(
                 childText: 'Get Started',
                 onPressed: () {
-                  push(context: context, widget: HomePage());
+                  push(context: context, widget:const HomePage());
                 },
                 buttonColor: Colors.white,
                 textColor: Colors.black,

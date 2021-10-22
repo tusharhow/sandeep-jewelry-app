@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
+
+import 'screens/auth/verify_otp.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,8 +41,8 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Center(
-              child:const Image(
+            const Center(
+              child: Image(
                   image: AssetImage('assets/logos/logo.png'),
                   height: 200,
                   width: 200),
@@ -60,7 +64,7 @@ class HomePage extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     'Sign Up or Sign In to Continue',
                     style: TextStyle(
                       fontSize: 18,
@@ -70,22 +74,26 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             ReusablePrimaryButton(
                 childText: 'Sign In',
                 buttonColor: Colors.white,
                 textColor: Colors.black,
-                onPressed: () {}),
-                  SizedBox(
+                onPressed: () {
+                   push(context: context, widget: VerifyOtp());
+                }),
+            const SizedBox(
               height: 20,
             ),
             ReusablePrimaryButton(
                 childText: 'Sign Up',
                 buttonColor: Colors.white,
                 textColor: Colors.black,
-                onPressed: () {})
+                onPressed: () {
+                  push(context: context, widget: SignUp());
+                })
           ],
         ),
       ),

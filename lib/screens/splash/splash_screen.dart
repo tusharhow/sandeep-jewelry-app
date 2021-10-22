@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/main.dart';
 import 'package:sandeep_jwelery/screens/splash/onboard.dart';
 
 class SplashScreenFirst extends StatefulWidget {
@@ -17,7 +16,7 @@ class _SplashScreen1State extends State<SplashScreenFirst> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      pushRemove(context: context, widget: Intro2());
+      pushRemove(context: context, widget:const Intro2());
     });
   }
 
@@ -28,8 +27,8 @@ class _SplashScreen1State extends State<SplashScreenFirst> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         FadedSlideAnimation(
-          Center(
-            child: const Image(
+       const   Center(
+            child:  Image(
               image: AssetImage('assets/logos/logo.png'),
               height: 200,
               width: 200,
