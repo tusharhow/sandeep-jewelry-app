@@ -113,8 +113,8 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       controller: _dobController,
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                      decoration: InputDecoration(
+                      style:const TextStyle(fontWeight: FontWeight.w500),
+                      decoration:const InputDecoration(
                         filled: true,
                         fillColor: Color(0xff272727),
                         hintText: '    Date of Birth',
@@ -139,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-                  SizedBox(
+              const    SizedBox(
                     height: 20,
                   ),
                   SizedBox(
@@ -151,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(5),
                         border:
                             const BorderSide(color: Colors.black12, width: 1),
-                        dropdownButtonColor: Color(0xff272727),
+                        dropdownButtonColor:const Color(0xff272727),
                         value: dropdownValue,
                         onChanged: (newValue) {
                           setState(() {

@@ -3,6 +3,7 @@ import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 
 class VerifyOtp extends StatefulWidget {
   VerifyOtp({Key? key}) : super(key: key);
@@ -67,7 +68,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ReusablePrimaryButton(
               childText: 'Verify',
               buttonColor: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                push(context: context, widget: VerifyOtpInputScreen());
+              },
               textColor: Colors.black,
             ),
             SizedBox(
