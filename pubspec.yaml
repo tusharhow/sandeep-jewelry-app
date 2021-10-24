@@ -36,6 +36,7 @@ dependencies:
     flutter_holo_date_picker: ^1.0.1+2
     getwidget: ^2.0.4
     pin_code_fields: ^7.3.0
+    flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
     flutter_lints: ^1.0.0

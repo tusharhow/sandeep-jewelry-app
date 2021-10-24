@@ -1,12 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/main.dart';
-
 import '../homepage_main.dart';
 
 class VerifyOtpInputScreen extends StatefulWidget {
@@ -19,13 +15,12 @@ class VerifyOtpInputScreen extends StatefulWidget {
 class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   bool hasError = false;
   String currentText = "";
-
   Timer? _timer;
   int _start = 20;
 
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    const oneSec =  Duration(seconds: 1);
+    _timer =  Timer.periodic(
       oneSec,
       (Timer timer) {
         if (_start == 0) {
@@ -118,8 +113,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                       });
                     },
                     beforeTextPaste: (text) {
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                    
                       return true;
                     },
                   )),
@@ -132,14 +126,14 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 onPressed: () {
-                  push(context: context, widget: HomePageMain());
+                  push(context: context, widget:const HomePageMain());
                 }),
             const SizedBox(
               height: 30,
             ),
             Row(
               children: [
-                Text(
+              const  Text(
                   'Didn’t Receive OTP? ',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
@@ -147,20 +141,20 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                   onTap: () {
                     startTimer();
                   },
-                  child: Text(
+                  child:const Text(
                     'Resend',
                     style: TextStyle(fontSize: 14, color: Colors.blue),
                   ),
                 ),
               ],
             ),
-            SizedBox(
+        const    SizedBox(
               height: 5,
             ),
             Container(
                 alignment: Alignment.bottomLeft,
                 child: Text("00:$_start",
-                    style: TextStyle(fontSize: 14, color: Colors.white)))
+                    style:const TextStyle(fontSize: 14, color: Colors.white)))
           ],
         ),
       ),

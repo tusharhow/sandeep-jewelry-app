@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 
 class VerifyOtp extends StatefulWidget {
-  VerifyOtp({Key? key}) : super(key: key);
+  const VerifyOtp({Key? key}) : super(key: key);
 
   @override
   State<VerifyOtp> createState() => _VerifyOtpState();
@@ -27,7 +26,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ),
             Container(
               alignment: Alignment.bottomLeft,
-              child: Text(
+              child:const Text(
                 'Welcome Back!',
                 style: TextStyle(
                   fontSize: 36,
@@ -38,7 +37,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ),
             Container(
               alignment: Alignment.bottomLeft,
-              child: Text(
+              child:const Text(
                 'Enter Your Mobile Number to Continue',
                 style: TextStyle(
                   fontSize: 18,
@@ -46,7 +45,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 ),
               ),
             ),
-            SizedBox(
+        const    SizedBox(
               height: 40,
             ),
             TextFormField(
@@ -56,9 +55,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: Color(0xff272727),
+                  fillColor:const Color(0xff272727),
                   hintText: 'Enter Mobile/Email',
-                  hintStyle: TextStyle(
+                  hintStyle:const TextStyle(
                     color: Colors.white,
                   )),
             ),
@@ -69,23 +68,23 @@ class _VerifyOtpState extends State<VerifyOtp> {
               childText: 'Verify',
               buttonColor: Colors.white,
               onPressed: () {
-                push(context: context, widget: VerifyOtpInputScreen());
+                push(context: context, widget:const VerifyOtpInputScreen());
               },
               textColor: Colors.black,
             ),
-            SizedBox(
+         const   SizedBox(
               height: 50,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('New to this app? ',
+           const     Text('New to this app? ',
                     style: TextStyle(color: Colors.white, fontSize: 16)),
                 InkWell(
                   onTap: () {
-                    push(context: context, widget: SignUp());
+                    push(context: context, widget:const SignUp());
                   },
-                  child: Text('Sign Up',
+                  child:const Text('Sign Up',
                       style: TextStyle(color: Colors.blue, fontSize: 16)),
                 ),
               ],

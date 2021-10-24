@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:getwidget/getwidget.dart';
@@ -14,15 +15,16 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   String? dropdownValue;
   bool isChecked = false;
-  TextEditingController _nameController = new TextEditingController();
 
-  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _nameController =  TextEditingController();
 
-  TextEditingController _phoneController = new TextEditingController();
+  TextEditingController _emailController =  TextEditingController();
 
-  TextEditingController _passController = new TextEditingController();
+  TextEditingController _phoneController =  TextEditingController();
 
-  TextEditingController _dobController = new TextEditingController();
+  TextEditingController _passController =  TextEditingController();
+
+  TextEditingController _dobController =  TextEditingController();
 
   var dateFormat = DateFormat('dd MMMM, yyyy');
 
@@ -33,12 +35,12 @@ class _SignUpState extends State<SignUp> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(
-              height: 100,
+            const SizedBox(
+              height: 80,
             ),
             Container(
               alignment: Alignment.bottomLeft,
-              child: Text(
+              child: const Text(
                 'Sign Up',
                 style: TextStyle(
                   fontSize: 36,
@@ -49,7 +51,7 @@ class _SignUpState extends State<SignUp> {
             ),
             Container(
               alignment: Alignment.bottomLeft,
-              child: Text(
+              child: const Text(
                 'Enter Details to Sign Up',
                 style: TextStyle(
                   fontSize: 18,
@@ -57,7 +59,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -67,28 +69,28 @@ class _SignUpState extends State<SignUp> {
                       hintText: 'Full Name',
                       controller: _nameController,
                       icon: 'assets/icons/author.png'),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   FormFieldComponent(
                       hintText: 'Email id',
                       controller: _emailController,
                       icon: 'assets/icons/email.png'),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   FormFieldComponent(
                       hintText: 'Phone No.',
                       controller: _phoneController,
                       icon: 'assets/icons/phone.png'),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   FormFieldComponent(
                       hintText: ' Password',
                       controller: _passController,
                       icon: 'assets/icons/key.png'),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SizedBox(
@@ -113,8 +115,9 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       controller: _dobController,
-                      style:const TextStyle(fontWeight: FontWeight.w500),
-                      decoration:const InputDecoration(
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                      decoration: const InputDecoration(
                         filled: true,
                         fillColor: Color(0xff272727),
                         hintText: '    Date of Birth',
@@ -139,7 +142,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-              const    SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SizedBox(
@@ -151,7 +154,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(5),
                         border:
                             const BorderSide(color: Colors.black12, width: 1),
-                        dropdownButtonColor:const Color(0xff272727),
+                        dropdownButtonColor: const Color(0xff272727),
                         value: dropdownValue,
                         onChanged: (newValue) {
                           setState(() {
@@ -167,14 +170,14 @@ class _SignUpState extends State<SignUp> {
                                   value: value,
                                   child: Text(
                                     value,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ))
                             .toList(),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -194,7 +197,7 @@ class _SignUpState extends State<SignUp> {
                         TextSpan(
                           children: [
                             TextSpan(
-                                text: 'I have read and accept ',
+                                text: ' I have read and accept ',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 16)),
                             TextSpan(
@@ -205,6 +208,17 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  ReusablePrimaryButton(
+                      childText: 'Sign Up',
+                      buttonColor: Colors.white,
+                      textColor: Colors.black,
+                      onPressed: () {}),
+                  const SizedBox(
+                    height: 15,
                   ),
                 ],
               ),
