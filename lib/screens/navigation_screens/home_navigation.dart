@@ -15,7 +15,6 @@ class HomeNavigation extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: SingleChildScrollView(
           child: Column(children: [
-          
             Stack(
               children: [
                 ClipRRect(
@@ -213,7 +212,7 @@ class HomeNavigation extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     HouseOfCollectionCard(
-                      imageLabel: 'assets/images/ring.png',
+                      imageLabel: 'assets/images/ring2.png',
                       label: 'Neckale (2 mts)',
                       price: '₹25550',
                     ),
@@ -221,7 +220,7 @@ class HomeNavigation extends StatelessWidget {
                       width: 20,
                     ),
                     HouseOfCollectionCard(
-                      imageLabel: 'assets/images/necklace.png',
+                      imageLabel: 'assets/images/necklace2.png',
                       label: 'Ring (2 mts)',
                       price: '₹25550',
                     ),
@@ -285,7 +284,7 @@ class HomeNavigation extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     HouseOfCollectionCard(
-                      imageLabel: 'assets/images/ring.png',
+                      imageLabel: 'assets/images/ring2.png',
                       label: 'Neckale (2 mts)',
                       price: '₹25550',
                     ),
@@ -293,7 +292,7 @@ class HomeNavigation extends StatelessWidget {
                       width: 20,
                     ),
                     HouseOfCollectionCard(
-                      imageLabel: 'assets/images/necklace.png',
+                      imageLabel: 'assets/images/necklace2.png',
                       label: 'Ring (2 mts)',
                       price: '₹25550',
                     ),
@@ -341,7 +340,7 @@ class HomeNavigation extends StatelessWidget {
             ),
             const ListTileCard(
               image: 'assets/images/ring2.png',
-              label: 'Get Exclusive\n Discounts',
+              label: 'Get Exclusive Discounts',
               btnText: 'Give me Gifts',
               subTitle: 'Get Ones',
             ),
@@ -350,8 +349,8 @@ class HomeNavigation extends StatelessWidget {
             ),
             const ListTileCard(
               image: 'assets/images/women_ring.png',
-              label: 'Not Sure of Steeping\n Out',
-              subTitle: 'Not Sure of Steeping\n Out',
+              label: 'Not Sure of Steeping Out',
+              subTitle: 'Not Sure of Steeping Out',
               btnText: 'Book Now',
             ),
             const SizedBox(
@@ -359,8 +358,8 @@ class HomeNavigation extends StatelessWidget {
             ),
             const ListTileCard(
               image: 'assets/images/women_ring.png',
-              label: 'Not Sure of Steeping\n Out',
-              subTitle: 'Not Sure of Steeping\n Out',
+              label: 'Not Sure of Steeping Out',
+              subTitle: 'Not Sure of Steeping Out',
               btnText: 'Book Now',
             ),
             const SizedBox(
@@ -444,5 +443,3 @@ class HomeNavigation extends StatelessWidget {
         ));
   }
 }
-
-

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class FormFieldComponent extends StatelessWidget {
   const FormFieldComponent({
     Key? key,
@@ -18,20 +17,22 @@ class FormFieldComponent extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-      filled: true,
-      fillColor: Color(0xff272727),
-      hintText: hintText,
-      prefixIcon: Image(
+          filled: true,
+          fillColor: Color(0xff272727),
+          hintText: hintText,
+          prefixIcon: Image(
+            color: Colors.white,
+            image: AssetImage(icon),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.white,
+          )),
+      style: TextStyle(
         color: Colors.white,
-        image: AssetImage(icon),
-       
       ),
-      hintStyle: TextStyle(
-        color: Colors.white,
-      )),
     );
   }
 }

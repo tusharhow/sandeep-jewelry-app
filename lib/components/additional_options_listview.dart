@@ -28,15 +28,15 @@ class AdditionalOptionsListView extends StatelessWidget {
               Image(
                 image: AssetImage(icon),
               ),
-              SizedBox(
+            const  SizedBox(
                 width: 15,
               ),
               Text(
                 label,
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style:const TextStyle(fontSize: 16, color: Colors.white),
               ),
-              Spacer(),
-              Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
+            const  Spacer(),
+            const  Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
             ],
           ),
         ),

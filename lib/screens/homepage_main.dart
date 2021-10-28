@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/screens/appbar_screens/favourite_list_screen.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String? username;
+String? fullname;
 
 class HomePageMain extends StatefulWidget {
   const HomePageMain({Key? key}) : super(key: key);
@@ -80,7 +87,9 @@ class _HomePageMainState extends State<HomePageMain> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                push(context: context, widget: FavouriteProductListView());
+              },
               child: const Image(
                 image: AssetImage('assets/icons/heart.png'),
               ),

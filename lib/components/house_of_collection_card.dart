@@ -29,20 +29,21 @@ class HouseOfCollectionCard extends StatelessWidget {
               ),
               Image(
                 image: AssetImage(imageLabel),
+                fit: BoxFit.cover,
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
                 label,
-                style:const TextStyle(color: Colors.white, fontSize: 14),
+                style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
               const SizedBox(
                 height: 5,
               ),
               Text(
                 price,
-                style:const TextStyle(color: Colors.white, fontSize: 14),
+                style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
             ],
           ),

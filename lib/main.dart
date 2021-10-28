@@ -7,6 +7,8 @@ import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'screens/auth/verify_otp.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -18,10 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Sandeep Jewellery',
       theme: ThemeData(
         canvasColor: Colors.black,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
       ),
       home: const SplashScreenFirst(),
     );
@@ -82,7 +84,7 @@ class HomePage extends StatelessWidget {
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 onPressed: () {
-                   push(context: context, widget: VerifyOtp());
+                  push(context: context, widget: const VerifyOtp());
                 }),
             const SizedBox(
               height: 20,
@@ -92,7 +94,7 @@ class HomePage extends StatelessWidget {
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 onPressed: () {
-                  push(context: context, widget: SignUp());
+                  push(context: context, widget: const SignUp());
                 })
           ],
         ),

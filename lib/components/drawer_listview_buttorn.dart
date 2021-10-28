@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DrawerListViewButton extends StatelessWidget {
-  const DrawerListViewButton({Key? key, @required this.label})
+  const DrawerListViewButton(
+      {Key? key, @required this.label, required this.onPressed})
       : super(key: key);
   final label;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed as void Function(),
       child: Container(
         height: 50,
         width: MediaQuery.of(context).size.width / 1.10,
@@ -23,10 +25,11 @@ class DrawerListViewButton extends StatelessWidget {
             children: [
               Text(
                 label,
-                style:const TextStyle(fontSize: 16, color: Colors.white),
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
-           const   Spacer(),
-           const   Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
+              const Spacer(),
+              const Icon(Icons.keyboard_arrow_right,
+                  color: Colors.white, size: 30),
             ],
           ),
         ),

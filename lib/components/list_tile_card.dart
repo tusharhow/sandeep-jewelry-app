@@ -18,8 +18,8 @@ class ListTileCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 200,
-          width: MediaQuery.of(context).size.width / 1.10,
+          height: 170,
+          width: MediaQuery.of(context).size.width / 1.15,
           decoration: BoxDecoration(
             color: Colors.white10,
             borderRadius: BorderRadius.circular(10),
@@ -27,7 +27,7 @@ class ListTileCard extends StatelessWidget {
           child: Row(
             children: [
               Padding(
-                padding:const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Image(
                   image: AssetImage(image),
                 ),
@@ -35,22 +35,23 @@ class ListTileCard extends StatelessWidget {
               Column(
                 children: [
                   const SizedBox(
-                    height: 30,
+                    height: 35,
                   ),
                   Text(
                     label,
                     textAlign: TextAlign.justify,
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    style: const TextStyle(color: Colors.white, fontSize: 15),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
                     subTitle,
-                    style: TextStyle(color: Colors.white54, fontSize: 14),
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(color: Colors.white54, fontSize: 12),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 35,
                   ),
                   InkWell(
                     onTap: () {},
@@ -61,7 +62,7 @@ class ListTileCard extends StatelessWidget {
                         width: 120,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(12)),
                         child: Center(
                           child: Text(btnText),
                         ),

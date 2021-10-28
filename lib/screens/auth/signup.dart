@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -16,15 +19,11 @@ class _SignUpState extends State<SignUp> {
   String? dropdownValue;
   bool isChecked = false;
 
-  TextEditingController _nameController =  TextEditingController();
-
-  TextEditingController _emailController =  TextEditingController();
-
-  TextEditingController _phoneController =  TextEditingController();
-
-  TextEditingController _passController =  TextEditingController();
-
-  TextEditingController _dobController =  TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
 
   var dateFormat = DateFormat('dd MMMM, yyyy');
 
@@ -120,7 +119,7 @@ class _SignUpState extends State<SignUp> {
                       decoration: const InputDecoration(
                         filled: true,
                         fillColor: Color(0xff272727),
-                        hintText: '    Date of Birth',
+                        hintText: 'Date of Birth',
                         hintStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -128,10 +127,10 @@ class _SignUpState extends State<SignUp> {
                           Icons.keyboard_arrow_down_outlined,
                           color: Colors.white,
                         ),
-                        contentPadding: EdgeInsets.only(top: 10.0),
+                        contentPadding: EdgeInsets.only(top: 15.0, left: 20),
                       ),
                       onChanged: (value) {
-                        //get value from text field here
+                        // get value from text field here
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -150,6 +149,9 @@ class _SignUpState extends State<SignUp> {
                     width: MediaQuery.of(context).size.width,
                     child: DropdownButtonHideUnderline(
                       child: GFDropdown(
+                        iconEnabledColor: Colors.white,
+                        hint: const Text('Select Gender',
+                            style: TextStyle(color: Colors.white)),
                         padding: const EdgeInsets.all(15),
                         borderRadius: BorderRadius.circular(5),
                         border:
@@ -159,6 +161,7 @@ class _SignUpState extends State<SignUp> {
                         onChanged: (newValue) {
                           setState(() {
                             dropdownValue = newValue as String?;
+                            print(dropdownValue);
                           });
                         },
                         items: [
@@ -185,7 +188,7 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       GFCheckbox(
                         size: GFSize.SMALL,
-                        activeBgColor: GFColors.PRIMARY,
+                        activeBgColor: GFColors.SUCCESS,
                         onChanged: (value) {
                           setState(() {
                             isChecked = value;
@@ -216,7 +219,34 @@ class _SignUpState extends State<SignUp> {
                       childText: 'Sign Up',
                       buttonColor: Colors.white,
                       textColor: Colors.black,
-                      onPressed: () {}),
+                      onPressed: () {
+                        isChecked == true
+                            ? Navigator.pushAndRemoveUntil(
+                                context,
+                                push(
+                                    context: context,
+                                    widget: VerifyOtpInputScreen()),
+                                (route) => false)
+                            : showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      ListTile(
+                                        leading: const Icon(Icons.photo),
+                                        title: const Text(
+                                          'Make sure you are agree to our terms and conditions',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                      }),
                   const SizedBox(
                     height: 15,
                   ),

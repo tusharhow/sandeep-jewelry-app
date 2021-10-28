@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-
 class ReusablePrimaryButton extends StatelessWidget {
-    ReusablePrimaryButton(
+  ReusablePrimaryButton(
       {required this.childText,
       required this.buttonColor,
       required this.textColor,

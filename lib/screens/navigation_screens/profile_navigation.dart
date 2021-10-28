@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/additional_options_listview.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileNavigation extends StatelessWidget {
+String? fullname;
+
+class ProfileNavigation extends StatefulWidget {
   const ProfileNavigation({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileNavigation> createState() => _ProfileNavigationState();
+}
+
+class _ProfileNavigationState extends State<ProfileNavigation> {
+  @override
+  void initState() {
+    super.initState();
+    name();
+  }
+
+  void name() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fullname = prefs.getString('fullname');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
