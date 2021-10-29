@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandeep_jwelery/components/additional_options_listview.dart';
 import 'package:sandeep_jwelery/components/drawer_listview_buttorn.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/about_us.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/privacy.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class AppDrawer extends StatelessWidget {
           DrawerListViewButton(
             label: 'About Us',
             onPressed: () {
-              push(context: context, widget: AboutUs());
+              push(context: context, widget: const AboutUs());
             },
           ),
           const SizedBox(
@@ -93,7 +93,9 @@ class AppDrawer extends StatelessWidget {
           ),
           DrawerListViewButton(
             label: 'Privacy',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: const PrivacyPage());
+            },
           ),
           const SizedBox(
             height: 15,

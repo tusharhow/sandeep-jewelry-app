@@ -88,7 +88,8 @@ class _HomePageMainState extends State<HomePageMain> {
             ),
             InkWell(
               onTap: () {
-                push(context: context, widget: FavouriteProductListView());
+                push(
+                    context: context, widget: const FavouriteProductListView());
               },
               child: const Image(
                 image: AssetImage('assets/icons/heart.png'),
