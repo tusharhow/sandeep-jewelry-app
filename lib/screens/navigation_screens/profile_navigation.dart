@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/additional_options_listview.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/screens/profile_edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? fullname;
@@ -34,7 +36,9 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
         child: SingleChildScrollView(
           child: Column(children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                push(context: context, widget:  ProfileEditPage());
+              },
               child: Center(
                 child: Stack(
                   children: [
