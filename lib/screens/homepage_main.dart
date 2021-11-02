@@ -23,7 +23,7 @@ class _HomePageMainState extends State<HomePageMain> {
 
   final screens = [
     const HomeNavigation(),
-    const CollectionNavigation(),
+    ShoppingPage(),
     const ProfileNavigation()
   ];
 
