@@ -193,7 +193,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: const [
                             Text(
                               'Gold',
                               style: TextStyle(
@@ -216,7 +216,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: const [
                             Text(
                               'Gold',
                               style: TextStyle(
@@ -269,18 +269,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       children: [
                         TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: const Text(
                               '-',
                               style:
                                   TextStyle(fontSize: 30, color: Colors.amber),
                             )),
-                        Text(
+                        const Text(
                           '2',
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                         TextButton(
                             onPressed: () {},
-                            child: Text(
+                            child: const Text(
                               '+',
                               style:
                                   TextStyle(fontSize: 30, color: Colors.amber),

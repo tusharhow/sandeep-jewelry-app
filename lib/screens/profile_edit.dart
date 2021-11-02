@@ -3,17 +3,23 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 
-class ProfileEditPage extends StatelessWidget {
+class ProfileEditPage extends StatefulWidget {
   ProfileEditPage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileEditPage> createState() => _ProfileEditPageState();
+}
+
+class _ProfileEditPageState extends State<ProfileEditPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
-
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
+
+  bool tappedBtn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +48,16 @@ class ProfileEditPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          isEnabled = true;
+                          tappedBtn = !tappedBtn;
+                        });
+                      },
                       child: Text(
                         'Edit',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: tappedBtn ? Colors.white : Colors.grey,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -129,7 +140,7 @@ class ProfileEditPage extends StatelessWidget {
   }
 }
 
-class ProfileEditFormField extends StatelessWidget {
+class ProfileEditFormField extends StatefulWidget {
   const ProfileEditFormField({
     Key? key,
     @required this.editingController,
@@ -142,21 +153,29 @@ class ProfileEditFormField extends StatelessWidget {
   final hint;
 
   @override
+  State<ProfileEditFormField> createState() => _ProfileEditFormFieldState();
+}
+
+bool isEnabled = false;
+
+class _ProfileEditFormFieldState extends State<ProfileEditFormField> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextFormField(
-        controller: editingController,
+        enabled: isEnabled,
+        controller: widget.editingController,
         decoration: InputDecoration(
-          labelText: label,
+          labelText: widget.label,
           alignLabelWithHint: true,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelStyle: TextStyle(color: Colors.white54),
-          hintText: hint,
-          hintStyle: TextStyle(
+          labelStyle: const TextStyle(color: Colors.white54),
+          hintText: widget.hint,
+          hintStyle: const TextStyle(
             color: Colors.white,
           ),
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
         ),

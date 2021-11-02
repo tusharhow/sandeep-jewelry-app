@@ -87,7 +87,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   color: Colors.white,
                 ),
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),

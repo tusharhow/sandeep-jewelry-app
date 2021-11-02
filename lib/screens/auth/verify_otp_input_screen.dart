@@ -21,7 +21,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   Timer? _timer;
   int _start = 20;
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -67,12 +67,13 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
             const SizedBox(
               height: 30,
             ),
-            Form(
+            Form(key: _formKey,
               child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30),
                   child: PinCodeTextField(
-                    key: _formKey,
+                   
+                    
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     appContext: context,
                     pastedTextStyle: const TextStyle(
@@ -137,7 +138,12 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 onPressed: () {
-                  push(context: context, widget: const HomePageMain());
+                  if (_formKey.currentState!.validate()) {
+                    push(context: context, widget: const HomePageMain());
+                  } else {
+                    const ScaffoldMessenger(
+                        child: Text('Something went wrong..'));
+                  }
                 }),
             const SizedBox(
               height: 30,
