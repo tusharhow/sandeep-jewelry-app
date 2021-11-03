@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/additional_options_listview.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/profile_edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,9 +36,12 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(children: [
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
               onTap: () {
-                push(context: context, widget:  ProfileEditPage());
+                push(context: context, widget: ProfileEditPage());
               },
               child: Center(
                 child: Stack(
@@ -131,7 +135,12 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                 childText: 'Sign Out',
                 buttonColor: const Color(0xffEE0000),
                 textColor: Colors.white,
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (c) => const VerifyOtp()),
+                      (route) => false);
+                }),
           ]),
         ),
       ),
