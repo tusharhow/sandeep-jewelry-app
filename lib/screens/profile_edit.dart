@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:sandeep_jwelery/components/profile_edit_form_field.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileEditPage extends StatefulWidget {
   ProfileEditPage({Key? key}) : super(key: key);
@@ -20,6 +22,32 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final TextEditingController _genderController = TextEditingController();
 
   bool tappedBtn = false;
+  String? _username;
+  String? _email;
+  String? _number;
+  String? _dob;
+  String? _gender;
+  String? _address;
+  String? _pin;
+
+  @override
+  void initState() {
+    super.initState();
+    name();
+  }
+
+  void name() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _username = prefs.getString('username');
+      _number = prefs.getString('number');
+      _email = prefs.getString('email');
+      _dob = prefs.getString('dob');
+      _gender = prefs.getString('gender');
+      _address = prefs.getString('address');
+      _pin = prefs.getString('pin');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +99,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _nameController,
                 label: 'Full Name',
-                hint: 'Anil Jain',
+                hint: _username,
               ),
               const SizedBox(
                 height: 10,
@@ -79,7 +107,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _emailController,
                 label: 'Email Id',
-                hint: 'akdikowdo@gmail.com',
+                hint: _email,
               ),
               const SizedBox(
                 height: 10,
@@ -87,7 +115,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _phoneController,
                 label: 'Mobile No',
-                hint: '7882511251142',
+                hint: _number,
               ),
               const SizedBox(
                 height: 10,
@@ -95,7 +123,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _dobController,
                 label: 'Date of Birth',
-                hint: '12/05/1998',
+                hint: _dob,
               ),
               const SizedBox(
                 height: 10,
@@ -103,7 +131,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _genderController,
                 label: 'Gender',
-                hint: 'Male',
+                hint: _gender,
               ),
               const SizedBox(
                 height: 10,
@@ -111,7 +139,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _addressController,
                 label: 'Address',
-                hint: 'Flat 5 Jain Apt Vikas Road',
+                hint: _address,
               ),
               const SizedBox(
                 height: 10,
@@ -119,7 +147,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _pinController,
                 label: 'Pin Code',
-                hint: '584666',
+                hint: _pin,
               ),
               const SizedBox(
                 height: 40,
@@ -140,46 +168,4 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   }
 }
 
-class ProfileEditFormField extends StatefulWidget {
-  const ProfileEditFormField({
-    Key? key,
-    @required this.editingController,
-    @required this.label,
-    @required this.hint,
-  }) : super(key: key);
 
-  final editingController;
-  final label;
-  final hint;
-
-  @override
-  State<ProfileEditFormField> createState() => _ProfileEditFormFieldState();
-}
-
-bool isEnabled = false;
-
-class _ProfileEditFormFieldState extends State<ProfileEditFormField> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: TextFormField(
-        enabled: isEnabled,
-        controller: widget.editingController,
-        decoration: InputDecoration(
-          labelText: widget.label,
-          alignLabelWithHint: true,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelStyle: const TextStyle(color: Colors.white54),
-          hintText: widget.hint,
-          hintStyle: const TextStyle(
-            color: Colors.white,
-          ),
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-        ),
-      ),
-    );
-  }
-}

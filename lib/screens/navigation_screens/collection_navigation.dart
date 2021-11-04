@@ -9,6 +9,7 @@ import 'package:sandeep_jwelery/components/list_tile_card.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/data.dart';
+import 'package:sandeep_jwelery/screens/product_details.dart';
 
 class ShoppingPage extends StatefulWidget {
   @override
@@ -61,7 +62,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                   ],
                 ),
               ),
-              Category(),
+              const Category(),
               const SizedBox(
                 height: 15,
               ),
@@ -76,6 +77,13 @@ class _ShoppingPageState extends State<ShoppingPage> {
                             child: InkWell(
                               onTap: () {
                                 print('clicked list');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (c) => ProductDetailView(),
+                                        settings: RouteSettings(
+                                          arguments: controller.products[index],
+                                        ),));
                               },
                               child: Column(
                                 children: [
@@ -222,7 +230,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
 }
 
 class Category extends StatefulWidget {
-  Category({Key? key}) : super(key: key);
+  const Category({Key? key}) : super(key: key);
 
   @override
   _CategoryState createState() => _CategoryState();

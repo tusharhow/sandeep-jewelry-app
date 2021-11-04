@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer_listview_buttorn.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/about_us.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/exchange.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/faq.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/privacy.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/shipping.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/terms_of_use.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -72,21 +76,27 @@ class AppDrawer extends StatelessWidget {
           ),
           DrawerListViewButton(
             label: 'Shipping',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: Shipping());
+            },
           ),
           const SizedBox(
             height: 15,
           ),
           DrawerListViewButton(
             label: 'Exchange',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: Exchange());
+            },
           ),
           const SizedBox(
             height: 15,
           ),
           DrawerListViewButton(
             label: 'Terms of Use',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: TermsOfUse());
+            },
           ),
           const SizedBox(
             height: 15,
@@ -102,7 +112,9 @@ class AppDrawer extends StatelessWidget {
           ),
           DrawerListViewButton(
             label: 'FAQ',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: Faq());
+            },
           ),
           const SizedBox(
             height: 15,

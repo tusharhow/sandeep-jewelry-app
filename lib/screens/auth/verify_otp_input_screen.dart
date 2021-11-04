@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../homepage_main.dart';
 
 class VerifyOtpInputScreen extends StatefulWidget {
@@ -21,7 +22,22 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   Timer? _timer;
   int _start = 20;
 
+  String? _number;
+  String? _username;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    name();
+    super.initState();
+  }
+
+  void name() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _number = prefs.getString('number');
+    });
+  }
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -57,9 +73,9 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
             const SizedBox(
               height: 100,
             ),
-            const Text(
-              'Enter OTP sent to +91 9637175943',
-              style: TextStyle(
+            Text(
+              'Enter OTP sent to $_number',
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
               ),
@@ -67,13 +83,12 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
             const SizedBox(
               height: 30,
             ),
-            Form(key: _formKey,
+            Form(
+              key: _formKey,
               child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30),
                   child: PinCodeTextField(
-                   
-                    
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     appContext: context,
                     pastedTextStyle: const TextStyle(

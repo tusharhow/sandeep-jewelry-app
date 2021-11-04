@@ -133,11 +133,23 @@ class _VerifyOtpState extends State<VerifyOtp> {
       Future.delayed(const Duration(seconds: 1), () {
         for (int id = 0; id < dataAssistent.length; id++) {
           if (_phoneController.text == dataAssistent[id]["Number"]) {
-            String fullname = dataAssistent[id]["Number"] as String;
+            String number = dataAssistent[id]["Number"] as String;
+            String username = dataAssistent[id]["Username"] as String;
+            String email = dataAssistent[id]["Email"] as String;
+            String dob = dataAssistent[id]["Dob"] as String;
+            String gender = dataAssistent[id]["Gender"] as String;
+            String address = dataAssistent[id]["Address"] as String;
+            String pin = dataAssistent[id]["Pin"] as String;
 
             prefs.setBool('user', true);
 
-            prefs.setString('fullname', fullname);
+            prefs.setString('number', number);
+            prefs.setString('username', username);
+            prefs.setString('email', email);
+            prefs.setString('dob', dob);
+            prefs.setString('gender', gender);
+            prefs.setString('address', address);
+            prefs.setString('pin', pin);
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

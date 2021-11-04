@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class SearchFunction extends StatefulWidget {
@@ -36,7 +35,7 @@ class _SearchFunctionState extends State<SearchFunction>
           width: (toggle == 0) ? 40.0 : 250.0,
           curve: Curves.easeOut,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.white54,
             borderRadius: BorderRadius.circular(30.0),
             boxShadow: const [
               BoxShadow(
@@ -94,7 +93,7 @@ class _SearchFunctionState extends State<SearchFunction>
                       decoration: InputDecoration(
                         hintText: 'Search...',
                         hintStyle: const TextStyle(
-                          color: Colors.black54,
+                          color: Colors.black87,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -106,7 +105,7 @@ class _SearchFunctionState extends State<SearchFunction>
                 ),
               ),
               Material(
-                color: Colors.white,
+                color: Colors.white54,
                 borderRadius: BorderRadius.circular(30.0),
                 child: IconButton(
                   splashRadius: 19.0,

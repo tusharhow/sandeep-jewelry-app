@@ -7,6 +7,7 @@ import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
+import 'package:sandeep_jwelery/screens/track_order.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? username;
@@ -95,7 +96,12 @@ class _HomePageMainState extends State<HomePageMain> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (c) => TrackTryAtHome(
+                     c
+                    )));
+              },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Image(

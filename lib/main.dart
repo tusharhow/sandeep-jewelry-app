@@ -7,7 +7,7 @@ import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 
 import 'screens/auth/verify_otp.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
@@ -15,8 +15,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

@@ -31,6 +31,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final datas = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
           iconTheme: const IconThemeData(

@@ -6,7 +6,7 @@ import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/profile_edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? fullname;
+String? _username;
 
 class ProfileNavigation extends StatefulWidget {
   const ProfileNavigation({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
   void name() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      fullname = prefs.getString('fullname');
+      _username = prefs.getString('username');
     });
   }
 
@@ -63,21 +63,21 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                                     AssetImage('assets/images/user.png'),
                               )),
                           Column(
-                            children: const [
-                              SizedBox(
+                            children: [
+                              const SizedBox(
                                 height: 35,
                               ),
-                              Text(
+                              const Text(
                                 'Hello',
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
                                     color: Colors.white54, fontSize: 16),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                'Anil Jain',
+                                _username.toString(),
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),
