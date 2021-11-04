@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/controllers/profile_controllers/search_function.dart';
+import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/favourite_list_screen.dart';
-import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
-import 'package:sandeep_jwelery/screens/track_order.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 String? username;
 String? fullname;
@@ -97,10 +96,8 @@ class _HomePageMainState extends State<HomePageMain> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (c) => TrackTryAtHome(
-                     c
-                    )));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (c) => const Cart()));
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),

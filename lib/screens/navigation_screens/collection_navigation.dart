@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sandeep_jwelery/components/appbar_primary.dart';
-import 'package:sandeep_jwelery/components/house_of_collection_card.dart';
-import 'package:sandeep_jwelery/components/list_card_vertical.dart';
-import 'package:sandeep_jwelery/components/list_tile_card.dart';
-import 'package:sandeep_jwelery/components/shop_carousel.dart';
-import 'package:sandeep_jwelery/components/todays_deals_card.dart';
+
 import 'package:sandeep_jwelery/data.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
 
 class ShoppingPage extends StatefulWidget {
+  const ShoppingPage({Key? key}) : super(key: key);
+
   @override
   State<ShoppingPage> createState() => _ShoppingPageState();
 }
@@ -80,7 +75,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (c) => ProductDetailView(),
+                                        builder: (c) => const ProductDetailView(),
                                         settings: RouteSettings(
                                           arguments: controller.products[index],
                                         ),));

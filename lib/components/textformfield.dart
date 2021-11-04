@@ -21,16 +21,16 @@ class FormFieldComponent extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           filled: true,
-          fillColor: Color(0xff272727),
+          fillColor: const Color(0xff272727),
           hintText: hintText,
           prefixIcon: Image(
             color: Colors.white,
             image: AssetImage(icon),
           ),
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.white,
           )),
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.white,
       ),
     );

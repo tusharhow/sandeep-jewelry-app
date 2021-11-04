@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/list_tile/gf_list_tile.dart';
-import 'package:like_button/like_button.dart';
+import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 
 class FavouriteProductListView extends StatefulWidget {
   const FavouriteProductListView({Key? key}) : super(key: key);
@@ -16,6 +15,10 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(
+          color: Colors.white, //change your color here
+        ),
         title: const Text(
           'Favourites',
           style: TextStyle(color: Colors.white),
@@ -26,8 +29,8 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
           child: Column(
             children: [
               ListTile(
-                leading: FlutterLogo(),
-                title: Text(
+                leading: const FlutterLogo(),
+                title: const Text(
                   'One-line with both widgets',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -43,9 +46,15 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                   ),
                   splashColor: Colors.redAccent,
                   iconSize: 30,
-                
                 ),
               ),
+              Center(
+                child: ReusablePrimaryButton(
+                    childText: 'Proceed',
+                    buttonColor: const Color(0xffFFD809),
+                    textColor: Colors.black,
+                    onPressed: () {}),
+              )
             ],
           )),
 

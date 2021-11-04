@@ -65,7 +65,7 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                           Column(
                             children: [
                               const SizedBox(
-                                height: 35,
+                                height: 30,
                               ),
                               const Text(
                                 'Hello',
@@ -79,7 +79,7 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                               Text(
                                 _username.toString(),
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
                             ],

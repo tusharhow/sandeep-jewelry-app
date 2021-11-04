@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyState extends State<MyApp> {
-  bool _value = false;
+
   int val = -1;
   @override
   Widget build(BuildContext context) {

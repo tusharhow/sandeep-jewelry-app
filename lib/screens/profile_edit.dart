@@ -1,12 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sandeep_jwelery/components/profile_edit_form_field.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileEditPage extends StatefulWidget {
-  ProfileEditPage({Key? key}) : super(key: key);
+  const ProfileEditPage({Key? key}) : super(key: key);
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -153,10 +154,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 height: 40,
               ),
               ReusablePrimaryButton(
-                  childText: 'Delete Account',
+                  childText: 'Update',
                   buttonColor: const Color(0xffEE0000),
                   textColor: Colors.white,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Get.snackbar(
+                      'User Data Updated',
+                      'User Data Edit Succesful!',
+                      backgroundColor: Colors.white,
+                    );
+                  }),
               const SizedBox(
                 height: 50,
               ),
@@ -167,5 +174,3 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 }
-
-

@@ -1,4 +1,3 @@
-// ignore_for_file: unrelated_type_equality_checks
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';

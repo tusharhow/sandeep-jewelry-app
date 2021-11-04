@@ -24,7 +24,7 @@ class TodaysDealsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        push(context: context, widget: ProductDetailView());
+        push(context: context, widget: const ProductDetailView());
       },
       child: Container(
         height: 190,

@@ -225,7 +225,7 @@ class _SignUpState extends State<SignUp> {
                                 context,
                                 push(
                                     context: context,
-                                    widget: VerifyOtpInputScreen()),
+                                    widget: const VerifyOtpInputScreen()),
                                 (route) => false)
                             : showModalBottomSheet(
                                 context: context,

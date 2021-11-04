@@ -2,11 +2,15 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:sandeep_jwelery/components/about_this_product.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
+import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
+
+final cartCotroller = Get.put(CartCotroller());
 
 class ProductDetailView extends StatefulWidget {
   const ProductDetailView({Key? key}) : super(key: key);
@@ -159,7 +163,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   contentBackgroundColor: Colors.transparent,
                   collapsedTitleBackgroundColor: Colors.transparent,
                   title: 'Price Breakage',
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 14,
                     color: Colors.amber,
                     decoration: TextDecoration.underline,
@@ -171,7 +175,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: const [
                             Text(
                               'Gold',
                               style: TextStyle(
@@ -260,7 +264,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   ),
                   Container(
                     height: 45,
-                    width: MediaQuery.of(context).size.width / 2.80,
+                    width: MediaQuery.of(context).size.width / 2.60,
                     decoration: BoxDecoration(
                         color: Colors.white10,
                         borderRadius: BorderRadius.circular(30)),
@@ -268,24 +272,42 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              '-',
-                              style:
-                                  TextStyle(fontSize: 30, color: Colors.amber),
-                            )),
-                        const Text(
-                          '2',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                        TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              '+',
-                              style:
-                                  TextStyle(fontSize: 30, color: Colors.amber),
-                            )),
+                        GetBuilder<CartCotroller>(
+                            init: CartCotroller(),
+                            builder: (_) {
+                              return TextButton(
+                                  onPressed: () {
+                                    _.decrements();
+                                  },
+                                  child: const Text(
+                                    '-',
+                                    style: TextStyle(
+                                        fontSize: 30, color: Colors.amber),
+                                  ));
+                            }),
+                        GetBuilder<CartCotroller>(
+                            init: CartCotroller(),
+                            builder: (_) {
+                              return Text(
+                                '${_.counter}',
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.white),
+                              );
+                            }),
+                        GetBuilder<CartCotroller>(
+                            init: CartCotroller(),
+                            builder: (_) {
+                              return TextButton(
+                                onPressed: () {
+                                  _.increments();
+                                },
+                                child: const Text(
+                                  '+',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.amber),
+                                ),
+                              );
+                            }),
                       ],
                     ),
                   ),
