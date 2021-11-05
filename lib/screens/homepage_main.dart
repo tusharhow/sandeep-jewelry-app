@@ -8,7 +8,6 @@ import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
 
-
 String? username;
 String? fullname;
 
@@ -96,8 +95,8 @@ class _HomePageMainState extends State<HomePageMain> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (c) => const Cart()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (c) => const CartPage()));
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),

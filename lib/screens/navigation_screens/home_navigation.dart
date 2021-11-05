@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sandeep_jwelery/components/house_of_collection_card.dart';
 import 'package:sandeep_jwelery/components/list_tile_card.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
+import 'package:sandeep_jwelery/controllers/product_controller.dart';
+import 'package:sandeep_jwelery/models/cm.dart';
+
+final productController = Get.put(ProductController());
 
 class HomeNavigation extends StatelessWidget {
   const HomeNavigation({Key? key}) : super(key: key);
@@ -124,54 +129,45 @@ class HomeNavigation extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: const [
-                  TodaysDealsCard(
-                    label: 'Ring (Size 8)',
-                    labelImage: 'assets/images/ring.png',
-                    productDesc: '34 gm , 24kt Gold',
-                    rating: 5.0,
-                    ratingLevel: '5.0',
-                    ratingCount: '(834)',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  TodaysDealsCard(
-                    label: 'Neckale (2 mts)',
-                    labelImage: 'assets/images/necklace.png',
-                    productDesc: '200 gm , Pt ,Ruby',
-                    rating: 4.3,
-                    ratingLevel: '4.3',
-                    ratingCount: '(84)',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  TodaysDealsCard(
-                    label: 'Ring (Size 8)',
-                    labelImage: 'assets/images/ring.png',
-                    productDesc: '34 gm , 24kt Gold',
-                    rating: 5.0,
-                    ratingLevel: '5.0',
-                    ratingCount: '(834)',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  TodaysDealsCard(
-                    label: 'Neckale (2 mts)',
-                    labelImage: 'assets/images/necklace.png',
-                    productDesc: '200 gm , Pt ,Ruby',
-                    rating: 4.3,
-                    ratingLevel: '4.3',
-                    ratingCount: '(84)',
-                  ),
-                ],
-              ),
-            ),
+            FutureBuilder<ProductModel>(
+                future: productController.dataModelFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
+                      height: 230,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.products.length,
+                          itemBuilder: (context, index) {
+                            var datas = snapshot.data!.products[index];
+
+                            return Card(
+                              elevation: 0,
+                              margin: const EdgeInsets.symmetric(horizontal: 6),
+                              color: Colors.black,
+                              child: Row(
+                                children: [
+                                  TodaysDealsCard(
+                                    label: datas.title,
+                                    labelImage: datas.image,
+                                    productDesc: '34 gm , 24kt Gold',
+                                    rating: datas.rating.rate.toDouble(),
+                                    ratingLevel: datas.rating.rate.toString(),
+                                    ratingCount: datas.rating.count.toString(),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    );
+                  } else if (snapshot.hasError) {
+                    print('err');
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
             const SizedBox(
               height: 20,
             ),
@@ -189,43 +185,44 @@ class HomeNavigation extends StatelessWidget {
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/ring2.png',
-                      label: 'Neckale (2 mts)',
-                      price: '₹25550',
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/necklace2.png',
-                      label: 'Ring (2 mts)',
-                      price: '₹25550',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/ring2.png',
-                      label: 'Neckale (2 mts)',
-                      price: '₹25550',
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/necklace2.png',
-                      label: 'Ring (2 mts)',
-                      price: '₹25550',
-                    ),
-                  ],
-                ),
+                FutureBuilder<ProductModel>(
+                    future: productController.dataModelFuture,
+                    builder: (context, snapshot) {
+                      return SizedBox(
+                        height: 420,
+                        child: ListView.builder(
+                            primary: true,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              var datas = snapshot.data!.products[index];
+                              return Card(
+                                elevation: 0,
+                                color: Colors.black,
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    HouseOfCollectionCard(
+                                      imageLabel: datas.image,
+                                      label: 'Neckale (2 mts)',
+                                      price: datas.price.toString(),
+                                    ),
+                                    HouseOfCollectionCard(
+                                      imageLabel: datas.image,
+                                      label: 'Neckale (2 mts)',
+                                      price: datas.price.toString(),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      );
+                    }),
               ],
             ),
             const SizedBox(height: 15),

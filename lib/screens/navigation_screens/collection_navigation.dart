@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:sandeep_jwelery/data.dart';
-import 'package:sandeep_jwelery/screens/product_details.dart';
+import 'package:sandeep_jwelery/controllers/product_controller.dart';
+import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -12,7 +12,8 @@ class ShoppingPage extends StatefulWidget {
 }
 
 class _ShoppingPageState extends State<ShoppingPage> {
-  final shoppingController = Get.put(ShoppingController());
+  // final shoppingController = Get.put(ShoppingController());
+  final productController = Get.put(ProductController());
 
   bool isListView = true;
   bool isClicked = false;
@@ -62,159 +63,188 @@ class _ShoppingPageState extends State<ShoppingPage> {
                 height: 15,
               ),
               Expanded(
-                child: GetX<ShoppingController>(builder: (controller) {
-                  return isListView
-                      ? ListView.builder(
-                          itemCount: controller.products.length,
-                          itemBuilder: (context, index) => Card(
-                            color: Colors.white10,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: InkWell(
-                              onTap: () {
-                                print('clicked list');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (c) => const ProductDetailView(),
-                                        settings: RouteSettings(
-                                          arguments: controller.products[index],
-                                        ),));
-                              },
-                              child: Column(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        height: 150,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.15,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: Image(
-                                                image: AssetImage(controller
-                                                    .products[index]
-                                                    .productImage),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 25,
-                                            ),
-                                            Column(
-                                              children: [
-                                                const SizedBox(
-                                                  height: 50,
+                child: isListView
+                    ? FutureBuilder<ProductModel>(
+                        future: productController.dataModelFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                itemCount: snapshot.data!.products.length,
+                                itemBuilder: (context, index) {
+                                  var dataList = snapshot.data!.products[index];
+                                  return Card(
+                                    color: Colors.white10,
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: InkWell(
+                                      onTap: () {
+                                        print('clicked list');
+                                        // Navigator.push(
+                                        //     context,
+                                        // MaterialPageRoute(
+                                        //   builder: (c) => const ProductDetailView(),
+                                        //   settings: RouteSettings(
+                                        //     arguments: dataList[index],
+                                        //   ),
+                                        // ));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              Container(
+                                                height: 150,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
                                                 ),
-                                                Text(
-                                                  controller.products[index]
-                                                      .productName,
-                                                  textAlign: TextAlign.justify,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 17),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
+                                                child: Row(
                                                   children: [
-                                                    Text(
-                                                      controller.products[index]
-                                                          .priceLevel,
-                                                      textAlign:
-                                                          TextAlign.justify,
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                      child: Image(
+                                                        image: NetworkImage(
+                                                            dataList.image),
+                                                      ),
                                                     ),
-                                                    Text(
-                                                      ' \$${controller.products[index].price.toInt()}',
-                                                      textAlign:
-                                                          TextAlign.justify,
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 17),
+                                                    const SizedBox(
+                                                      width: 25,
                                                     ),
+                                                    Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                          height: 50,
+                                                        ),
+                                                        Text(
+                                                          dataList.title,
+                                                          textAlign:
+                                                              TextAlign.justify,
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 17),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              dataList
+                                                                  .description,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .justify,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 15),
+                                                            ),
+                                                            Text(
+                                                              ' \$${dataList.price.toInt()}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .justify,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 17),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
                                                   ],
                                                 ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                    ],
-                                  )
-                                ],
+                                    ),
+                                  );
+                                });
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        })
+                    : FutureBuilder<ProductModel>(
+                        future: productController.dataModelFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
                               ),
-                            ),
-                          ),
-                        )
-                      : GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            // childAspectRatio: 0.7,
-                          ),
-                          itemCount: controller.products.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                print('clicked grid');
+                              itemCount: snapshot.data!.products.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var dataList = snapshot.data!.products[index];
+                                return InkWell(
+                                  onTap: () {
+                                    print('clicked grid');
+                                  },
+                                  child: Card(
+                                    elevation: 0.0,
+                                    color: Colors.white10,
+                                    semanticContainer: true,
+                                    child: Container(
+                                      height: 80,
+                                      width: MediaQuery.of(context).size.width /
+                                          3.90,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    dataList.image),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 15),
+                                          Center(
+                                            child: Text(
+                                              dataList.title,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
-                              child: Card(
-                                elevation: 0.0,
-                                color: Colors.white10,
-                                semanticContainer: true,
-                                child: Container(
-                                  height: 80,
-                                  width:
-                                      MediaQuery.of(context).size.width / 3.90,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 100,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(controller
-                                                .products[index].productImage),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 15),
-                                      Center(
-                                        child: Text(
-                                          controller
-                                              .products[index].productName,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
                             );
-                          },
-                        );
-                }),
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }),
               ),
             ],
           ),

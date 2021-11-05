@@ -270,7 +270,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         borderRadius: BorderRadius.circular(30)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GetBuilder<CartCotroller>(
                             init: CartCotroller(),

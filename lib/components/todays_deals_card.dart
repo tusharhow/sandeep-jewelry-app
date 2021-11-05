@@ -24,10 +24,10 @@ class TodaysDealsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        push(context: context, widget: const ProductDetailView());
+        push(context: context, widget: ProductDetailView());
       },
       child: Container(
-        height: 190,
+        height: 450,
         width: 150,
         decoration: BoxDecoration(
           color: Colors.white10,
@@ -39,7 +39,7 @@ class TodaysDealsCard extends StatelessWidget {
               height: 10,
             ),
             Image(
-              image: AssetImage(labelImage),
+              image: NetworkImage(labelImage),
             ),
             const SizedBox(
               height: 10,
