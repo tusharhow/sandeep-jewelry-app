@@ -188,40 +188,52 @@ class HomeNavigation extends StatelessWidget {
                 FutureBuilder<ProductModel>(
                     future: productController.dataModelFuture,
                     builder: (context, snapshot) {
-                      return SizedBox(
-                        height: 420,
-                        child: ListView.builder(
-                            primary: true,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 4,
-                            itemBuilder: (context, index) {
-                              var datas = snapshot.data!.products[index];
-                              return Card(
-                                elevation: 0,
-                                color: Colors.black,
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    HouseOfCollectionCard(
-                                      imageLabel: datas.image,
-                                      label: 'Neckale (2 mts)',
-                                      price: datas.price.toString(),
-                                    ),
-                                    HouseOfCollectionCard(
-                                      imageLabel: datas.image,
-                                      label: 'Neckale (2 mts)',
-                                      price: datas.price.toString(),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      );
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          primary: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            var datas = snapshot.data!.products[index];
+                            return InkWell(
+                                onTap: () => print("click"),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white12,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.network(datas.image,
+                                                fit: BoxFit.contain),
+                                            Text(datas.title,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                    color: Colors.white)),
+                                            Container(
+                                              child: Text(
+                                                  datas.price.toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                  )),
+                                            ),
+                                          ])),
+                                ));
+                          });
                     }),
               ],
             ),
@@ -256,47 +268,55 @@ class HomeNavigation extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/ring2.png',
-                      label: 'Neckale (2 mts)',
-                      price: '₹25550',
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/necklace2.png',
-                      label: 'Ring (2 mts)',
-                      price: '₹25550',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/ring2.png',
-                      label: 'Neckale (2 mts)',
-                      price: '₹25550',
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    HouseOfCollectionCard(
-                      imageLabel: 'assets/images/necklace2.png',
-                      label: 'Ring (2 mts)',
-                      price: '₹25550',
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            FutureBuilder<ProductModel>(
+                future: productController.dataModelFuture,
+                builder: (context, snapshot) {
+                  return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      primary: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        var datas = snapshot.data!.products[index];
+                        return InkWell(
+                            onTap: () => print("click"),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white12,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.network(datas.image,
+                                            fit: BoxFit.contain),
+                                        Text(datas.title,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                color: Colors.white)),
+                                        Container(
+                                          child: Text(datas.price.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                              )),
+                                        ),
+                                      ])),
+                            ));
+                      });
+                }),
             const SizedBox(
               height: 20,
             ),
