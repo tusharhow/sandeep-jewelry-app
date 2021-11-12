@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sandeep_jwelery/components/house_of_collection_card.dart';
 import 'package:sandeep_jwelery/components/list_tile_card.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
 import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/screens/product_details.dart';
 
 final productController = Get.put(ProductController());
 
@@ -142,21 +144,41 @@ class HomeNavigation extends StatelessWidget {
                           itemBuilder: (context, index) {
                             var datas = snapshot.data!.products[index];
 
-                            return Card(
-                              elevation: 0,
-                              margin: const EdgeInsets.symmetric(horizontal: 6),
-                              color: Colors.black,
-                              child: Row(
-                                children: [
-                                  TodaysDealsCard(
-                                    label: datas.title,
-                                    labelImage: datas.image,
-                                    productDesc: '34 gm , 24kt Gold',
-                                    rating: datas.rating.rate.toDouble(),
-                                    ratingLevel: datas.rating.rate.toString(),
-                                    ratingCount: datas.rating.count.toString(),
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (c) => ProductDetailView(
+                                      prodName: datas.title,
+                                      prodCategory: datas.category,
+                                      prodDescription: datas.description,
+                                      prodId: datas.id,
+                                      prodImage: datas.image,
+                                      prodPrice: datas.price.toString(),
+                                      prodRating: datas.rating,
+                                    ),
                                   ),
-                                ],
+                                );
+                              },
+                              child: Card(
+                                elevation: 0,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                color: Colors.black,
+                                child: Row(
+                                  children: [
+                                    TodaysDealsCard(
+                                      label: datas.title,
+                                      labelImage: datas.image,
+                                      productDesc: '34 gm , 24kt Gold',
+                                      rating: datas.rating.rate.toDouble(),
+                                      ratingLevel: datas.rating.rate.toString(),
+                                      ratingCount:
+                                          datas.rating.count.toString(),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           }),
@@ -188,52 +210,58 @@ class HomeNavigation extends StatelessWidget {
                 FutureBuilder<ProductModel>(
                     future: productController.dataModelFuture,
                     builder: (context, snapshot) {
-                      return GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          primary: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
-                            var datas = snapshot.data!.products[index];
-                            return InkWell(
-                                onTap: () => print("click"),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white12,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.network(datas.image,
-                                                fit: BoxFit.contain),
-                                            Text(datas.title,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    color: Colors.white)),
-                                            Container(
-                                              child: Text(
-                                                  datas.price.toString(),
+                      if (snapshot.hasData) {
+                        return GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            primary: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              var datas = snapshot.data!.products[index];
+                              return InkWell(
+                                  onTap: () => print("click"),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Container(
+                                        decoration: const BoxDecoration(
+                                            color: Colors.white12,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.network(datas.image,
+                                                  fit: BoxFit.contain),
+                                              Text(datas.title,
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                  )),
-                                            ),
-                                          ])),
-                                ));
-                          });
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                              Container(
+                                                child: Text(
+                                                    datas.price.toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                    )),
+                                              ),
+                                            ])),
+                                  ));
+                            });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
                     }),
               ],
             ),
@@ -271,51 +299,53 @@ class HomeNavigation extends StatelessWidget {
             FutureBuilder<ProductModel>(
                 future: productController.dataModelFuture,
                 builder: (context, snapshot) {
-                  return GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      primary: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        var datas = snapshot.data!.products[index];
-                        return InkWell(
-                            onTap: () => print("click"),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white12,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.network(datas.image,
-                                            fit: BoxFit.contain),
-                                        Text(datas.title,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                                color: Colors.white)),
-                                        Container(
-                                          child: Text(datas.price.toString(),
+                  if (snapshot.hasData) {
+                    return GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        primary: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          var datas = snapshot.data!.products[index];
+                          return InkWell(
+                              onTap: () => print("click"),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Container(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white12,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.network(datas.image,
+                                              fit: BoxFit.contain),
+                                          Text(datas.title,
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  color: Colors.white)),
+                                          Text(datas.price.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.white,
                                                 fontSize: 12,
                                               )),
-                                        ),
-                                      ])),
-                            ));
-                      });
+                                        ])),
+                              ));
+                        });
+                  } else {
+                    return CircularProgressIndicator();
+                  }
                 }),
             const SizedBox(
               height: 20,

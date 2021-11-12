@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
 
 class SimilarProductGrid extends StatelessWidget {
@@ -12,7 +13,9 @@ class SimilarProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        push(context: context, widget: ProductDetailView());
+        // push(context: context, widget: ProductDetailView(
+        //   prodName: da,
+        // ));
       },
       child: Stack(
         children: [

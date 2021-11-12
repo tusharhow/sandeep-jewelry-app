@@ -9,11 +9,30 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
+import 'package:sandeep_jwelery/controllers/product_controller.dart';
+import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 
 final cartCotroller = Get.put(CartCotroller());
+// final productCotroller = Get.put(ProductController());
 
 class ProductDetailView extends StatefulWidget {
-  const ProductDetailView({Key? key}) : super(key: key);
+  String prodName;
+  String prodPrice;
+  int prodId;
+
+  String prodDescription;
+  String prodImage;
+  Rating prodRating;
+  String prodCategory;
+  ProductDetailView(
+      {required this.prodName,
+      required this.prodCategory,
+      required this.prodDescription,
+      required this.prodId,
+      required this.prodImage,
+      required this.prodPrice,
+      required this.prodRating});
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();
@@ -33,16 +52,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   bool tapped = false;
   int groupValue = 0;
 
+  // function with two variable
+
   @override
   Widget build(BuildContext context) {
-    final datas = ModalRoute.of(context)!.settings.arguments;
+    // final datas = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
           iconTheme: const IconThemeData(
             color: Colors.white, //change your color here
           ),
-          title: const Text(
-            'Product Details',
+          title: Text(
+            widget.prodName,
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Colors.transparent),
@@ -69,7 +90,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ],
                     );
                   }),
-                  autoplay: false,
+                  autoplay: true,
                   dotSize: 6,
                   dotPosition: DotPosition.bottomCenter,
                   dotColor: Colors.green,
@@ -114,7 +135,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               ),
               Container(
                 alignment: Alignment.bottomLeft,
-                child: const Text('EmbededGold Ring ',
+                child: Text(widget.prodName,
                     style: TextStyle(fontSize: 23, color: Colors.white)),
               ),
               const SizedBox(
@@ -124,7 +145,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 children: [
                   Container(
                     alignment: Alignment.bottomLeft,
-                    child: const Text('₹${5455}',
+                    child: Text('₹ ${widget.prodPrice}',
                         style: TextStyle(fontSize: 25, color: Colors.white)),
                   ),
                   const SizedBox(
