@@ -135,7 +135,10 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                 childText: 'Sign Out',
                 buttonColor: const Color(0xffEE0000),
                 textColor: Colors.white,
-                onPressed: () {
+                onPressed: () async{
+                  SharedPreferences pref =
+                            await SharedPreferences.getInstance();
+                        pref.clear();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (c) => const VerifyOtp()),

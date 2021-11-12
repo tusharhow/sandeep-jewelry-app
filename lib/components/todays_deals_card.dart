@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
-import 'package:sandeep_jwelery/screens/product_details.dart';
+
 
 class TodaysDealsCard extends StatelessWidget {
   const TodaysDealsCard({

@@ -4,7 +4,6 @@ import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
-
 import 'screens/auth/verify_otp.dart';
 
 void main() async {
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.black,
         primarySwatch: Colors.grey,
       ),
-      home: const SplashScreenFirst(),
+      home: Splash(),
     );
   }
 }
