@@ -21,8 +21,8 @@ class ShopCarousel extends StatelessWidget {
           height: 5,
         ),
         Center(
-          child: Text(label,
-              style: const TextStyle(color: Colors.white, fontSize: 14)),
+          child: Text('$label',
+              style: TextStyle(color: Colors.white, fontSize: 14)),
         ),
       ],
     );

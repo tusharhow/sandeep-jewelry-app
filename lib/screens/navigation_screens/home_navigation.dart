@@ -3,10 +3,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sandeep_jwelery/components/list_tile_card.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
 import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/screens/category_details.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
 
 final productController = Get.put(ProductController());
@@ -75,45 +77,50 @@ class HomeNavigation extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: const [
-                  ShopCarousel(
-                    image: 'assets/images/human.png',
-                    label: 'Kids',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  ShopCarousel(
-                    image: 'assets/images/human2.png',
-                    label: 'Men',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  ShopCarousel(
-                    image: 'assets/images/human3.png',
-                    label: 'Women',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  ShopCarousel(
-                    image: 'assets/images/hand.png',
-                    label: 'Charms',
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  ShopCarousel(
-                    image: 'assets/images/jewl_set.png',
-                    label: 'Jewelry Set',
-                  ),
-                ],
-              ),
-            ),
+            FutureBuilder<ProductModel>(
+                future: productController.dataModelFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
+                      height: 130,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.products.length,
+                        itemBuilder: (context, index) {
+                          var datas = snapshot.data!.products[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (c) => CategoryDetails(
+                                    imageProd: datas.image,
+                                    title: datas.title,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 0,
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                              color: Colors.black,
+                              child: Row(
+                                children: [
+                                  ShopCarousel(
+                                    image: 'assets/images/human.png',
+                                    label: datas.category,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }),
             const SizedBox(
               height: 25,
             ),
