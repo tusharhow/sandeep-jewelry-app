@@ -80,10 +80,18 @@ class _HomePageMainState extends State<HomePageMain> {
             ),
           ),
           actions: [
-            SizedBox(
-                height: 40,
-                width: MediaQuery.of(context).size.width - 210,
-                child: SearchFunction()),
+            // SizedBox(
+            //     height: 40,
+            //     width: MediaQuery.of(context).size.width - 210,
+            //     child: SearchFunction()),
+            IconButton(
+                onPressed: () =>
+                    showSearch(context: context, delegate: Search()),
+                icon: Icon(
+                  Icons.search,
+                  size: 30,
+                  color: Colors.white,
+                )),
             InkWell(
               onTap: () {
                 push(
