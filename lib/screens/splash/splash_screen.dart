@@ -3,6 +3,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/splash/onboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,8 +56,8 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Intro2()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => VerifyOtp()));
     } else {
       await prefs.setBool('seen', true);
       Navigator.of(context).pushReplacement(

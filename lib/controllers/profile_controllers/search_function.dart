@@ -164,11 +164,12 @@ class Search extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.black,
-        ),
-        onPressed: () => Navigator.pop(context));
+      icon: Icon(
+        Icons.arrow_back,
+        color: Colors.black,
+      ),
+      onPressed: () => Navigator.pop(context),
+    );
   }
 
   @override
@@ -206,6 +207,7 @@ class Search extends SearchDelegate {
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
+              color: Colors.white54,
             ),
             onTap: () {},
           );
