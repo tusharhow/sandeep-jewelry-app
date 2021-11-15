@@ -4,6 +4,7 @@ import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/profile_edit.dart';
+import 'package:sandeep_jwelery/screens/track_order.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? _username;
@@ -110,21 +111,26 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
             const SizedBox(
               height: 20,
             ),
-            const AdditionalOptionsListView(
+            AdditionalOptionsListView(
+              onpress: () {},
               icon: 'assets/icons/pass.png',
               label: 'Change Password',
             ),
             const SizedBox(
               height: 15,
             ),
-            const AdditionalOptionsListView(
+            AdditionalOptionsListView(
+              onpress: () {},
               icon: 'assets/icons/history.png',
               label: 'History',
             ),
             const SizedBox(
               height: 15,
             ),
-            const AdditionalOptionsListView(
+            AdditionalOptionsListView(
+              onpress: () {
+                push(context: context, widget: TrackOrder());
+              },
               icon: 'assets/icons/locaton.png',
               label: 'Track Order',
             ),
@@ -135,10 +141,10 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                 childText: 'Sign Out',
                 buttonColor: const Color(0xffEE0000),
                 textColor: Colors.white,
-                onPressed: () async{
+                onPressed: () async {
                   SharedPreferences pref =
-                            await SharedPreferences.getInstance();
-                        pref.clear();
+                      await SharedPreferences.getInstance();
+                  pref.clear();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (c) => const VerifyOtp()),

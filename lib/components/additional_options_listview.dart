@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 class AdditionalOptionsListView extends StatelessWidget {
-  const AdditionalOptionsListView({
+   AdditionalOptionsListView({
     Key? key,
     @required this.icon,
+    required this.onpress,
     @required this.label,
   }) : super(key: key);
   final icon;
   final label;
+  Function onpress;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onpress as  VoidCallback,
       child: Container(
         height: 55,
         width: MediaQuery.of(context).size.width / 1.15,
@@ -28,15 +30,16 @@ class AdditionalOptionsListView extends StatelessWidget {
               Image(
                 image: AssetImage(icon),
               ),
-            const  SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Text(
                 label,
-                style:const TextStyle(fontSize: 16, color: Colors.white),
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
-            const  Spacer(),
-            const  Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
+              const Spacer(),
+              const Icon(Icons.keyboard_arrow_right,
+                  color: Colors.white, size: 30),
             ],
           ),
         ),
