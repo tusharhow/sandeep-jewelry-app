@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/screens/track_order.dart';
 
 class FavouriteProductListView extends StatefulWidget {
   const FavouriteProductListView({Key? key}) : super(key: key);
@@ -53,7 +55,9 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                     childText: 'Proceed',
                     buttonColor: const Color(0xffFFD809),
                     textColor: Colors.black,
-                    onPressed: () {}),
+                    onPressed: () {
+                      push(context: context, widget: TrackOrder());
+                    }),
               )
             ],
           )),

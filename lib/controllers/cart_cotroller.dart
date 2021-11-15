@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 
-
 class CartCotroller extends GetxController {
   int counter = 0;
   void increments() {
@@ -30,4 +29,5 @@ class CartCotroller extends GetxController {
   // removeFromCart(Product product) {
   //   cartItems.remove(product);
   // }
+
 }

@@ -173,7 +173,7 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (query != null && data.contains(query.toLowerCase())) {
+    if (data.contains(query.toLowerCase())) {
       return ListTile(
         title: Text(
           query,
