@@ -3,7 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sandeep_jwelery/components/list_tile_card.dart';
-import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';

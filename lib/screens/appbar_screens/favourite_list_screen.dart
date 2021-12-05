@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/screens/track_order.dart';
 
 class FavouriteProductListView extends StatefulWidget {
   const FavouriteProductListView({Key? key}) : super(key: key);

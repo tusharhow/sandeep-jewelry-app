@@ -1,4 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +11,13 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
-import 'package:sandeep_jwelery/controllers/product_controller.dart';
 import 'package:sandeep_jwelery/models/cm.dart';
-import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
+
 
 final cartCotroller = Get.put(CartCotroller());
 // final productCotroller = Get.put(ProductController());
 
+// ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   String prodName;
   String prodPrice;

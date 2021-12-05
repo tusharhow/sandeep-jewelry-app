@@ -18,10 +18,8 @@ class ProductController extends GetxController {
     } else {
       throw Exception('Failed to load data');
     }
-
     return dataModel;
   }
-
   @override
   void onInit() {
     dataModelFuture = getData();
