@@ -5,6 +5,7 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/profile_edit.dart';
 import 'package:sandeep_jwelery/screens/track_order.dart';
+import 'package:sandeep_jwelery/services/shared_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? _username;
@@ -142,13 +143,15 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                 buttonColor: const Color(0xffEE0000),
                 textColor: Colors.white,
                 onPressed: () async {
-                  SharedPreferences pref =
-                      await SharedPreferences.getInstance();
-                  pref.clear();
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (c) => const VerifyOtp()),
-                      (route) => false);
+                  // SharedPreferences pref =
+                  //     await SharedPreferences.getInstance();
+                  // pref.clear();
+                  // Navigator.pushAndRemoveUntil(
+                  //     context,
+                  //     MaterialPageRoute(builder: (c) => const VerifyOtp()),
+                  //     (route) => false);
+
+                  // SharedServices.logOut(context);
                 }),
           ]),
         ),

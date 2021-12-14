@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
-import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/models/product_model.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -147,7 +147,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                                                   fontSize: 15),
                                                             ),
                                                             Text(
-                                                              ' \$${dataList.price.toInt()}',
+                                                              ' \$${dataList.amount}',
                                                               textAlign:
                                                                   TextAlign
                                                                       .justify,

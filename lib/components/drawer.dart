@@ -7,6 +7,7 @@ import 'package:sandeep_jwelery/screens/sidebar_components_screen/faq.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/privacy.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/shipping.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/terms_of_use.dart';
+import 'package:sandeep_jwelery/screens/track_order.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class AppDrawer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ListView(
+        shrinkWrap: true,
         children: [
           const SizedBox(
             height: 30,
@@ -40,7 +42,9 @@ class AppDrawer extends StatelessWidget {
           ),
           DrawerListViewButton(
             label: 'Track Order',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: TrackOrder());
+            },
           ),
           const SizedBox(
             height: 15,

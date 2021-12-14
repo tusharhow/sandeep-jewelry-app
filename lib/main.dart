@@ -4,12 +4,20 @@ import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
+import 'package:sandeep_jwelery/services/shared_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/verify_otp.dart';
 
-void main() async {
+Widget defaultHome = const VerifyOtp();
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(const MyApp());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var loginStatus = prefs.getBool('isLoggedIn') ?? false;
+  print(loginStatus);
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: loginStatus == true ? VerifyOtp() : Splash(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,6 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: Splash(),
+      // home: defaultHome,
     );
   }
 }

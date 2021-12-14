@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/models/product_model.dart';
 
 class ProductController extends GetxController {
   Future<ProductModel>? dataModelFuture;
 
   var dataModel;
-  var url = "https://api.npoint.io/91c8be8911891aabcf8d";
+  var url = "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/productlist";
   Future<ProductModel> getData() async {
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -20,6 +20,7 @@ class ProductController extends GetxController {
     }
     return dataModel;
   }
+
   @override
   void onInit() {
     dataModelFuture = getData();

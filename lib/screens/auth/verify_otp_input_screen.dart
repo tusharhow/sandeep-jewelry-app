@@ -94,7 +94,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                         fontWeight: FontWeight.w500,
                         fontSize: 22.0,
                         color: Colors.white),
-                    length: 5,
+                    length: 4,
                     obscureText: false,
 
                     hintCharacter: "",
@@ -113,7 +113,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                     animationType: AnimationType.fade,
                     // controller: _otpController,
                     validator: (v) {
-                      if (v!.length < 5) {
+                      if (v!.length < 4) {
                         return "Please Fill all fields";
                       } else {
                         return null;

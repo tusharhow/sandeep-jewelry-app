@@ -1,10 +1,18 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/dummyData/login_data.dart';
+import 'package:sandeep_jwelery/helpers/auth_helper.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
+import 'package:sandeep_jwelery/screens/homepage_main.dart';
+import 'package:sandeep_jwelery/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class VerifyOtp extends StatefulWidget {
   const VerifyOtp({Key? key}) : super(key: key);
@@ -16,6 +24,7 @@ class VerifyOtp extends StatefulWidget {
 TextEditingController _phoneController = TextEditingController();
 bool isLoading = false;
 bool user = false;
+final GlobalKey<FormState> _verifyFormKey = GlobalKey<FormState>();
 
 class _VerifyOtpState extends State<VerifyOtp> {
   @override
@@ -97,7 +106,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ReusablePrimaryButton(
               childText: 'Verify',
               buttonColor: Colors.white,
-              onPressed: _login,
+              onPressed: () {
+                callLoginApi();
+              },
               textColor: Colors.black,
             ),
             const SizedBox(
@@ -123,40 +134,28 @@ class _VerifyOtpState extends State<VerifyOtp> {
     );
   }
 
-  Future<void> _login() async {
-    if (_phoneController.text.isNotEmpty) {
-      setState(() {
-        isLoading = true;
-      });
+  callLoginApi() {
+    final service = ApiServices();
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Future.delayed(const Duration(seconds: 1), () {
-        for (int id = 0; id < dataAssistent.length; id++) {
-          if (_phoneController.text == dataAssistent[id]["Number"]) {
-            String number = dataAssistent[id]["Number"] as String;
-            String username = dataAssistent[id]["Username"] as String;
-            String email = dataAssistent[id]["Email"] as String;
-            String dob = dataAssistent[id]["Dob"] as String;
-            String gender = dataAssistent[id]["Gender"] as String;
-            String address = dataAssistent[id]["Address"] as String;
-            String pin = dataAssistent[id]["Pin"] as String;
-
-            prefs.setBool('user', true);
-
-            prefs.setString('number', number);
-            prefs.setString('username', username);
-            prefs.setString('email', email);
-            prefs.setString('dob', dob);
-            prefs.setString('gender', gender);
-            prefs.setString('address', address);
-            prefs.setString('pin', pin);
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const VerifyOtpInputScreen()));
-          }
-        }
-      });
-    }
+    service.apiCallLogin({
+      "mobile_no": _phoneController.text,
+      "one_singnal": "y",
+      "type": "user",
+      "otp": "2014"
+    }).then((value) => {
+          if (value.error != null)
+            {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VerifyOtpInputScreen()),
+                  (route) => false),
+            }
+          else
+            {
+              Toast.show("Invalid OTP", context,
+                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM)
+            }
+        });
   }
 }

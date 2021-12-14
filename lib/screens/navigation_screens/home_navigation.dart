@@ -6,7 +6,7 @@ import 'package:sandeep_jwelery/components/list_tile_card.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
-import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/models/product_model.dart';
 import 'package:sandeep_jwelery/screens/category_details.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
 
@@ -14,6 +14,8 @@ final productController = Get.put(ProductController());
 
 class HomeNavigation extends StatelessWidget {
   const HomeNavigation({Key? key}) : super(key: key);
+
+  getBanner() {}
 
   @override
   Widget build(BuildContext context) {
@@ -157,10 +159,9 @@ class HomeNavigation extends StatelessWidget {
                                       prodName: datas.title,
                                       prodCategory: datas.category,
                                       prodDescription: datas.description,
-                                      prodId: datas.id,
+                                      prodId: datas.productcode,
                                       prodImage: datas.image,
-                                      prodPrice: datas.price.toString(),
-                                      prodRating: datas.rating,
+                                      prodPrice: datas.amount.toString(),
                                     ),
                                   ),
                                 );
@@ -173,14 +174,9 @@ class HomeNavigation extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     TodaysDealsCard(
-                                      label: datas.title,
-                                      labelImage: datas.image,
-                                      productDesc: '34 gm , 24kt Gold',
-                                      rating: datas.rating.rate.toDouble(),
-                                      ratingLevel: datas.rating.rate.toString(),
-                                      ratingCount:
-                                          datas.rating.count.toString(),
-                                    ),
+                                        label: datas.title,
+                                        labelImage: datas.image,
+                                        productDesc: datas.description)
                                   ],
                                 ),
                               ),
@@ -251,7 +247,7 @@ class HomeNavigation extends StatelessWidget {
                                                       color: Colors.white)),
                                               Container(
                                                 child: Text(
-                                                    datas.price.toString(),
+                                                    datas.amount.toString(),
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontWeight:
@@ -291,7 +287,7 @@ class HomeNavigation extends StatelessWidget {
             Container(
                 alignment: Alignment.bottomLeft,
                 child: const Text(
-                  'Shop from our Instagran',
+                  'Shop from our Instagram',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -337,7 +333,7 @@ class HomeNavigation extends StatelessWidget {
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   color: Colors.white)),
-                                          Text(datas.price.toString(),
+                                          Text(datas.amount.toString(),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w500,
@@ -367,25 +363,48 @@ class HomeNavigation extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: const [
-                  Image(
-                    image: AssetImage('assets/images/necklace.png'),
-                  ),
-                  Image(
-                    image: AssetImage('assets/images/necklace2.png'),
-                  ),
-                  Image(
-                    image: AssetImage('assets/images/ring.png'),
-                  ),
-                  Image(
-                    image: AssetImage('assets/images/ring2.png'),
-                  ),
-                ],
-              ),
-            ),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: const [
+            //       Image(
+            //         image: AssetImage('assets/images/necklace.png'),
+            //       ),
+            //       Image(
+            //         image: AssetImage('assets/images/necklace2.png'),
+            //       ),
+            //       Image(
+            //         image: AssetImage('assets/images/ring.png'),
+            //       ),
+            //       Image(
+            //         image: AssetImage('assets/images/ring2.png'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            FutureBuilder<ProductModel>(
+                future: productController.dataModelFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        primary: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          var datas = snapshot.data!.products[index];
+                          return InkWell(
+                              onTap: () => print("click"),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Container(
+                                    child: Image.network(datas.image)),
+                              ));
+                        });
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }),
             const SizedBox(
               height: 20,
             ),

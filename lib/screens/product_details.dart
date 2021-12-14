@@ -12,6 +12,7 @@ import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/models/cm.dart';
+import 'package:sandeep_jwelery/models/product_model.dart';
 
 
 final cartCotroller = Get.put(CartCotroller());
@@ -21,11 +22,11 @@ final cartCotroller = Get.put(CartCotroller());
 class ProductDetailView extends StatefulWidget {
   String prodName;
   String prodPrice;
-  int prodId;
+  String prodId;
 
   String prodDescription;
   String prodImage;
-  Rating prodRating;
+ 
   String prodCategory;
   ProductDetailView(
       {required this.prodName,
@@ -34,7 +35,7 @@ class ProductDetailView extends StatefulWidget {
       required this.prodId,
       required this.prodImage,
       required this.prodPrice,
-      required this.prodRating});
+      });
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();
