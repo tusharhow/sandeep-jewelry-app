@@ -12,6 +12,7 @@ class VerifyOtp extends StatefulWidget {
   State<VerifyOtp> createState() => _VerifyOtpState();
 }
 
+String? currentText = "";
 TextEditingController _phoneController = TextEditingController();
 bool isLoading = false;
 GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
@@ -72,6 +73,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
               style: const TextStyle(
                 color: Colors.white,
               ),
+              onChanged: (value) {
+                setState(() {
+                  currentText = value;
+                  print(currentText);
+                });
+              },
             ),
             const SizedBox(
               height: 30,
@@ -81,10 +88,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
               buttonColor: Colors.white,
               onPressed: () {
                 AuthRepository().apiCallOtp(context, _phoneController.text);
-                push(
-                    context: context,
-                    widget: VerifyOtpInputScreen(
-                        phoneNumber: _phoneController.text));
+                if (currentText!.length == 10) {
+                  push(
+                      context: context,
+                      widget: VerifyOtpInputScreen(
+                          phoneNumber: _phoneController.text));
+                } else {
+                  print('Enter valid number');
+                }
               },
               textColor: Colors.black,
             ),
