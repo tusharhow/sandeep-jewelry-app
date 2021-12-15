@@ -7,7 +7,8 @@ class ProductController extends GetxController {
   Future<ProductModel>? dataModelFuture;
 
   var dataModel;
-  var url = "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/productlist";
+  var url =
+      "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/productlist";
   Future<ProductModel> getData() async {
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -18,6 +19,7 @@ class ProductController extends GetxController {
     } else {
       throw Exception('Failed to load data');
     }
+
     return dataModel;
   }
 
@@ -27,3 +29,5 @@ class ProductController extends GetxController {
     super.onInit();
   }
 }
+
+

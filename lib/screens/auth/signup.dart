@@ -1,12 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/services/api_service.dart';
 import 'package:toast/toast.dart';

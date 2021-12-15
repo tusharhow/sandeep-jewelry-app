@@ -12,11 +12,14 @@ import 'package:sandeep_jwelery/screens/product_details.dart';
 
 final productController = Get.put(ProductController());
 
-class HomeNavigation extends StatelessWidget {
+class HomeNavigation extends StatefulWidget {
   const HomeNavigation({Key? key}) : super(key: key);
 
-  getBanner() {}
+  @override
+  State<HomeNavigation> createState() => _HomeNavigationState();
+}
 
+class _HomeNavigationState extends State<HomeNavigation> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -156,7 +159,7 @@ class HomeNavigation extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (c) => ProductDetailView(
-                                      prodName: datas.title,
+                                      prodName: datas.productname,
                                       prodCategory: datas.category,
                                       prodDescription: datas.description,
                                       prodId: datas.productcode,
@@ -190,6 +193,19 @@ class HomeNavigation extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }),
+            // FutureBuilder<ProductStrings>(
+            //     future: productControllerTest.dataModelFutureTwo,
+            //     builder: (context, snapshot) {
+            //       return SizedBox(
+            //         height: 50,
+            //         child: ListView.builder(
+            //             shrinkWrap: true,
+            //             itemCount: 2,
+            //             itemBuilder: (context, index) {
+            //               return Text(snapshot.data!.productname[index]);
+            //             }),
+            //       );
+            //     }),
             const SizedBox(
               height: 20,
             ),

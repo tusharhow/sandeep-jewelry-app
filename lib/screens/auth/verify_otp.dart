@@ -1,18 +1,9 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/helpers/auth_helper.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
-import 'package:sandeep_jwelery/screens/homepage_main.dart';
-import 'package:sandeep_jwelery/services/api_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class VerifyOtp extends StatefulWidget {
   const VerifyOtp({Key? key}) : super(key: key);
@@ -23,25 +14,9 @@ class VerifyOtp extends StatefulWidget {
 
 TextEditingController _phoneController = TextEditingController();
 bool isLoading = false;
-bool user = false;
-final GlobalKey<FormState> _verifyFormKey = GlobalKey<FormState>();
+GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
 
 class _VerifyOtpState extends State<VerifyOtp> {
-  @override
-  void initState() {
-    super.initState();
-    _initCheck();
-  }
-
-  void _initCheck() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool('user') != null) {
-      setState(() {
-        user = prefs.getBool('user')!;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,20 +53,18 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ),
             TextFormField(
               controller: _phoneController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Phone or Email is Required';
-                } else {
-                  return null;
-                }
-              },
+              keyboardType: TextInputType.number,
+              validator: (input) => input!.length < 10
+                  ? "Number Should be more than 10 Characters"
+                  : null,
+              key: globalFormKey,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
                 filled: true,
                 fillColor: const Color(0xff272727),
-                hintText: 'Enter Mobile/Email',
+                hintText: 'Enter Mobile Number',
                 hintStyle: const TextStyle(
                   color: Colors.white,
                 ),
@@ -107,7 +80,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
               childText: 'Verify',
               buttonColor: Colors.white,
               onPressed: () {
-                callLoginApi();
+                AuthRepository().apiCallOtp(context, _phoneController.text);
+                push(
+                    context: context,
+                    widget: VerifyOtpInputScreen(
+                        phoneNumber: _phoneController.text));
               },
               textColor: Colors.black,
             ),
@@ -134,28 +111,13 @@ class _VerifyOtpState extends State<VerifyOtp> {
     );
   }
 
-  callLoginApi() {
-    final service = ApiServices();
-
-    service.apiCallLogin({
-      "mobile_no": _phoneController.text,
-      "one_singnal": "y",
-      "type": "user",
-      "otp": "2014"
-    }).then((value) => {
-          if (value.error != null)
-            {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VerifyOtpInputScreen()),
-                  (route) => false),
-            }
-          else
-            {
-              Toast.show("Invalid OTP", context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM)
-            }
-        });
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
   }
 }

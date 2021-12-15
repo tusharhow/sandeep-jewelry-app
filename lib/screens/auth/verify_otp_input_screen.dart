@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../homepage_main.dart';
 
 class VerifyOtpInputScreen extends StatefulWidget {
-  const VerifyOtpInputScreen({Key? key}) : super(key: key);
+  const VerifyOtpInputScreen({Key? key, required this.phoneNumber})
+      : super(key: key);
+  final String phoneNumber;
 
   @override
   _VerifyOtpInputScreenState createState() => _VerifyOtpInputScreenState();
@@ -20,23 +24,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   String? currentText = "";
   Timer? _timer;
   int _start = 20;
-
-  String? _number;
-  String? _username;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    name();
-    super.initState();
-  }
-
-  void name() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _number = prefs.getString('number');
-    });
-  }
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -73,7 +61,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
               height: 100,
             ),
             Text(
-              'Enter OTP sent to $_number',
+              'Enter OTP sent to ${widget.phoneNumber == '' ? "000" : widget.phoneNumber}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -89,6 +77,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                       const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30),
                   child: PinCodeTextField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+
                     appContext: context,
                     pastedTextStyle: const TextStyle(
                         fontWeight: FontWeight.w500,
@@ -105,10 +94,11 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                     ),
                     errorTextSpace: 25.0,
                     pinTheme: PinTheme(
-                      fieldHeight: 50,
-                      fieldWidth: 40,
-                      inactiveColor: Colors.red,
-                      activeFillColor: hasError ? Colors.orange : Colors.amber,
+                      fieldHeight: 60,
+                      shape: PinCodeFieldShape.box,
+                      fieldWidth: 55,
+                      inactiveColor: Colors.white54,
+                      activeFillColor: hasError ? Colors.red : Colors.amber,
                     ),
                     animationType: AnimationType.fade,
                     // controller: _otpController,
@@ -122,7 +112,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                     cursorColor: Colors.white,
                     animationDuration: const Duration(milliseconds: 300),
                     textStyle:
-                        const TextStyle(fontSize: 16, color: Colors.white),
+                        const TextStyle(fontSize: 23, color: Colors.white),
                     // errorAnimationController: errorController,
 
                     keyboardType: TextInputType.number,
@@ -153,7 +143,20 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                 textColor: Colors.black,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    push(context: context, widget: const HomePageMain());
+                    AuthRepository().callLoginApi(
+                      context,
+                      widget.phoneNumber,
+                    );
+                    if (currentText == "1234") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePageMain(),
+                        ),
+                      );
+                    } else {
+                      print('Otp invalid');
+                    }
                   } else {
                     const ScaffoldMessenger(
                         child: Text('Something went wrong..'));

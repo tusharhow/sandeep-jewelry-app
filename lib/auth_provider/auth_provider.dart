@@ -1,17 +1,54 @@
-import 'package:http/http.dart' as http;
-import 'package:flutter/foundation.dart';
-import 'dart:convert';
-
-import 'package:sandeep_jwelery/models/login_response.dart';
+import 'package:flutter/material.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
+import 'package:sandeep_jwelery/screens/homepage_main.dart';
+import 'package:sandeep_jwelery/services/api_service.dart';
 
 class AuthRepository {
-  // Future<LoginResponse> getLoginResponse(
-  //     phone, String otpNumber) async {
-  //   var post_body = jsonEncode({"email": "${phone}", "password": "$otpNumber"});
+  apiCallOtp(BuildContext context, phone) {
+    final service = ApiServices();
 
-  //   final response = await http.post(Uri.parse("http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/login"),
-  //       headers: {"Content-Type": "application/json"}, body: post_body);
-  //   return loginResponseFromJson(response.body);
-  // }
+    service.apiCallOtp({
+      "mobile_no": phone,
+      
+    }
+   
+    ).then((value) => {
+          if (value.status == 200)
+            {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VerifyOtpInputScreen(
+                            phoneNumber: phone,
+                          )),
+                  (route) => false),
+            }
+          else
+            {
+              print(value.status),
+            }
+        });
+  }
 
+  callLoginApi(BuildContext context, phone) {
+    final service = ApiServices();
+
+    service.apiCallLogin({
+      "mobile_no": phone,
+      "one_singnal": "y",
+      "type": "user",
+    
+    }).then((value) => {
+          if (value.status == 200)
+            {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePageMain()),
+                  (route) => false),
+              {
+                print('Get Data => ${value.status}'),
+              }
+            }
+        });
+  }
 }

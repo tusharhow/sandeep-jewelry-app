@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
+import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
-import 'package:sandeep_jwelery/services/shared_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/verify_otp.dart';
 
-Widget defaultHome = const VerifyOtp();
+// Widget defaultHome = const VerifyOtp();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loginStatus = prefs.getBool('isLoggedIn') ?? false;
   print(loginStatus);
   runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: loginStatus == true ? VerifyOtp() : Splash(),
-  ));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sandeep Jewellery',
       theme: ThemeData(
         canvasColor: Colors.black,
         primarySwatch: Colors.grey,
       ),
-      home: Splash(),
-      // home: defaultHome,
-    );
-  }
+      debugShowCheckedModeBanner: false,
+      home: loginStatus == true ? HomePageMain() : Splash()));
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return GetMaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Sandeep Jewellery',
+//       theme: ThemeData(
+//         canvasColor: Colors.black,
+//         primarySwatch: Colors.grey,
+//       ),
+//       home: Splash(),
+//       // home: defaultHome,
+//     );
+//   }
+// }
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

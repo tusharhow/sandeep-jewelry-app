@@ -1,6 +1,7 @@
 class LoginApiResponse {
-  final String? token;
-  final String? error;
+ 
+  late final String success;
+  late final int status;
 
-  LoginApiResponse({this.token, this.error});
+  LoginApiResponse({required this.success,required this.status});
 }

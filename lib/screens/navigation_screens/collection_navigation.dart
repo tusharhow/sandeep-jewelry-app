@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
+import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class ShoppingPage extends StatefulWidget {
 
 class _ShoppingPageState extends State<ShoppingPage> {
   // final shoppingController = Get.put(ShoppingController());
-  final productController = Get.put(ProductController());
+  // final productController = Get.put(ProductController());
 
   bool isListView = true;
   bool isClicked = false;

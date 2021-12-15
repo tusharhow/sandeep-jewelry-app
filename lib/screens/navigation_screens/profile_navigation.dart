@@ -142,7 +142,8 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                 childText: 'Sign Out',
                 buttonColor: const Color(0xffEE0000),
                 textColor: Colors.white,
-                onPressed: () async {
+                onPressed: () {
+                  logoutUser();
                   // SharedPreferences pref =
                   //     await SharedPreferences.getInstance();
                   // pref.clear();
@@ -157,5 +158,11 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
         ),
       ),
     );
+  }
+
+  void logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    pushRemove(context: context, widget: VerifyOtp());
   }
 }
