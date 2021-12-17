@@ -11,24 +11,7 @@ String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
 class ProductModel {
   ProductModel({
-    required this.products,
-  });
-
-  List<Product> products;
-
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-        products: List<Product>.from(
-            json["products"].map((x) => Product.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
-      };
-}
-
-class Product {
-  Product({
-    this.id,
+    required this.id,
     required this.categoryId,
     required this.subcategoryId,
     required this.subsubcategoryId,
@@ -44,13 +27,14 @@ class Product {
     required this.certifiedId,
     required this.priceType,
     required this.amount,
-    this.websiteView,
-    this.guestView,
-    this.registerView,
-    this.recommendProduct,
-    this.bestSellers,
-    this.trendingCategories,
+    required this.websiteView,
+    required this.guestView,
+    required this.registerView,
+    required this.recommendProduct,
+    required this.bestSellers,
+    required this.trendingCategories,
     required this.image,
+    required this.stockQuantity,
     required this.status,
     required this.importedFromExcel,
     required this.createdAt,
@@ -63,10 +47,10 @@ class Product {
     this.sgst,
     required this.subcategory,
     required this.title,
-    this.jwelleryName,
+    required this.jwelleryName,
   });
 
-  dynamic id;
+  int id;
   String categoryId;
   String subcategoryId;
   String subsubcategoryId;
@@ -82,13 +66,14 @@ class Product {
   String certifiedId;
   String priceType;
   String amount;
-  dynamic websiteView;
-  dynamic guestView;
-  dynamic registerView;
-  dynamic recommendProduct;
-  dynamic bestSellers;
-  dynamic trendingCategories;
+  String websiteView;
+  String guestView;
+  String registerView;
+  String recommendProduct;
+  String bestSellers;
+  String trendingCategories;
   String image;
+  String stockQuantity;
   String status;
   int importedFromExcel;
   DateTime createdAt;
@@ -101,9 +86,9 @@ class Product {
   dynamic sgst;
   String subcategory;
   String title;
-  dynamic jwelleryName;
+  String jwelleryName;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
         categoryId: json["category_id"],
         subcategoryId: json["subcategory_id"],
@@ -127,6 +112,7 @@ class Product {
         bestSellers: json["best_sellers"],
         trendingCategories: json["trending_categories"],
         image: json["image"],
+        stockQuantity: json["stock_quantity"],
         status: json["status"],
         importedFromExcel: json["imported_from_excel"],
         createdAt: DateTime.parse(json["created_at"]),
@@ -166,6 +152,7 @@ class Product {
         "best_sellers": bestSellers,
         "trending_categories": trendingCategories,
         "image": image,
+        "stock_quantity": stockQuantity,
         "status": status,
         "imported_from_excel": importedFromExcel,
         "created_at": createdAt.toIso8601String(),
@@ -181,4 +168,3 @@ class Product {
         "jwellery_name": jwelleryName,
       };
 }
-

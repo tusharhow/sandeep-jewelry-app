@@ -14,28 +14,27 @@ import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/models/cm.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
 
-
 final cartCotroller = Get.put(CartCotroller());
 // final productCotroller = Get.put(ProductController());
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
-  String prodName;
-  String prodPrice;
-  String prodId;
+  late String prodName;
+  late String prodPrice;
+  late String prodId;
 
-  String prodDescription;
-  String prodImage;
- 
+  late String prodDescription;
+  late String prodImage;
+
   String prodCategory;
-  ProductDetailView(
-      {required this.prodName,
-      required this.prodCategory,
-      required this.prodDescription,
-      required this.prodId,
-      required this.prodImage,
-      required this.prodPrice,
-      });
+  ProductDetailView({
+    required this.prodName,
+    required this.prodCategory,
+    required this.prodDescription,
+    required this.prodId,
+    required this.prodImage,
+    required this.prodPrice,
+  });
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();

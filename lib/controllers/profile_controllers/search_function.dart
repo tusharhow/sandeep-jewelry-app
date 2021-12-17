@@ -144,12 +144,6 @@ class Search extends SearchDelegate {
     "mint"
   ];
 
-  List<String> recentSearch = [
-    "Neckalce",
-    "Ring",
-    "Gold",
-  ];
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -198,19 +192,9 @@ class Search extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return ListView.builder(
-        itemCount: recentSearch.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              recentSearch[index],
-              style: TextStyle(color: Colors.white),
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white54,
-            ),
-            onTap: () {},
-          );
+          return Text('');
         });
   }
 }

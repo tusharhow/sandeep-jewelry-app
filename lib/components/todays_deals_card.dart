@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-
 class TodaysDealsCard extends StatelessWidget {
   const TodaysDealsCard({
     Key? key,
@@ -34,20 +33,23 @@ class TodaysDealsCard extends StatelessWidget {
             height: 10,
           ),
           Image(
-            image: NetworkImage(labelImage),
+            image: NetworkImage(labelImage ??
+                'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg'),
+            height: 50,
+            width: 50,
           ),
           const SizedBox(
             height: 10,
           ),
           Text(
-            label,
+            label ?? '',
             style: const TextStyle(color: Colors.white, fontSize: 14),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            productDesc,
+            productDesc ?? '',
             style: const TextStyle(color: Colors.white54, fontSize: 12),
           ),
           const SizedBox(
@@ -58,7 +60,7 @@ class TodaysDealsCard extends StatelessWidget {
             child: Row(
               children: [
                 RatingBar.builder(
-                  initialRating: rating,
+                  initialRating: rating ?? 0,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
@@ -74,14 +76,14 @@ class TodaysDealsCard extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  ratingLevel,
+                  ratingLevel ?? '',
                   style: const TextStyle(color: Colors.white, fontSize: 11),
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 Text(
-                  ratingCount,
+                  ratingCount ?? '',
                   style: const TextStyle(color: Colors.white54, fontSize: 11),
                 ),
               ],

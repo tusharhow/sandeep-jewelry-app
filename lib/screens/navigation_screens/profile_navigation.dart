@@ -110,14 +110,6 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
               ),
             ),
             const SizedBox(
-              height: 20,
-            ),
-            AdditionalOptionsListView(
-              onpress: () {},
-              icon: 'assets/icons/pass.png',
-              label: 'Change Password',
-            ),
-            const SizedBox(
               height: 15,
             ),
             AdditionalOptionsListView(

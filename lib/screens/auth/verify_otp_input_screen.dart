@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
