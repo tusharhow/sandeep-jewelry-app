@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/helpers/shared_helper.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/verify_otp.dart';
 
-// Widget defaultHome = const VerifyOtp();
+Widget _defaultHome = Splash();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var loginStatus = prefs.getBool('isLoggedIn') ?? false;
-  print(loginStatus);
+  bool _result = await SharedService.isLoggedIn();
+  print('Result Is: ${_result}');
+  if (_result) {
+    _defaultHome = const HomePageMain();
+  } else {
+    _defaultHome = Splash();
+  }
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // var loginStatus = prefs.getBool('isLoggedIn') ?? false;
+  // print(loginStatus);
   runApp(MaterialApp(
       theme: ThemeData(
         canvasColor: Colors.black,
         primarySwatch: Colors.grey,
       ),
       debugShowCheckedModeBanner: false,
-      home: loginStatus == true ? HomePageMain() : Splash()));
+      home: _defaultHome));
 }
 
 // class MyApp extends StatelessWidget {

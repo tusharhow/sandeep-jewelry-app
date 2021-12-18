@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
+import 'package:http/http.dart' as http;
 
 class VerifyOtpInputScreen extends StatefulWidget {
-  const VerifyOtpInputScreen({Key? key, required this.phoneNumber})
-      : super(key: key);
+  VerifyOtpInputScreen({Key? key, required this.phoneNumber}) : super(key: key);
   final String phoneNumber;
 
   @override
@@ -24,6 +25,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   Timer? _timer;
   int _start = 20;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _otpController = TextEditingController();
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -76,7 +78,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                       const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30),
                   child: PinCodeTextField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-
+                    controller: _otpController,
                     appContext: context,
                     pastedTextStyle: const TextStyle(
                         fontWeight: FontWeight.w500,
@@ -122,6 +124,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                     // onTap: () {
                     //   print("Pressed");
                     // },
+
                     onChanged: (value) {
                       setState(() {
                         currentText = value;
@@ -141,25 +144,26 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    AuthRepository().callLoginApi(
-                      context,
-                      widget.phoneNumber,
-                    );
-                    if (currentText == "1234") {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePageMain(),
-                        ),
-                      );
-                    } else {
-                      print('Otp invalid');
-                    }
-                  } else {
-                    const ScaffoldMessenger(
-                        child: Text('Something went wrong..'));
-                  }
+                  // if (_formKey.currentState!.validate()) {
+                  //   AuthRepository().callLoginApi(
+                  //     context,
+                  //     widget.phoneNumber,
+                  //   );
+                  //   if (currentText == "1234") {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => HomePageMain(),
+                  //       ),
+                  //     );
+                  //   } else {
+                  //     print('Otp invalid');
+                  //   }
+                  // } else {
+                  //   const ScaffoldMessenger(
+                  //       child: Text('Something went wrong..'));
+                  // }
+                  otpValidation();
                 }),
             const SizedBox(
               height: 30,
@@ -192,5 +196,31 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
         ),
       ),
     );
+  }
+
+  Future otpValidation() async {
+    var url =
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/login";
+    var response = await http.post(Uri.parse(url), body: {
+      "mobile_no": widget.phoneNumber,
+      "one_singnal": "y",
+      "type": "user",
+      "otp": currentText,
+    });
+    if (response.statusCode == 200) {
+      print('OTP Validation successfully');
+      push(context: context, widget: HomePageMain());
+    } else {
+      print('OTP Validation failed');
+      // Create a flutter toast.
+      Fluttertoast.showToast(
+          msg: "OTP Validation failed!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 20.0);
+    }
   }
 }

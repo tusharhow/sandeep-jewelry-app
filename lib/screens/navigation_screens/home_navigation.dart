@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
+import 'package:sandeep_jwelery/helpers/shared_helper.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
 import 'package:sandeep_jwelery/screens/category_details.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';

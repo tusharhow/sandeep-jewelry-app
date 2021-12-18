@@ -23,7 +23,7 @@ class AppConfig {
   static const String BASE_URL = "$RAW_BASE_URL";
   static const loginAPI = "/api/login";
   static const registerAPI = "/api/register";
-  static const userProfileAPI = "/users/user-Profile";
+  static const userProfileAPI = "/details";
 
   //configure this if you are using amazon s3 like services
   //give direct link to file like https://[[bucketname]].s3.ap-southeast-1.amazonaws.com/
