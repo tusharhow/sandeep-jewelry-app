@@ -11,18 +11,27 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
+import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
 import 'package:sandeep_jwelery/models/cm.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
 
 final cartCotroller = Get.put(CartCotroller());
-// final productCotroller = Get.put(ProductController());
+final productDetailsCotroller = Get.put(ProductDetailsController());
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   late String prodName;
   late String prodPrice;
   late String prodId;
+  late String weight;
+  late String quantity;
+  late String defaultColor;
+  late String color;
 
+  late String diamondChargesOption;
+  late String multiWeight;
+  late String netWeight;
+  late String grossWeight;
   late String prodDescription;
   late String prodImage;
 
@@ -54,11 +63,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   bool tapped = false;
   int groupValue = 0;
 
-  // function with two variable
-
   @override
   Widget build(BuildContext context) {
     // final datas = ModalRoute.of(context)!.settings.arguments;
+
     return Scaffold(
       appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -140,6 +148,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 child: Text(widget.prodName,
                     style: TextStyle(fontSize: 23, color: Colors.white)),
               ),
+              ElevatedButton(onPressed: () {}, child: Text('Done')),
               const SizedBox(
                 height: 10,
               ),

@@ -1,15 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sandeep_jwelery/components/additional_options_listview.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/helpers/keys.dart';
+import 'package:sandeep_jwelery/helpers/shared_helper.dart';
+import 'package:sandeep_jwelery/models/product_model.dart';
 import 'package:sandeep_jwelery/models/profile_model.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
+import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:sandeep_jwelery/screens/profile_edit.dart';
+import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/screens/track_order.dart';
 import 'package:sandeep_jwelery/services/shared_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? _username;
 
 class ProfileNavigation extends StatefulWidget {
   const ProfileNavigation({Key? key}) : super(key: key);
@@ -18,21 +25,37 @@ class ProfileNavigation extends StatefulWidget {
   State<ProfileNavigation> createState() => _ProfileNavigationState();
 }
 
+String? fullName;
+String? emailFull;
+String? mobileNo;
+String? userToken;
+var profileArr;
+bool? _profileLoad;
+
+var apiName;
+
+SharedPreferences? sharedPreferences;
+
 class _ProfileNavigationState extends State<ProfileNavigation> {
   @override
   void initState() {
     super.initState();
-    name();
-    
+    nameCredential();
+    getUserDetails();
   }
 
- 
-
- 
-  void name() async {
+  void nameCredential() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _username = prefs.getString('username');
+      fullName = prefs.getString('fullname');
+      emailFull = prefs.getString('email');
+      mobileNo = prefs.getString('mobile');
+      userToken = prefs.getString('userToken');
+
+      print(fullName);
+      print(emailFull);
+      print(mobileNo);
+      print(userToken);
     });
   }
 
@@ -43,7 +66,7 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
     );
   }
 
-  buildBody(BuildContext context) {
+  buildBody(context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
@@ -89,7 +112,7 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                               height: 10,
                             ),
                             Text(
-                              _username.toString(),
+                              apiName ?? '${fullName}',
                               textAlign: TextAlign.justify,
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 18),
@@ -165,5 +188,51 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     pushRemove(context: context, widget: VerifyOtp());
+  }
+
+  Future getUserDetails() async {
+    var token = await FlutterKeychain.get(key: "pinkUserToken");
+
+    var url =
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/details";
+    var response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Accept": "application/json",
+        'Authorization': 'Bearer ' + token,
+      },
+    );
+
+    // final data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      profileArr = json.decode(jsonString);
+      _profileLoad = true;
+
+      apiName = profileArr['name'];
+
+      var username = await FlutterKeychain.get(key: "pinkUserName");
+      print('Username: ${username}');
+      print('Profile Name Is: ${apiName}');
+
+      print('Profile Is: ${profileArr}');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userToken = token;
+
+      prefs.setBool('user', true);
+      prefs.setString('userToken', userToken);
+    } else {
+      print('OTP sent failed');
+      // Create a flutter toast.
+      Fluttertoast.showToast(
+          msg: "OTP sent failed!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 20.0);
+    }
   }
 }

@@ -1,21 +1,32 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/config.dart';
+import 'package:sandeep_jwelery/models/product_model.dart';
 
 class ProductController extends GetxController {
-  // var productJson = [];
-  // var jsonData;
-  // fetchProducts() async {
-  //   final response = await http.get(Uri.parse(
-  //       'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/productlist'));
-  //   jsonData = jsonDecode(response.body) as List;
+  Future<ProductModel>? dataModelFuture;
 
-  //   print(jsonData);
-  // }
+  var dataModel;
+  var url = "${AppConfig.BASE_URL}/productlist";
+  Future<ProductModel> getData() async {
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      var jsonMap = json.decode(jsonString);
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   productJson = jsonData;
-  // }
+      dataModel = ProductModel.fromJson(jsonMap);
+      print(jsonMap);
+    } else {
+      throw Exception('Failed to load data');
+    }
+
+    return dataModel;
+  }
+
+  @override
+  void onInit() {
+    dataModelFuture = getData();
+    super.onInit();
+  }
 }

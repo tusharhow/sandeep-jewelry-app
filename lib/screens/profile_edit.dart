@@ -23,30 +23,27 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final TextEditingController _genderController = TextEditingController();
 
   bool tappedBtn = false;
-  String? _username;
-  String? _email;
-  String? _number;
-  String? _dob;
-  String? _gender;
-  String? _address;
-  String? _pin;
+
+  String? mobileNo;
+  String? emailFull;
+  String? fullName;
 
   @override
   void initState() {
     super.initState();
-    name();
+    nameCredential();
   }
 
-  void name() async {
+  void nameCredential() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _username = prefs.getString('username');
-      _number = prefs.getString('number');
-      _email = prefs.getString('email');
-      _dob = prefs.getString('dob');
-      _gender = prefs.getString('gender');
-      _address = prefs.getString('address');
-      _pin = prefs.getString('pin');
+      fullName = prefs.getString('fullname');
+      emailFull = prefs.getString('email');
+      mobileNo = prefs.getString('mobile');
+
+      print(fullName);
+      print(emailFull);
+      print(mobileNo);
     });
   }
 
@@ -100,7 +97,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _nameController,
                 label: 'Full Name',
-                hint: _username,
+                hint: fullName,
               ),
               const SizedBox(
                 height: 10,
@@ -108,7 +105,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _emailController,
                 label: 'Email Id',
-                hint: _email,
+                hint: emailFull,
               ),
               const SizedBox(
                 height: 10,
@@ -116,43 +113,43 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _phoneController,
                 label: 'Mobile No',
-                hint: _number,
+                hint: mobileNo,
               ),
               const SizedBox(
                 height: 10,
               ),
-              ProfileEditFormField(
-                editingController: _dobController,
-                label: 'Date of Birth',
-                hint: _dob,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ProfileEditFormField(
-                editingController: _genderController,
-                label: 'Gender',
-                hint: _gender,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ProfileEditFormField(
-                editingController: _addressController,
-                label: 'Address',
-                hint: _address,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ProfileEditFormField(
-                editingController: _pinController,
-                label: 'Pin Code',
-                hint: _pin,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
+              // ProfileEditFormField(
+              //   editingController: _dobController,
+              //   label: 'Date of Birth',
+              //   hint: _dob,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // ProfileEditFormField(
+              //   editingController: _genderController,
+              //   label: 'Gender',
+              //   hint: _gender,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // ProfileEditFormField(
+              //   editingController: _addressController,
+              //   label: 'Address',
+              //   hint: _address,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // ProfileEditFormField(
+              //   editingController: _pinController,
+              //   label: 'Pin Code',
+              //   hint: _pin,
+              // ),
+              // const SizedBox(
+              //   height: 40,
+              // ),
               ReusablePrimaryButton(
                   childText: 'Update',
                   buttonColor: const Color(0xffEE0000),

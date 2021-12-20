@@ -8,26 +8,22 @@ import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/verify_otp.dart';
 
-Widget _defaultHome = Splash();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  bool _result = await SharedService.isLoggedIn();
-  print('Result Is: ${_result}');
-  if (_result) {
-    _defaultHome = const HomePageMain();
-  } else {
-    _defaultHome = Splash();
-  }
+
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // var loginStatus = prefs.getBool('isLoggedIn') ?? false;
   // print(loginStatus);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('userToken');
+
   runApp(MaterialApp(
       theme: ThemeData(
         canvasColor: Colors.black,
         primarySwatch: Colors.grey,
       ),
       debugShowCheckedModeBanner: false,
-      home: _defaultHome));
+      home: token == null ? VerifyOtp() : Splash()));
 }
 
 // class MyApp extends StatelessWidget {
@@ -101,7 +97,7 @@ class HomePage extends StatelessWidget {
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 onPressed: () {
-                  push(context: context, widget: const VerifyOtp());
+                  push(context: context, widget: VerifyOtp());
                 }),
             const SizedBox(
               height: 20,

@@ -8,8 +8,8 @@ import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
 
-String? username;
-String? fullname;
+// String? username;
+// String? fullname;
 
 class HomePageMain extends StatefulWidget {
   const HomePageMain({Key? key}) : super(key: key);

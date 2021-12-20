@@ -6,11 +6,14 @@ import 'package:get/get.dart';
 import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/helpers/keys.dart';
 import 'package:sandeep_jwelery/models/login_response.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
+import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyOtp extends StatefulWidget {
   const VerifyOtp({Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class VerifyOtp extends StatefulWidget {
 
 Future<LoginApiResponse>? _futureJwt;
 String? currentText = "";
+var loginArr;
 TextEditingController _phoneController = TextEditingController();
 bool isLoading = false;
 GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
@@ -173,8 +177,25 @@ class _VerifyOtpState extends State<VerifyOtp> {
     var response = await http.post(Uri.parse(url), body: {
       "mobile_no": _phoneController.text,
     });
+
+    // final data = json.decode(response.body);
+    var jshonString = response.body;
+    var loginArr = json.decode(jshonString);
     if (response.statusCode == 200) {
       print('OTP sent successfully');
+      print("mmmmmmmmmm" + loginArr.toString());
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString("mobile", _phoneController.text);
+      // await FlutterKeychain.put(
+      //     key: "pinkUserToken", value: loginArr['token'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserName", value: loginArr['name'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserUserID", value: loginArr['id'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserEmail", value: loginArr['email'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserPhone", value: loginArr['mobile_no'].toString());
 
       push(
           context: context,

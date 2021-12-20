@@ -1,17 +1,27 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/helpers/keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:http/http.dart' as http;
 
 class VerifyOtpInputScreen extends StatefulWidget {
-  VerifyOtpInputScreen({Key? key, required this.phoneNumber}) : super(key: key);
-  final String phoneNumber;
+  VerifyOtpInputScreen({
+    Key? key,
+    @required this.phoneNumber,
+    @required this.emailNumber,
+    @required this.fullNumberName,
+  }) : super(key: key);
+  String? phoneNumber;
+  String? emailNumber;
+  String? fullNumberName;
 
   @override
   _VerifyOtpInputScreenState createState() => _VerifyOtpInputScreenState();
@@ -24,6 +34,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   String? currentText = "";
   Timer? _timer;
   int _start = 20;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _otpController = TextEditingController();
 
@@ -204,11 +215,21 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
     var response = await http.post(Uri.parse(url), body: {
       "mobile_no": widget.phoneNumber,
       "one_singnal": "y",
-      "type": "user",
+      "type": "client",
       "otp": currentText,
     });
     if (response.statusCode == 200) {
       print('OTP Validation successfully');
+      var loginArr = json.decode(response.body);
+
+      print(response.statusCode);
+
+      print("mmmmmmmmmm" + loginArr.toString());
+
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString('mobile', widget.phoneNumber.toString());
+      pref.setString('fullname', widget.fullNumberName.toString());
+
       push(context: context, widget: HomePageMain());
     } else {
       print('OTP Validation failed');

@@ -1,13 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:sandeep_jwelery/helpers/keys.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
-import 'package:sandeep_jwelery/services/api_service.dart';
-import 'package:toast/toast.dart';
+import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -19,6 +26,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   String? dropdownValue;
   bool isChecked = false;
+  var registerAr;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -235,7 +243,7 @@ class _SignUpState extends State<SignUp> {
                         buttonColor: Colors.white,
                         textColor: Colors.black,
                         onPressed: () {
-                          callRegisterApi();
+                          Registration();
                           print('clicked');
                         }),
                     // isChecked == true
@@ -310,29 +318,80 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  callRegisterApi() {
-    final service = ApiServices();
+  // callRegisterApi() {
+  //   final service = ApiServices();
 
-    service.apiCallRegister({
+  //   service.apiCallRegister({
+  // "name": _nameController.text,
+  // "email": _emailController.text,
+  // "agent_code": "0042",
+  // "type": "user",
+  // "mobile_no": _phoneController.text,
+  // "pan_no": "BBDER551",
+  //   }).then((value) => {
+  //         if (value.error != null)
+  //           {
+  //             Toast.show(value.error, context,
+  //                 duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM)
+  //           }
+  //         else
+  //           {
+  //             Navigator.pushAndRemoveUntil(
+  //                 context,
+  //                 MaterialPageRoute(builder: (context) => VerifyOtp()),
+  //                 (route) => false),
+  //           }
+  //       });
+  // }
+
+  Future Registration() async {
+    var url =
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/register";
+    var response = await http.post(Uri.parse(url), body: {
       "name": _nameController.text,
       "email": _emailController.text,
       "agent_code": "0042",
-      "type": "user",
+      "type": "client",
       "mobile_no": _phoneController.text,
       "pan_no": "BBDER551",
-    }).then((value) => {
-          if (value.error != null)
-            {
-              Toast.show(value.error, context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM)
-            }
-          else
-            {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => VerifyOtp()),
-                  (route) => false),
-            }
-        });
+    });
+
+    if (response.statusCode == 200) {
+      var jshonString = response.body;
+      registerAr = json.decode(jshonString);
+      print('Registration successfully');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('user', true);
+      prefs.setString('fullname', _nameController.text);
+      prefs.setString('email', _emailController.text);
+      prefs.setString('mobile', _phoneController.text);
+      // await FlutterKeychain.put(
+      //     key: "pinkUserToken", value: registerAr['token'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserName", value: registerAr['name'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserUserID", value: registerAr['id'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserEmail", value: registerAr['email'].toString());
+      // await FlutterKeychain.put(
+      //     key: "pinkUserPhone", value: registerAr['mobile_no'].toString());
+
+      push(
+          context: context,
+          widget: VerifyOtpInputScreen(
+            phoneNumber: _phoneController.text,
+          ));
+    } else {
+      print('Registration failed');
+      // Create a flutter toast.
+      Fluttertoast.showToast(
+          msg: "Registration failed!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 20.0);
+    }
   }
 }
