@@ -23,7 +23,7 @@ Future<void> main() async {
         primarySwatch: Colors.grey,
       ),
       debugShowCheckedModeBanner: false,
-      home: token == null ? VerifyOtp() : Splash()));
+      home: Splash()));
 }
 
 // class MyApp extends StatelessWidget {

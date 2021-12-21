@@ -15,13 +15,9 @@ import 'package:http/http.dart' as http;
 class VerifyOtpInputScreen extends StatefulWidget {
   VerifyOtpInputScreen({
     Key? key,
-    @required this.phoneNumber,
-    @required this.emailNumber,
-    @required this.fullNumberName,
+    required this.phoneNumber,
   }) : super(key: key);
-  String? phoneNumber;
-  String? emailNumber;
-  String? fullNumberName;
+  final String phoneNumber;
 
   @override
   _VerifyOtpInputScreenState createState() => _VerifyOtpInputScreenState();
@@ -220,17 +216,25 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
     });
     if (response.statusCode == 200) {
       print('OTP Validation successfully');
-      var loginArr = json.decode(response.body);
+      // var loginArr = json.decode(response.body);
 
       print(response.statusCode);
 
-      print("mmmmmmmmmm" + loginArr.toString());
+      print(response.body);
+      var datas = json.decode(response.body);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.setString('userToken', datas['success']['token']);
+      var userTok = datas['success']['token'];
+      print('////////////// Token is: ${userTok}');
 
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      pref.setString('mobile', widget.phoneNumber.toString());
-      pref.setString('fullname', widget.fullNumberName.toString());
+      // print("mmmmmmmmmm" + loginArr.toString());
 
-      push(context: context, widget: HomePageMain());
+      // SharedPreferences pref = await SharedPreferences.getInstance();
+      // pref.setString('mobile', widget.phoneNumber);
+
+      // push(context: context, widget: HomePageMain());
+
+      pushRemove(context: context, widget: HomePageMain());
     } else {
       print('OTP Validation failed');
       // Create a flutter toast.

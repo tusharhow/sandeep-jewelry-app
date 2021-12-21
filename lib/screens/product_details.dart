@@ -12,8 +12,8 @@ import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
-import 'package:sandeep_jwelery/models/cm.dart';
-import 'package:sandeep_jwelery/models/product_model.dart';
+
+
 
 final cartCotroller = Get.put(CartCotroller());
 final productDetailsCotroller = Get.put(ProductDetailsController());

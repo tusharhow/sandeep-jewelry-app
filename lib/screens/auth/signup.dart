@@ -357,14 +357,15 @@ class _SignUpState extends State<SignUp> {
     });
 
     if (response.statusCode == 200) {
-      var jshonString = response.body;
-      registerAr = json.decode(jshonString);
+      // var jshonString = response.body;
+      // registerAr = json.decode(jshonString);
       print('Registration successfully');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool('user', true);
       prefs.setString('fullname', _nameController.text);
       prefs.setString('email', _emailController.text);
       prefs.setString('mobile', _phoneController.text);
+
       // await FlutterKeychain.put(
       //     key: "pinkUserToken", value: registerAr['token'].toString());
       // await FlutterKeychain.put(

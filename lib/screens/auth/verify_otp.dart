@@ -202,6 +202,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
           widget: VerifyOtpInputScreen(
             phoneNumber: _phoneController.text,
           ));
+
+          
     } else {
       print('OTP sent failed');
       // Create a flutter toast.

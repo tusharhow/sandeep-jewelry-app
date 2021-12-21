@@ -9,11 +9,14 @@ class ProductDetailsController extends GetxController {
   // product details function
   Future<ProductDetailsModel> getProductDetails(String productId) async {
     var response = await http.get(
-      Uri.parse("${AppConfig.BASE_URL}/product_detail/$productId"),
+      Uri.parse(
+        "${AppConfig.BASE_URL}/product_detail/$productId",
+      ),
       headers: {
         "Accept": "application/json",
       },
     );
+
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
       ProductDetailsModel productDetailsModel =

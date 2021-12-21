@@ -7,6 +7,7 @@ import 'package:sandeep_jwelery/helpers/shared_helper.dart';
 import 'package:sandeep_jwelery/main.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
+import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/splash/onboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,6 +57,9 @@ class Splash extends StatefulWidget {
 class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
@@ -65,8 +69,8 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
           MaterialPageRoute(builder: (context) => HomePageMain()));
     } else {
       await prefs.setBool('seen', true);
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => token == null ? HomePage() : HomePageMain()));
     }
   }
 
