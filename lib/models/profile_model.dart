@@ -1,49 +1,140 @@
 // To parse this JSON data, do
 //
-//     final profileModel = profileModelFromJson(jsonString);
+//     final userDetailsModel = userDetailsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-ProfileModel profileModelFromJson(String str) => ProfileModel.fromJson(json.decode(str));
+UserDetailsModel userDetailsModelFromJson(String str) =>
+    UserDetailsModel.fromJson(json.decode(str));
 
-String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
+String userDetailsModelToJson(UserDetailsModel data) =>
+    json.encode(data.toJson());
 
-class ProfileModel {
-    ProfileModel({
-     required   this.name,
-    required    this.email,
-     required   this.password,
-       required this.agentCode,
-      required  this.type,
-      required  this.mobileNo,
-      required  this.panNo,
-    });
+class UserDetailsModel {
+  UserDetailsModel({
+    this.kyc,
+    required this.user,
+    required this.url,
+    required this.status,
+  });
 
-    String name;
-    String email;
-    String password;
-    String agentCode;
-    String type;
-    String mobileNo;
-    String panNo;
+  dynamic kyc;
+  User user;
+  String url;
+  int status;
 
-    factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
+  factory UserDetailsModel.fromJson(Map<String, dynamic> json) =>
+      UserDetailsModel(
+        kyc: json["kyc"],
+        user: User.fromJson(json["user"]),
+        url: json["url"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "kyc": kyc,
+        "user": user.toJson(),
+        "url": url,
+        "status": status,
+      };
+}
+
+class User {
+  User({
+    required this.id,
+    this.isAdmin,
+    this.isManufacture,
+    required this.name,
+    required this.email,
+    required this.userType,
+    required this.mobileNo,
+    this.logo,
+    required this.panNo,
+    required this.type,
+    this.apiToken,
+    this.companyName,
+    this.address,
+    this.pincode,
+    this.gstno,
+    this.designation,
+    this.state,
+    this.city,
+    this.emailVerifiedAt,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  int id;
+  dynamic isAdmin;
+  dynamic isManufacture;
+  String name;
+  String email;
+  String userType;
+  String mobileNo;
+  dynamic logo;
+  String panNo;
+  String type;
+  dynamic apiToken;
+  dynamic companyName;
+  dynamic address;
+  dynamic pincode;
+  dynamic gstno;
+  dynamic designation;
+  dynamic state;
+  dynamic city;
+  dynamic emailVerifiedAt;
+  String status;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
+        isAdmin: json["is_admin"],
+        isManufacture: json["is_manufacture"],
         name: json["name"],
         email: json["email"],
-        password: json["password"],
-        agentCode: json["agent_code"],
-        type: json["type"],
+        userType: json["user_type"],
         mobileNo: json["mobile_no"],
+        logo: json["logo"],
         panNo: json["pan_no"],
-    );
+        type: json["type"],
+        apiToken: json["api_token"],
+        companyName: json["company_name"],
+        address: json["address"],
+        pincode: json["pincode"],
+        gstno: json["gstno"],
+        designation: json["designation"],
+        state: json["state"],
+        city: json["city"],
+        emailVerifiedAt: json["email_verified_at"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "is_admin": isAdmin,
+        "is_manufacture": isManufacture,
         "name": name,
         "email": email,
-        "password": password,
-        "agent_code": agentCode,
-        "type": type,
+        "user_type": userType,
         "mobile_no": mobileNo,
+        "logo": logo,
         "pan_no": panNo,
-    };
+        "type": type,
+        "api_token": apiToken,
+        "company_name": companyName,
+        "address": address,
+        "pincode": pincode,
+        "gstno": gstno,
+        "designation": designation,
+        "state": state,
+        "city": city,
+        "email_verified_at": emailVerifiedAt,
+        "status": status,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+      };
 }

@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/components/profile_edit_form_field.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/controllers/user_controller.dart';
+import 'package:sandeep_jwelery/models/profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileEditPage extends StatefulWidget {
@@ -27,13 +31,17 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   String? mobileNo;
   String? emailFull;
   String? fullName;
+  var userData;
 
   @override
   void initState() {
     super.initState();
     nameCredential();
+    userEditController.getUserDetails();
+    userData = getUserDetails();
   }
 
+  final userEditController = Get.put(UserController());
   void nameCredential() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -49,6 +57,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      userData = userEditController.userData;
+      userData = getUserDetails();
+    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -94,18 +106,20 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               const SizedBox(
                 height: 20,
               ),
+
               ProfileEditFormField(
                 editingController: _nameController,
                 label: 'Full Name',
-                hint: fullName,
+                hint: userData['user']['name'],
               ),
+
               const SizedBox(
                 height: 10,
               ),
               ProfileEditFormField(
                 editingController: _emailController,
                 label: 'Email Id',
-                hint: emailFull,
+                hint: userData['user']['email'],
               ),
               const SizedBox(
                 height: 10,
@@ -113,7 +127,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ProfileEditFormField(
                 editingController: _phoneController,
                 label: 'Mobile No',
-                hint: mobileNo,
+                hint: userData['user']['mobile_no'],
               ),
               const SizedBox(
                 height: 10,
@@ -169,5 +183,49 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         ),
       ),
     );
+  }
+
+  Future getUserDetails() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var userToken = prefs.getString('userToken');
+
+      var url =
+          "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/details";
+      var response = await http.post(Uri.parse(url), headers: {
+        "Accept": "application/json",
+        'Authorization': 'Bearer ' + userToken!,
+      }, body: {
+        "mobile_no": mobileNo,
+      });
+
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        userData = json.decode(jsonString);
+        print('////////////////////${response.body}');
+
+        print('///////// Response Is: ${userData}');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // String userToken = token;
+
+        prefs.setBool('user', true);
+        prefs.setString('userToken', userToken);
+      } else {
+        print('Data not found');
+        print(userData);
+        // Create a flutter toast.
+        Fluttertoast.showToast(
+            msg: "Data not found",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
+            fontSize: 20.0);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
