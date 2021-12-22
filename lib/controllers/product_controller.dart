@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductController extends GetxController {
   Future<ProductModel>? dataModelFuture;
@@ -16,7 +17,15 @@ class ProductController extends GetxController {
       var jsonMap = json.decode(jsonString);
 
       dataModel = ProductModel.fromJson(jsonMap);
-      print(jsonMap);
+      print("jsonMap\\\\\\: $jsonMap");
+
+      var data = jsonMap['id'];
+
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // prefs.setString('product', data);
+
+      print('Datas /////////// ${data}');
     } else {
       throw Exception('Failed to load data');
     }
@@ -26,7 +35,7 @@ class ProductController extends GetxController {
 
   @override
   void onInit() {
-    dataModelFuture = getData();
     super.onInit();
+    dataModelFuture = getData();
   }
 }

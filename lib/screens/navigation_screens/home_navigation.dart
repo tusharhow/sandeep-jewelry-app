@@ -116,15 +116,16 @@ class _HomeNavigationState extends State<HomeNavigation> {
                         scrollDirection: Axis.horizontal,
                         itemCount: productJson.length,
                         itemBuilder: (context, index) {
-                          var datas = productJson[index];
+                          var datas = snapshot.data!.data[index];
+                          var img = '${snapshot.data!.url + '/' + datas.image}';
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (c) => CategoryDetails(
-                                    imageProd: datas['image'],
-                                    title: datas['productname'],
+                                    imageProd: img,
+                                    title: datas.productname,
                                   ),
                                 ),
                               );
@@ -136,8 +137,9 @@ class _HomeNavigationState extends State<HomeNavigation> {
                               child: Row(
                                 children: [
                                   ShopCarousel(
-                                    image: 'assets/images/human.png',
-                                    label: datas['productname'],
+                                    // image: 'assets/images/human.png',
+                                    image: img,
+                                    label: datas.productname,
                                   ),
                                 ],
                               ),
@@ -168,7 +170,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return SizedBox(
-                        height: 230,
+                        height: 200,
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -178,20 +180,14 @@ class _HomeNavigationState extends State<HomeNavigation> {
                               var img =
                                   '${snapshot.data!.url + '/' + datas.image}';
                               print(img);
-                              print('login: ${is_logged_in}');
+
                               return InkWell(
                                 onTap: () {
-                                 
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (c) => ProductDetailView(
-                                        prodName: datas.productname,
-                                        prodCategory: datas.categoryId,
-                                        prodDescription: datas.description,
-                                        prodId: datas.productcode,
-                                        prodImage: img,
-                                        prodPrice: datas.amount,
+                                        prodId: datas.id,
                                       ),
                                     ),
                                   );
@@ -207,7 +203,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                         label: datas.jwelleryName,
                                         labelImage: img,
                                         productDesc: datas.description,
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -255,62 +251,67 @@ class _HomeNavigationState extends State<HomeNavigation> {
               ),
               Column(
                 children: [
-                  // FutureBuilder<ProductModel>(
-                  //     future: productList,
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         return GridView.builder(
-                  //             shrinkWrap: true,
-                  //             physics: NeverScrollableScrollPhysics(),
-                  //             primary: true,
-                  //             gridDelegate:
-                  //                 const SliverGridDelegateWithFixedCrossAxisCount(
-                  //                     crossAxisCount: 2),
-                  //             itemCount: 4,
-                  //             itemBuilder: (context, index) {
-                  //               var datas = snapshot.data!.products[index];
-                  //               return InkWell(
-                  //                   onTap: () => print("click"),
-                  //                   child: Padding(
-                  //                     padding: const EdgeInsets.all(5),
-                  //                     child: Container(
-                  //                         decoration: const BoxDecoration(
-                  //                             color: Colors.white12,
-                  //                             borderRadius: BorderRadius.all(
-                  //                                 Radius.circular(10))),
-                  //                         child: Column(
-                  //                             crossAxisAlignment:
-                  //                                 CrossAxisAlignment.center,
-                  //                             mainAxisAlignment:
-                  //                                 MainAxisAlignment.center,
-                  //                             children: [
-                  //                               Image.network(datas.image,
-                  //                                   fit: BoxFit.contain),
-                  //                               Text(datas.title,
-                  //                                   textAlign: TextAlign.center,
-                  //                                   style: const TextStyle(
-                  //                                       fontWeight:
-                  //                                           FontWeight.w500,
-                  //                                       fontSize: 14,
-                  //                                       color: Colors.white)),
-                  //                               Container(
-                  //                                 child: Text(
-                  //                                     datas.amount.toString(),
-                  //                                     textAlign: TextAlign.center,
-                  //                                     style: const TextStyle(
-                  //                                       fontWeight:
-                  //                                           FontWeight.w500,
-                  //                                       color: Colors.white,
-                  //                                       fontSize: 12,
-                  //                                     )),
-                  //                               ),
-                  //                             ])),
-                  //                   ));
-                  //             });
-                  //       } else {
-                  //         return CircularProgressIndicator();
-                  //       }
-                  //     }),
+                  FutureBuilder<ProductModel>(
+                      future: productController.dataModelFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              primary: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemCount: 4,
+                              itemBuilder: (context, index) {
+                                var datas = snapshot.data!.data[index];
+                                var img =
+                                    '${snapshot.data!.url + '/' + datas.image}';
+                                return InkWell(
+                                    onTap: () => print("click"),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Container(
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white12,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.network(img,
+                                                    height: 100,
+                                                    width: 100,
+                                                    fit: BoxFit.contain),
+                                                Text(datas.productname,
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                        color: Colors.white)),
+                                                Container(
+                                                  child: Text(
+                                                      datas.amount.toString(),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                      )),
+                                                ),
+                                              ])),
+                                    ));
+                              });
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      }),
                 ],
               ),
               const SizedBox(height: 15),
@@ -358,6 +359,8 @@ class _HomeNavigationState extends State<HomeNavigation> {
                           itemCount: 4,
                           itemBuilder: (context, index) {
                             var datas = snapshot.data!.data[index];
+                            var img =
+                                '${snapshot.data!.url + '/' + datas.image}';
                             return InkWell(
                                 onTap: () => print("click"),
                                 child: Padding(
@@ -373,9 +376,11 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Image.network(datas.image,
+                                            Image.network(img,
+                                                height: 100,
+                                                width: 100,
                                                 fit: BoxFit.contain),
-                                            Text(datas.title,
+                                            Text(datas.productname,
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                     fontWeight: FontWeight.w500,

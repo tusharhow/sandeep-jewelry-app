@@ -42,7 +42,7 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
   void initState() {
     super.initState();
     nameCredential();
-    getUserDetails();
+
     UserController().getUserDetails();
   }
 
@@ -140,16 +140,22 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              // Text(
-                              //   userData['user']['name'],
-                              //   textAlign: TextAlign.justify,
-                              //   style: const TextStyle(
-                              //       color: Colors.white, fontSize: 18),
-                              // ),
-                              Text(
-                                userController.userData['user']['name'],
-                                style: TextStyle(color: Colors.white),
-                              )
+                              FutureBuilder<UserDetailsModel>(
+                                  future: userController.userModelFuture,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data!.user.name,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  })
                             ],
                           ),
                           const Spacer(),
@@ -225,47 +231,47 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
     pushRemove(context: context, widget: VerifyOtp());
   }
 
-  Future getUserDetails() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var userToken = prefs.getString('userToken');
+  // Future getUserDetails() async {
+  //   try {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     var userToken = prefs.getString('userToken');
 
-      var url =
-          "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/details";
-      var response = await http.post(Uri.parse(url), headers: {
-        "Accept": "application/json",
-        'Authorization': 'Bearer ' + userToken!,
-      }, body: {
-        "mobile_no": mobileNo,
-      });
+  //     var url =
+  //         "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/details";
+  //     var response = await http.post(Uri.parse(url), headers: {
+  //       "Accept": "application/json",
+  //       'Authorization': 'Bearer ' + userToken!,
+  //     }, body: {
+  //       "mobile_no": mobileNo,
+  //     });
 
-      if (response.statusCode == 200) {
-        var jsonString = response.body;
-        userData = json.decode(jsonString);
-        print('////////////////////${response.body}');
+  //     if (response.statusCode == 200) {
+  //       var jsonString = response.body;
+  //       userData = json.decode(jsonString);
+  //       print('////////////////////${response.body}');
 
-        print('///////// Response Is: ${userData}');
+  //       print('///////// Response Is: ${userData}');
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        // String userToken = token;
+  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+  //       // String userToken = token;
 
-        prefs.setBool('user', true);
-        prefs.setString('userToken', userToken);
-      } else {
-        print('Data not found');
-        print(userData);
-        // Create a flutter toast.
-        Fluttertoast.showToast(
-            msg: "Data not found",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.blue,
-            textColor: Colors.white,
-            fontSize: 20.0);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  //       prefs.setBool('user', true);
+  //       prefs.setString('userToken', userToken);
+  //     } else {
+  //       print('Data not found');
+  //       print(userData);
+  //       // Create a flutter toast.
+  //       Fluttertoast.showToast(
+  //           msg: "Data not found",
+  //           toastLength: Toast.LENGTH_SHORT,
+  //           gravity: ToastGravity.BOTTOM,
+  //           timeInSecForIosWeb: 1,
+  //           backgroundColor: Colors.blue,
+  //           textColor: Colors.white,
+  //           fontSize: 20.0);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 }

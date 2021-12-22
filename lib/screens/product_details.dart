@@ -1,4 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
+import 'dart:convert';
+
 import 'package:carousel_pro/carousel_pro.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:chips_choice/chips_choice.dart';
@@ -10,39 +12,22 @@ import 'package:sandeep_jwelery/components/about_this_product.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
+import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
-
-
+import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/models/product_details_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final cartCotroller = Get.put(CartCotroller());
 final productDetailsCotroller = Get.put(ProductDetailsController());
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
-  late String prodName;
-  late String prodPrice;
-  late String prodId;
-  late String weight;
-  late String quantity;
-  late String defaultColor;
-  late String color;
+  late int prodId;
 
-  late String diamondChargesOption;
-  late String multiWeight;
-  late String netWeight;
-  late String grossWeight;
-  late String prodDescription;
-  late String prodImage;
-
-  String prodCategory;
   ProductDetailView({
-    required this.prodName,
-    required this.prodCategory,
-    required this.prodDescription,
     required this.prodId,
-    required this.prodImage,
-    required this.prodPrice,
   });
 
   @override
@@ -55,6 +40,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     "assets/images/jew3.png",
     "assets/images/jew2.png",
   ];
+
+  final productDetailsController = Get.put(ProductDetailsController());
+
   int tag = 1;
   List<String> options = [
     '21',
@@ -62,6 +50,36 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   ];
   bool tapped = false;
   int groupValue = 0;
+
+  // var productJson = [];
+  // Future<ProductDetailsModel> fetchProductsDetails() async {
+  //   final response = await http
+  //       .post(Uri.parse('${AppConfig.BASE_URL}/product_detail'), headers: {
+  //     'Accept': 'application/json',
+  //   }, body: {
+  //     'product_id': widget.prodId.toString(),
+  //   });
+  //   final jsonData = jsonDecode(response.body);
+
+  //   dataModel = ProductDetailsModel.fromJson(jsonData);
+  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //   // prefs.setString('prodDetailsId', widget.prodId.toString());
+
+  //   print('Details Data///// /${dataModel}');
+
+  //   setState(() {
+  //     productJson = fetchProductsDetails() as List<dynamic>;
+  //   });
+  //   return dataModel;
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   fetchProductsDetails();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +91,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             color: Colors.white, //change your color here
           ),
           title: Text(
-            widget.prodName,
+            '..,',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Colors.transparent),
@@ -145,10 +163,28 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               ),
               Container(
                 alignment: Alignment.bottomLeft,
-                child: Text(widget.prodName,
+                child: Text("datas.productname",
                     style: TextStyle(fontSize: 23, color: Colors.white)),
               ),
-              ElevatedButton(onPressed: () {}, child: Text('Done')),
+              // ElevatedButton(
+              //     onPressed: () {
+
+              //     },
+              //     child: Text('Done')),
+
+              FutureBuilder<ProductDetailsModel>(
+                  future: productDetailsController.dataModelFuture,
+                  builder: (context, snapshot) {
+                    var dataModel = snapshot.data;
+                    return ListView.builder(
+                        itemCount: dataModel!.detailed_products.length,
+                        itemBuilder: (context, index) {
+                          return Text(
+                            dataModel.data.productname,
+                            style: TextStyle(color: Colors.white),
+                          );
+                        });
+                  }),
               const SizedBox(
                 height: 10,
               ),
@@ -156,7 +192,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 children: [
                   Container(
                     alignment: Alignment.bottomLeft,
-                    child: Text('₹ ${widget.prodPrice}',
+                    child: Text('₹ ${"widget.prodPrice"}',
                         style: TextStyle(fontSize: 25, color: Colors.white)),
                   ),
                   const SizedBox(
@@ -351,10 +387,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MiniButton(
-                      btnText: 'Add to Cart',
-                      onPressed: () {},
-                      btnTextColor: Colors.white,
-                      btnColor: const Color(0xff393939)),
+                    btnText: 'Add to Cart',
+                    onPressed: () {},
+                    btnTextColor: Colors.white,
+                    // btnColor: const Color(0xff393939)
+                    btnColor: Colors.amber,
+                  ),
                   MiniButton(
                       btnText: 'Buy Now',
                       onPressed: () {},

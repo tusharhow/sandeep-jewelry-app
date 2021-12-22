@@ -233,15 +233,12 @@ class Product {
     required this.status,
     required this.importedFromExcel,
     required this.createdAt,
-    this.updatedAt,
+    required this.updatedAt,
     required this.category,
-    required this.menuId,
-    this.cgst,
     required this.gst,
-    this.igst,
-    this.sgst,
+    required this.productId,
     required this.subcategory,
-    required this.title,
+    required this.subcategorytype,
     required this.jwelleryName,
   });
 
@@ -269,18 +266,15 @@ class Product {
   String trendingCategories;
   String image;
   String stockQuantity;
-  String status;
+  int status;
   int importedFromExcel;
   DateTime createdAt;
-  dynamic updatedAt;
+  DateTime updatedAt;
   String category;
-  String menuId;
-  dynamic cgst;
   String gst;
-  dynamic igst;
-  dynamic sgst;
+  int productId;
   String subcategory;
-  String title;
+  String subcategorytype;
   String jwelleryName;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -311,15 +305,12 @@ class Product {
         status: json["status"],
         importedFromExcel: json["imported_from_excel"],
         createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"],
+        updatedAt: DateTime.parse(json["updated_at"]),
         category: json["category"],
-        menuId: json["menu_id"],
-        cgst: json["CGST"],
         gst: json["GST"],
-        igst: json["IGST"],
-        sgst: json["SGST"],
+        productId: json["product_id"],
         subcategory: json["subcategory"],
-        title: json["title"],
+        subcategorytype: json["subcategorytype"],
         jwelleryName: json["jwellery_name"],
       );
 
@@ -351,15 +342,12 @@ class Product {
         "status": status,
         "imported_from_excel": importedFromExcel,
         "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt,
+        "updated_at": updatedAt.toIso8601String(),
         "category": category,
-        "menu_id": menuId,
-        "CGST": cgst,
         "GST": gst,
-        "IGST": igst,
-        "SGST": sgst,
+        "product_id": productId,
         "subcategory": subcategory,
-        "title": title,
+        "subcategorytype": subcategorytype,
         "jwellery_name": jwelleryName,
       };
 }

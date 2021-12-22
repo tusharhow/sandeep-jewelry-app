@@ -46,6 +46,7 @@ class UserController extends GetxController {
 
       prefs.setBool('user', true);
       prefs.setString('userToken', userToken);
+      isLoading(false);
     } else {
       print('OTP sent failed');
       print(userData);

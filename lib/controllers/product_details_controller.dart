@@ -4,28 +4,42 @@ import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/product_details_model.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailsController extends GetxController {
+  Future<ProductDetailsModel>? dataModelFuture;
   // product details function
-  Future<ProductDetailsModel> getProductDetails(String productId) async {
-    var response = await http.get(
+  Future<ProductDetailsModel> getProductDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var datamodel;
+    var id = prefs.getString('prodDetailsId');
+    var response = await http.post(
       Uri.parse(
-        "${AppConfig.BASE_URL}/product_detail/$productId",
+        "${AppConfig.BASE_URL}/product_detail",
       ),
       headers: {
         "Accept": "application/json",
+      },
+      body: {
+        "product_id": id,
       },
     );
 
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
-      ProductDetailsModel productDetailsModel =
-          ProductDetailsModel.fromJson(jsonResponse);
-      print('Details printed: ${response.body}');
-      return productDetailsModel;
+
+      datamodel = ProductDetailsModel.fromJson(jsonResponse);
     } else {
       throw Exception('Failed to load post');
     }
+    return datamodel;
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    dataModelFuture = getProductDetails();
   }
 }
 

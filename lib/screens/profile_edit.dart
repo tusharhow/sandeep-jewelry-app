@@ -32,16 +32,18 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   String? emailFull;
   String? fullName;
   var userData;
+  var userNumber;
 
   @override
   void initState() {
     super.initState();
     nameCredential();
     userEditController.getUserDetails();
-    userData = getUserDetails();
+    profileUpdate();
   }
 
   final userEditController = Get.put(UserController());
+
   void nameCredential() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -59,7 +61,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget build(BuildContext context) {
     setState(() {
       userData = userEditController.userData;
-      userData = getUserDetails();
     });
     return Scaffold(
       appBar: AppBar(
@@ -107,28 +108,58 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 height: 20,
               ),
 
-              ProfileEditFormField(
-                editingController: _nameController,
-                label: 'Full Name',
-                hint: userData['user']['name'],
-              ),
+              FutureBuilder<UserDetailsModel>(
+                  future: userEditController.userModelFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ProfileEditFormField(
+                        editingController: _nameController,
+                        label: 'Full Name',
+                        hint: snapshot.data!.user.name,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
 
               const SizedBox(
                 height: 10,
               ),
-              ProfileEditFormField(
-                editingController: _emailController,
-                label: 'Email Id',
-                hint: userData['user']['email'],
-              ),
+              FutureBuilder<UserDetailsModel>(
+                  future: userEditController.userModelFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ProfileEditFormField(
+                        editingController: _emailController,
+                        label: 'Full Email',
+                        hint: snapshot.data!.user.email,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
               const SizedBox(
                 height: 10,
               ),
-              ProfileEditFormField(
-                editingController: _phoneController,
-                label: 'Mobile No',
-                hint: userData['user']['mobile_no'],
-              ),
+              FutureBuilder<UserDetailsModel>(
+                  future: userEditController.userModelFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ProfileEditFormField(
+                        editingController: _phoneController,
+                        label: 'Mobile No',
+                        hint: snapshot.data!.user.mobileNo,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
               const SizedBox(
                 height: 10,
               ),
@@ -161,9 +192,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               //   label: 'Pin Code',
               //   hint: _pin,
               // ),
-              // const SizedBox(
-              //   height: 40,
-              // ),
+              const SizedBox(
+                height: 50,
+              ),
               ReusablePrimaryButton(
                   childText: 'Update',
                   buttonColor: const Color(0xffEE0000),
@@ -185,47 +216,32 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  Future getUserDetails() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var userToken = prefs.getString('userToken');
+  Future profileUpdate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userToken = prefs.getString('userToken');
+    userNumber = prefs.getString('mobile');
+    var url =
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/edit";
+    var response = await http.post(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      'Authorization': 'Bearer ' + userToken!,
+    }, body: {
+      "mobile_no": userNumber,
+      "state": "west bengal",
+      "city": "kolkata",
+      "email": emailFull,
+      "name": fullName,
+      "company_name": "bandhan",
+      "gstno": "7895423",
+      "pan_no": "clopa3426p",
+      "address": "kestopur kolkata",
+      "designation": "officer",
+      "pincode": "700102",
+      "image": "save back.png",
+    });
 
-      var url =
-          "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/details";
-      var response = await http.post(Uri.parse(url), headers: {
-        "Accept": "application/json",
-        'Authorization': 'Bearer ' + userToken!,
-      }, body: {
-        "mobile_no": mobileNo,
-      });
+    print(response.body);
 
-      if (response.statusCode == 200) {
-        var jsonString = response.body;
-        userData = json.decode(jsonString);
-        print('////////////////////${response.body}');
-
-        print('///////// Response Is: ${userData}');
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        // String userToken = token;
-
-        prefs.setBool('user', true);
-        prefs.setString('userToken', userToken);
-      } else {
-        print('Data not found');
-        print(userData);
-        // Create a flutter toast.
-        Fluttertoast.showToast(
-            msg: "Data not found",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.blue,
-            textColor: Colors.white,
-            fontSize: 20.0);
-      }
-    } catch (e) {
-      print(e);
-    }
+    var parsedData = json.decode(response.body);
   }
 }
