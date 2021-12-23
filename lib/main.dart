@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/helpers/shared_helper.dart';
+import 'package:sandeep_jwelery/controllers/search.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
-import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/verify_otp.dart';
@@ -23,10 +22,10 @@ Future<void> main() async {
         primarySwatch: Colors.grey,
       ),
       debugShowCheckedModeBanner: false,
-      home: Splash()));
+      home: Home()));
 }
 
-// class MyApp extends StatelessWidget {
+// class MyApp exteHomeScreennds StatelessWidget {
 //   const MyApp({Key? key}) : super(key: key);
 //   @override
 //   Widget build(BuildContext context) {

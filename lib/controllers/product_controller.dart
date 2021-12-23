@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ProductController extends GetxController {
   Future<ProductModel>? dataModelFuture;

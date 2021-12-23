@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:sandeep_jwelery/auth_provider/auth_provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/helpers/keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
-import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
+
 import 'package:http/http.dart' as http;
 
 class VerifyOtpInputScreen extends StatefulWidget {

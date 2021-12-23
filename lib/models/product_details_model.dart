@@ -13,7 +13,6 @@ String productDetailsModelToJson(ProductDetailsModel data) =>
 class ProductDetailsModel {
   ProductDetailsModel({
     required this.data,
-  required  this.detailed_products,
     required this.assets,
     required this.similarProducts,
     required this.status,
@@ -22,26 +21,25 @@ class ProductDetailsModel {
 
   Data data;
   Assets assets;
-  List<Data> detailed_products;
-  List<dynamic> similarProducts;
+  List<SimilarProduct> similarProducts;
   int status;
   String url;
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) =>
       ProductDetailsModel(
-        
         data: Data.fromJson(json["data"]),
         assets: Assets.fromJson(json["assets"]),
-        similarProducts:
-            List<dynamic>.from(json["similar_products"].map((x) => x)),
+        similarProducts: List<SimilarProduct>.from(
+            json["similar_products"].map((x) => SimilarProduct.fromJson(x))),
         status: json["status"],
-        url: json["url"], detailed_products:List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
+        url: json["url"],
       );
 
   Map<String, dynamic> toJson() => {
-         "data": List<dynamic>.from(detailed_products.map((x) => x.toJson())),
+        "data": data.toJson(),
         "assets": assets.toJson(),
-        "similar_products": List<dynamic>.from(similarProducts.map((x) => x)),
+        "similar_products":
+            List<dynamic>.from(similarProducts.map((x) => x.toJson())),
         "status": status,
         "url": url,
       };
@@ -236,13 +234,13 @@ class Gold {
     required this.offerCoupan,
     required this.offerCoupanAmount,
     required this.rate,
+    required this.stonetype,
     required this.diamondChargesOption,
     required this.diaRate,
     required this.color,
     required this.productId,
     required this.materialId,
     required this.materialType,
-    required this.stonetype,
   });
 
   String grossWeight;
@@ -575,5 +573,65 @@ class JewellerySize {
         "sizes": sizes,
         "bangle_size": bangleSize,
         "created_at": createdAt.toIso8601String(),
+      };
+}
+
+class SimilarProduct {
+  SimilarProduct({
+    required this.productId,
+    required this.gst,
+    required this.productcode,
+    required this.productname,
+    required this.priceType,
+    required this.defaultSize,
+    required this.amount,
+    required this.featureImg,
+    required this.purity,
+    required this.grossWeight,
+    required this.totalAmt,
+    required this.totalOfferAmt,
+  });
+
+  int productId;
+  String gst;
+  String productcode;
+  String productname;
+  String priceType;
+  String defaultSize;
+  String amount;
+  String featureImg;
+  String purity;
+  String grossWeight;
+  int totalAmt;
+  int totalOfferAmt;
+
+  factory SimilarProduct.fromJson(Map<String, dynamic> json) => SimilarProduct(
+        productId: json["product_id"],
+        gst: json["GST"],
+        productcode: json["productcode"],
+        productname: json["productname"],
+        priceType: json["price_type"],
+        defaultSize: json["default_size"],
+        amount: json["amount"] == null ? null : json["amount"],
+        featureImg: json["feature_img"],
+        purity: json["purity"] == null ? null : json["purity"],
+        grossWeight: json["gross_weight"],
+        totalAmt: json["total_amt"],
+        totalOfferAmt: json["total_offer_amt"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "product_id": productId,
+        "GST": gst,
+        "productcode": productcode,
+        "productname": productname,
+        "price_type": priceType,
+        "default_size": defaultSize,
+        "amount": amount == null ? null : amount,
+        "feature_img": featureImg,
+        "purity": purity == null ? null : purity,
+        "gross_weight": grossWeight,
+        "total_amt": totalAmt,
+        "total_offer_amt": totalOfferAmt,
       };
 }

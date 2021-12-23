@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:sandeep_jwelery/config.dart';
+import 'package:sandeep_jwelery/models/search_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // class SearchFunction extends StatefulWidget {
 //   @override
@@ -144,8 +149,29 @@ class Search extends SearchDelegate {
     "mint"
   ];
 
+  Future<SearchModel>? _search;
+  var datas;
+  Future fetchData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var cont = prefs.getString('controllerFor');
+    final response = await http
+        .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
+      "search": cont,
+    }, headers: {
+      "Accept": "application/json"
+    });
+    if (response.statusCode == 200) {
+      data = jsonDecode(response.body);
+      print('Search Data${datas}');
+    }
+    return datas;
+    
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
+    
     return <Widget>[
       IconButton(
           icon: Icon(Icons.clear),
@@ -168,7 +194,7 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (data.contains(query.toLowerCase())) {
+    if (datas.contains(query.toLowerCase())) {
       return ListTile(
         title: Text(
           query,

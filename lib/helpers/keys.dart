@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:meta/meta.dart';
 
 class FlutterKeychain {
   static const MethodChannel _channel =

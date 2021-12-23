@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/components/additional_options_listview.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
@@ -10,7 +7,6 @@ import 'package:sandeep_jwelery/controllers/user_controller.dart';
 import 'package:sandeep_jwelery/models/profile_model.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 import 'package:sandeep_jwelery/screens/profile_edit.dart';
-import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/screens/track_order.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

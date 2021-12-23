@@ -51,40 +51,47 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   bool tapped = false;
   int groupValue = 0;
 
-  // var productJson = [];
-  // Future<ProductDetailsModel> fetchProductsDetails() async {
-  //   final response = await http
-  //       .post(Uri.parse('${AppConfig.BASE_URL}/product_detail'), headers: {
-  //     'Accept': 'application/json',
-  //   }, body: {
-  //     'product_id': widget.prodId.toString(),
-  //   });
-  //   final jsonData = jsonDecode(response.body);
+  // Future<ProductDetailsModel>? detailsModelFuture;
+  // var datamodel;
+  // // product details function
+  // Future<ProductDetailsModel> getProductDetails() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //   dataModel = ProductDetailsModel.fromJson(jsonData);
-  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var id = prefs.getString('prodDetailsId');
+  //   var response = await http.post(
+  //     Uri.parse(
+  //       "${AppConfig.BASE_URL}/product_detail",
+  //     ),
+  //     headers: {
+  //       "Accept": "application/json",
+  //     },
+  //     body: {
+  //       "product_id": widget.prodId.toString(),
+  //     },
+  //   );
 
-  //   // prefs.setString('prodDetailsId', widget.prodId.toString());
+  //   if (response.statusCode == 200) {
+  //     var jsonResponse = json.decode(response.body);
 
-  //   print('Details Data///// /${dataModel}');
+  //     datamodel = ProductDetailsModel.fromJson(jsonResponse);
 
-  //   setState(() {
-  //     productJson = fetchProductsDetails() as List<dynamic>;
-  //   });
-  //   return dataModel;
+  //     print('Data//.../////.///${response.body}');
+  //     print('Data Two//.../////.///${datamodel.data.product_name}');
+  //   } else {
+  //     throw Exception('Failed to load post');
+  //   }
+  //   return datamodel;
   // }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   fetchProductsDetails();
-  // }
+  Future<ProductDetailsModel>? productDetailsModelFuture;
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // final datas = ModalRoute.of(context)!.settings.arguments;
-
+    setState(() {});
     return Scaffold(
       appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -166,25 +173,38 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 child: Text("datas.productname",
                     style: TextStyle(fontSize: 23, color: Colors.white)),
               ),
-              // ElevatedButton(
-              //     onPressed: () {
-
-              //     },
-              //     child: Text('Done')),
-
+              ElevatedButton(onPressed: () {}, child: Text('Done')),
               FutureBuilder<ProductDetailsModel>(
-                  future: productDetailsController.dataModelFuture,
+                  future: productDetailsModelFuture,
                   builder: (context, snapshot) {
-                    var dataModel = snapshot.data;
-                    return ListView.builder(
-                        itemCount: dataModel!.detailed_products.length,
-                        itemBuilder: (context, index) {
-                          return Text(
-                            dataModel.data.productname,
-                            style: TextStyle(color: Colors.white),
-                          );
-                        });
+                    if (snapshot.hasData) {
+                      print(" show data on screen " +
+                          snapshot.data!.data.jwelleryName);
+                      return ListView.builder(itemBuilder: (context, index) {
+                        return Text(snapshot.data!.data.jwelleryName);
+                      });
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    // By default, show a loading spinner
+                    return CircularProgressIndicator();
                   }),
+
+              // FutureBuilder<ProductDetailsModel>(
+              //     future: fetchProductsDetails(),
+              //     builder: (context, snapshot) {
+              //       return ListView.builder(
+              //           itemCount: productJson,
+              //           itemBuilder: (context, index) {
+              //             var datas = snapshot.data!.data[index];
+              //             print('Data///// /${datas.productname}');
+              //             return Text(
+              //               datas.productname,
+              //               style: TextStyle(color: Colors.white),
+              //             );
+              //           });
+              //     }),
+
               const SizedBox(
                 height: 10,
               ),
