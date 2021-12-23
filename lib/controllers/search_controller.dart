@@ -14,7 +14,7 @@ class SearchController extends GetxController {
   Future<SearchModel> fetchData(String val) async {
     final response = await http
         .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
-      "search": controller.text,
+      "search": val,
     }, headers: {
       "Accept": "application/json"
     });
