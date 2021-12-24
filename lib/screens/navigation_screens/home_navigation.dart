@@ -186,7 +186,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (c) => ProductDetailView(
-                                        prodId: datas.id,
+                                        prodId: datas.id.toString(),
                                       ),
                                     ),
                                   );

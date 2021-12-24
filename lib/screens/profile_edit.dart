@@ -51,9 +51,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       emailFull = prefs.getString('email');
       mobileNo = prefs.getString('mobile');
 
-      print(fullName);
-      print(emailFull);
-      print(mobileNo);
+      // print(fullName);
+      // print(emailFull);
+      // print(mobileNo);
     });
   }
 

@@ -358,7 +358,7 @@ class Data {
     required this.totalOfferAmt,
   });
 
-  int productId;
+  String productId;
   String categoryId;
   String gst;
   String category;
@@ -592,7 +592,7 @@ class SimilarProduct {
     required this.totalOfferAmt,
   });
 
-  int productId;
+  String productId;
   String gst;
   String productcode;
   String productname;

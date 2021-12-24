@@ -100,15 +100,10 @@ class _HomeState extends State<Home> {
                           itemBuilder: (context, index) {
                             var img = searchController.data['data'][index]
                                 ['feature_img'];
-                            // var img2 = searchController.data['data'];
 
-                            // var useImage = snapshot.data!.url + img;
-                            // var image = '${img}';
                             var useImage =
                                 'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/img/product/' +
                                     '${img}';
-
-                            // print('Fuck Is: ${img}');
 
                             return InkWell(
                               onTap: () {

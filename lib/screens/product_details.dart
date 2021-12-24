@@ -24,7 +24,7 @@ final productDetailsCotroller = Get.put(ProductDetailsController());
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
-  late int prodId;
+  String prodId;
 
   ProductDetailView({
     required this.prodId,
@@ -38,7 +38,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   final List<String> imgList = [
     "assets/images/jew2.png",
     "assets/images/jew3.png",
-    "assets/images/jew2.png",
   ];
 
   final productDetailsController = Get.put(ProductDetailsController());
@@ -51,41 +50,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   bool tapped = false;
   int groupValue = 0;
 
-  // Future<ProductDetailsModel>? detailsModelFuture;
-  // var datamodel;
-  // // product details function
-  // Future<ProductDetailsModel> getProductDetails() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   var id = prefs.getString('prodDetailsId');
-  //   var response = await http.post(
-  //     Uri.parse(
-  //       "${AppConfig.BASE_URL}/product_detail",
-  //     ),
-  //     headers: {
-  //       "Accept": "application/json",
-  //     },
-  //     body: {
-  //       "product_id": widget.prodId.toString(),
-  //     },
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     var jsonResponse = json.decode(response.body);
-
-  //     datamodel = ProductDetailsModel.fromJson(jsonResponse);
-
-  //     print('Data//.../////.///${response.body}');
-  //     print('Data Two//.../////.///${datamodel.data.product_name}');
-  //   } else {
-  //     throw Exception('Failed to load post');
-  //   }
-  //   return datamodel;
-  // }
-
   Future<ProductDetailsModel>? productDetailsModelFuture;
   void initState() {
     super.initState();
+    productDetailsController.getProdCall(widget.prodId.toString());
   }
 
   @override
@@ -97,10 +65,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           iconTheme: const IconThemeData(
             color: Colors.white, //change your color here
           ),
-          title: Text(
-            '..,',
-            style: TextStyle(color: Colors.white),
-          ),
+          title: FutureBuilder<ProductDetailsModel>(
+              future: productDetailsController.detailsModelFuture,
+              builder: (context, snapshot) {
+                return Container(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                      productDetailsController.parsedData['data']
+                          ['jwellery_name'],
+                      style: TextStyle(color: Colors.white)),
+                );
+                // By default, show a loading spinner
+              }),
           backgroundColor: Colors.transparent),
       body: SingleChildScrollView(
         child: Padding(
@@ -168,53 +144,46 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                alignment: Alignment.bottomLeft,
-                child: Text("datas.productname",
-                    style: TextStyle(fontSize: 23, color: Colors.white)),
-              ),
-              ElevatedButton(onPressed: () {}, child: Text('Done')),
+              // Container(
+              //   alignment: Alignment.bottomLeft,
+              //   child: Text("datas.productname",
+              //       style: TextStyle(fontSize: 23, color: Colors.white)),
+              // ),
               FutureBuilder<ProductDetailsModel>(
-                  future: productDetailsModelFuture,
+                  future: productDetailsController.detailsModelFuture,
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      print(" show data on screen " +
-                          snapshot.data!.data.jwelleryName);
-                      return ListView.builder(itemBuilder: (context, index) {
-                        return Text(snapshot.data!.data.jwelleryName);
-                      });
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
+                    return Container(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                          productDetailsController.parsedData['data']
+                              ['jwellery_name'],
+                          style: TextStyle(fontSize: 23, color: Colors.white)),
+                    );
                     // By default, show a loading spinner
-                    return CircularProgressIndicator();
                   }),
-
-              // FutureBuilder<ProductDetailsModel>(
-              //     future: fetchProductsDetails(),
-              //     builder: (context, snapshot) {
-              //       return ListView.builder(
-              //           itemCount: productJson,
-              //           itemBuilder: (context, index) {
-              //             var datas = snapshot.data!.data[index];
-              //             print('Data///// /${datas.productname}');
-              //             return Text(
-              //               datas.productname,
-              //               style: TextStyle(color: Colors.white),
-              //             );
-              //           });
-              //     }),
 
               const SizedBox(
                 height: 10,
               ),
               Row(
                 children: [
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    child: Text('₹ ${"widget.prodPrice"}',
-                        style: TextStyle(fontSize: 25, color: Colors.white)),
-                  ),
+                  // Container(
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: Text('₹ ${"widget.prodPrice"}',
+                  //       style: TextStyle(fontSize: 25, color: Colors.white)),
+                  // ),
+                  FutureBuilder<ProductDetailsModel>(
+                      future: productDetailsController.detailsModelFuture,
+                      builder: (context, snapshot) {
+                        return Container(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                              '₹ ${productDetailsController.parsedData['data']['amount']}',
+                              style:
+                                  TextStyle(fontSize: 25, color: Colors.white)),
+                        );
+                        // By default, show a loading spinner
+                      }),
                   const SizedBox(
                     width: 10,
                   ),
