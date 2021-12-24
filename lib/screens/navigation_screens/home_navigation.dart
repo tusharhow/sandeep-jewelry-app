@@ -187,6 +187,11 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                     MaterialPageRoute(
                                       builder: (c) => ProductDetailView(
                                         prodId: datas.id.toString(),
+                                        img: img,
+                                        color: datas.color,
+                                        prodName: datas.jwelleryName,
+                                        size: datas.defaultSize,
+                                        items: datas.defaultSize,
                                       ),
                                     ),
                                   );

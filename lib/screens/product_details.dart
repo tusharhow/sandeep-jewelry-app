@@ -12,22 +12,31 @@ import 'package:sandeep_jwelery/components/about_this_product.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
-import 'package:sandeep_jwelery/config.dart';
+import 'package:sandeep_jwelery/controllers/add_cart_controller.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/models/product_details_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-final cartCotroller = Get.put(CartCotroller());
+final cartCotroller = Get.put(CartController());
 final productDetailsCotroller = Get.put(ProductDetailsController());
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   String prodId;
+  String size;
+  String items;
+  String prodName;
+  String color;
+  String img;
 
   ProductDetailView({
     required this.prodId,
+    required this.size,
+    required this.items,
+    required this.prodName,
+    required this.img,
+    required this.color,
   });
 
   @override
@@ -41,6 +50,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   ];
 
   final productDetailsController = Get.put(ProductDetailsController());
+  final cartController = Get.put(CartController());
 
   int tag = 1;
   List<String> options = [
@@ -54,6 +64,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   void initState() {
     super.initState();
     productDetailsController.getProdCall(widget.prodId.toString());
+    cartController.addCart(
+      widget.prodId,
+      widget.size,
+      widget.items,
+      widget.prodName,
+      widget.color,
+      widget.img,
+    );
   }
 
   @override
@@ -328,8 +346,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GetBuilder<CartCotroller>(
-                            init: CartCotroller(),
+                        GetBuilder<CartCotrollerIncreaments>(
+                            init: CartCotrollerIncreaments(),
                             builder: (_) {
                               return TextButton(
                                   onPressed: () {
@@ -341,8 +359,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                         fontSize: 30, color: Colors.amber),
                                   ));
                             }),
-                        GetBuilder<CartCotroller>(
-                            init: CartCotroller(),
+                        GetBuilder<CartCotrollerIncreaments>(
+                            init: CartCotrollerIncreaments(),
                             builder: (_) {
                               return Text(
                                 '${_.counter}',
@@ -350,8 +368,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                     fontSize: 18, color: Colors.white),
                               );
                             }),
-                        GetBuilder<CartCotroller>(
-                            init: CartCotroller(),
+                        GetBuilder<CartCotrollerIncreaments>(
+                            init: CartCotrollerIncreaments(),
                             builder: (_) {
                               return TextButton(
                                 onPressed: () {
