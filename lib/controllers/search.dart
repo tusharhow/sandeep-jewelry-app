@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/controllers/search_controller.dart';
 import 'package:sandeep_jwelery/models/search_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';

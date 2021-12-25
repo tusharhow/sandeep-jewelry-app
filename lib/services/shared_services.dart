@@ -1,11 +1,4 @@
-import 'dart:convert';
-
 import 'package:api_cache_manager/api_cache_manager.dart';
-import 'package:api_cache_manager/models/cache_db_model.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:sandeep_jwelery/models/login_response.dart';
-import 'package:sandeep_jwelery/screens/auth/verify_otp.dart';
 
 class SharedServices {
   static Future<bool> isLoggedIn() async {

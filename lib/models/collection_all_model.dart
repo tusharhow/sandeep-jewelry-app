@@ -17,19 +17,19 @@ class CollectionAllModel {
     required this.url,
   });
 
-  Datum data;
+  List<Datum> data;
   int status;
   String url;
 
   factory CollectionAllModel.fromJson(Map<String, dynamic> json) =>
       CollectionAllModel(
-        data: Datum.fromJson(json["data"]),
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
         status: json["status"],
         url: json["url"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "status": status,
         "url": url,
       };

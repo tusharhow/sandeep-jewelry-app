@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/helpers/shared_helper.dart';
 import 'dart:convert';
 import 'package:sandeep_jwelery/models/login_response.dart';

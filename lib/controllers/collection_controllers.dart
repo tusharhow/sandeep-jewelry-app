@@ -8,14 +8,14 @@ class CollectionController extends GetxController {
   var isLoading = true.obs;
   Future<CollectionAllModel>? dataModelFuture;
   Future<CollectionAllModel> getAllCollection() async {
-    isLoading(true);
+    // isLoading(true);
     var url =
         'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/collection';
 
     final response = await http.post(Uri.parse(url), headers: {
       "Accept": "application/json",
     }, body: {
-      "collection": "Womens",
+      "collection": "",
     });
     // print(" url call from " + url);
     if (response.statusCode == 200) {
@@ -31,5 +31,11 @@ class CollectionController extends GetxController {
       throw Exception('Failed to get data');
     }
     return parsedData;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    dataModelFuture = getAllCollection();
   }
 }

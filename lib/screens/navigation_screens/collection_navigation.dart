@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/controllers/collection_controllers.dart';
-import 'package:sandeep_jwelery/controllers/product_controller.dart';
 import 'package:sandeep_jwelery/models/collection_all_model.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
-import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -326,25 +324,16 @@ class _ShoppingPageState extends State<ShoppingPage> {
               //           }),
               // ),
 
-              // FutureBuilder<CollectionAllModel>(
-              //     future: collectionController.dataModelFuture,
-              //     builder: (context, snapshot) {
-              //       return Text(
-              //           collectionController.parsedData['data']['category']);
-              //     }),
-              Text(
-                'data',
-                style: TextStyle(color: Colors.white),
-              ),
-
               FutureBuilder<CollectionAllModel>(
                   future: collectionController.dataModelFuture,
                   builder: (context, snapshot) {
+                    var datas = collectionController.parsedData['data'][0];
                     return Text(
-                      collectionController.parsedData['data']['category'],
+                      datas['category'],
                       style: TextStyle(color: Colors.white),
                     );
                   }),
+
               //     Icon(Icons.home_filled),
               //     Icon(Icons.home_filled),
               //     Icon(

@@ -1,5 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'dart:convert';
 
 import 'package:carousel_pro/carousel_pro.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -15,7 +13,6 @@ import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/add_cart_controller.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
-import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/models/product_details_model.dart';
 
 final cartCotroller = Get.put(CartController());
