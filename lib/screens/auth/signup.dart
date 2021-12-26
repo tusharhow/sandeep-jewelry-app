@@ -1,4 +1,3 @@
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -242,65 +241,6 @@ class _SignUpState extends State<SignUp> {
                           Registration();
                           print('clicked');
                         }),
-                    // isChecked == true
-                    //     ? Navigator.pushAndRemoveUntil(
-                    //         context,
-                    //         push(
-                    //             context: context,
-                    //             widget: const VerifyOtpInputScreen()),
-                    //         (route) => false)
-                    //     : showModalBottomSheet(
-                    //         context: context,
-                    //         builder: (context) {
-                    //           return Column(
-                    //             mainAxisSize: MainAxisSize.min,
-                    //             children: <Widget>[
-                    //               ListTile(
-                    //                 leading: const Icon(Icons.photo),
-                    //                 title: const Text(
-                    //                   'Make sure you are agree to our terms and conditions',
-                    //                   style:
-                    //                       TextStyle(color: Colors.white),
-                    //                 ),
-                    //                 onTap: () {
-                    //                   Navigator.pop(context);
-                    //                 },
-                    //               ),
-                    //             ],
-                    //           );
-                    // RegisterRequestModel model = RegisterRequestModel(
-                    //   mobileNo: _phoneController.text,
-                    //   agentCode: "0042",
-                    //   email: _emailController.text,
-                    //   name: _nameController.text,
-                    //   panNo: 'BBDER551',
-                    //   type: 'user',
-                    // );
-                    // APIService.register(model).then((response) {
-                    //   if (response.success != 201) {
-                    //     FormHelper.showSimpleAlertDialog(
-                    //         context,
-                    //         AppConfig.appName,
-                    //         'Account Successfully created',
-                    //         'Ok', () {
-                    //       Navigator.of(context);
-                    //     });
-                    //     Navigator.pushAndRemoveUntil(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => VerifyOtp()),
-                    //         (route) => false);
-                    //   } else {
-                    //     FormHelper.showSimpleAlertDialog(
-                    //         context,
-                    //         AppConfig.appName,
-                    //         'Something went wrong',
-                    //         'Ok', () {
-                    //       Navigator.of(context);
-                    //     });
-                    //   }
-                    // });
-
                     const SizedBox(
                       height: 15,
                     ),
@@ -313,32 +253,6 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
-  // callRegisterApi() {
-  //   final service = ApiServices();
-
-  //   service.apiCallRegister({
-  // "name": _nameController.text,
-  // "email": _emailController.text,
-  // "agent_code": "0042",
-  // "type": "user",
-  // "mobile_no": _phoneController.text,
-  // "pan_no": "BBDER551",
-  //   }).then((value) => {
-  //         if (value.error != null)
-  //           {
-  //             Toast.show(value.error, context,
-  //                 duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM)
-  //           }
-  //         else
-  //           {
-  //             Navigator.pushAndRemoveUntil(
-  //                 context,
-  //                 MaterialPageRoute(builder: (context) => VerifyOtp()),
-  //                 (route) => false),
-  //           }
-  //       });
-  // }
 
   Future Registration() async {
     var url =
@@ -361,17 +275,6 @@ class _SignUpState extends State<SignUp> {
       prefs.setString('fullname', _nameController.text);
       prefs.setString('email', _emailController.text);
       prefs.setString('mobile', _phoneController.text);
-
-      // await FlutterKeychain.put(
-      //     key: "pinkUserToken", value: registerAr['token'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserName", value: registerAr['name'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserUserID", value: registerAr['id'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserEmail", value: registerAr['email'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserPhone", value: registerAr['mobile_no'].toString());
 
       push(
           context: context,

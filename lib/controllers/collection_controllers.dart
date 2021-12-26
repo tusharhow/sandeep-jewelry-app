@@ -8,27 +8,27 @@ class CollectionController extends GetxController {
   var isLoading = true.obs;
   Future<CollectionAllModel>? dataModelFuture;
   Future<CollectionAllModel> getAllCollection() async {
-    // isLoading(true);
-    var url =
-        'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/collection';
-
-    final response = await http.post(Uri.parse(url), headers: {
-      "Accept": "application/json",
-    }, body: {
-      "collection": "",
-    });
-    // print(" url call from " + url);
-    if (response.statusCode == 200) {
-      // print('url hit successful' + response.body);
-
-      parsedData = json.decode(response.body);
-      print('Collection Data hit successful ' + '${parsedData}');
-      // print(parsedData);
-      isLoading(false);
-    } else {
+    try {
       isLoading(true);
-      print('failed to get data');
-      throw Exception('Failed to get data');
+      var url =
+          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/collection';
+
+      final response = await http.post(Uri.parse(url), headers: {
+        "Accept": "application/json",
+      }, body: {
+        "collection": "",
+      });
+      // print(" url call from " + url);
+      if (response.statusCode == 200) {
+        // print('url hit successful' + response.body);
+
+        parsedData = json.decode(response.body);
+        print('Collection Data hit successful ' + '${parsedData}');
+        // print(parsedData);
+        isLoading(false);
+      }
+    } catch (e) {
+      print(e);
     }
     return parsedData;
   }

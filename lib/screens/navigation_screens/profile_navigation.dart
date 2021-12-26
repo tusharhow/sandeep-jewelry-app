@@ -24,8 +24,6 @@ String? userToken;
 
 String? authUser;
 var profileArr;
-bool? _profileLoad;
-
 var apiName;
 var userData;
 
