@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sandeep_jwelery/components/list_tile_card.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
@@ -14,6 +15,7 @@ import 'package:sandeep_jwelery/controllers/product_controller.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
 import 'package:sandeep_jwelery/screens/category_details.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
+import 'package:sandeep_jwelery/screens/view_all_products.dart';
 
 final productController = Get.put(ProductController());
 
@@ -321,7 +323,9 @@ class _HomeNavigationState extends State<HomeNavigation> {
               const SizedBox(height: 15),
               Center(
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    push(context: context, widget: ViewAllProducts());
+                  },
                   child: const Text(
                     'View all',
                     style: TextStyle(color: Colors.white),
