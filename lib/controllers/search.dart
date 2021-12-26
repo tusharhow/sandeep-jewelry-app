@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   TextEditingController controller = new TextEditingController();
 
   String currentValue = "";
-
+  var searchVal;
   Future fetchString() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -49,14 +49,13 @@ class _HomeState extends State<Home> {
                         // print("searchValueLength" + value.length.toString());
                         setState(() {
                           if (value.isNotEmpty) {
-                            var searchVal =
-                                value.trim().toLowerCase().toString();
+                            searchVal = value.trim().toLowerCase().toString();
 
                             searchController.fetchData(searchVal);
-                          } else if (value.isEmpty) {
-                            searchController.fetchData('');
+                          } else if (searchVal.isEmpty) {
+                            print('Empty');
                           } else {
-                            searchController.fetchData('');
+                            print('Else');
                           }
 
                           // SharedPreferences prefs =
@@ -81,7 +80,7 @@ class _HomeState extends State<Home> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    fetchString();
+                    searchController.fetchData(searchVal);
 
                     print('Seacrched: ${searchController.controller.text}');
                   },
@@ -127,8 +126,7 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  searchController.controller ==
-                                                          ''
+                                                  searchVal == ''
                                                       ? ''
                                                       : searchController
                                                           .data['data'][index]
@@ -143,8 +141,7 @@ class _HomeState extends State<Home> {
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  searchController.controller ==
-                                                          ''
+                                                  searchVal == ''
                                                       ? ''
                                                       : searchController
                                                           .data['data'][index]

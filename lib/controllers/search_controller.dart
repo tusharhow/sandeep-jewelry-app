@@ -10,24 +10,32 @@ class SearchController extends GetxController {
   TextEditingController controller = new TextEditingController();
   var searcModelFuture;
   var data;
-
+  var value;
   Future<SearchModel> fetchData(String val) async {
-    final response = await http
-        .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
-      "search": val,
-    }, headers: {
-      "Accept": "application/json"
-    });
+    try {
+      final response = await http
+          .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
+        "search": val,
+      }, headers: {
+        "Accept": "application/json"
+      });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('controllerFor', controller.text);
-    if (response.statusCode == 200) {
-      data = jsonDecode(response.body);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      value = prefs.setString('controllerFor', val);
+      if (response.statusCode == 200) {
+        data = jsonDecode(response.body);
 
-      // print('Search Data: ${data}');
-    } else {
-      print('No search data');
+        // print('Search Data: ${data}');
+      }
+    } catch (e) {
+      print(e);
     }
     return data;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    searcModelFuture = fetchData(value);
   }
 }

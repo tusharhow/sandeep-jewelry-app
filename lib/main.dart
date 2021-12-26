@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/controllers/search.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
         primarySwatch: Colors.grey,
       ),
       debugShowCheckedModeBanner: false,
-      home: Splash()));
+      home: Home()));
 }
 
 // class MyApp exteHomeScreennds StatelessWidget {
