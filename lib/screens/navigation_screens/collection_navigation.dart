@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/controllers/collection_controllers.dart';
@@ -22,330 +24,376 @@ class _ShoppingPageState extends State<ShoppingPage> {
   // final collectionController = Get.put(ProductController());
   final collectionController = Get.put(CollectionController());
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   collectionController.getAllCollection();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    collectionController.getAllCollection();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (isListView == true) {
-                            isListView = false;
-                          } else {
-                            isListView = true;
-                          }
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
                           setState(() {
-                            if (isClicked == false) {
-                              isClicked = true;
+                            if (isListView == true) {
+                              isListView = false;
                             } else {
-                              isClicked = false;
+                              isListView = true;
                             }
+                            setState(() {
+                              if (isClicked == false) {
+                                isClicked = true;
+                              } else {
+                                isClicked = false;
+                              }
+                            });
                           });
-                        });
-                      },
-                      child: Image(
-                        image: isClicked
-                            ? const AssetImage('assets/icons/grid2.png')
-                            : const AssetImage('assets/icons/list.png'),
+                        },
+                        child: Image(
+                          image: isClicked
+                              ? const AssetImage('assets/icons/grid2.png')
+                              : const AssetImage('assets/icons/list.png'),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              // const Category(),
+                // const Category(),
 
-              // TabBar(
-              //   labelColor: Colors.white,
-              //   automaticIndicatorColorAdjustment: true,
-              //   indicatorColor: const Color(0xffFDD700),
-              //   labelStyle: TextStyle(
-              //     fontSize: 16,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              //   tabs: [
-              //     Tab(
-              //       height: 40,
-              //       text: "All",
-              //     ),
-              //     Tab(
-              //       height: 40,
-              //       text: "Mens",
-              //     ),
-              //     Tab(
-              //       height: 40,
-              //       text: "Womens",
-              //     ),
-              //     Tab(
-              //       height: 40,
-              //       text: "Kids",
-              //     ),
-              //   ],
-              // ),
+                // TabBar(
+                //   labelColor: Colors.white,
+                //   automaticIndicatorColorAdjustment: true,
+                //   indicatorColor: const Color(0xffFDD700),
+                //   labelStyle: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                //   tabs: [
+                //     Tab(
+                //       height: 40,
+                //       text: "All",
+                //     ),
+                //     Tab(
+                //       height: 40,
+                //       text: "Mens",
+                //     ),
+                //     Tab(
+                //       height: 40,
+                //       text: "Womens",
+                //     ),
+                //     Tab(
+                //       height: 40,
+                //       text: "Kids",
+                //     ),
+                //   ],
+                // ),
 
-              // Expanded(
-              //   child: TabBarView(children: [
-              // Expanded(
-              //   child: isListView
-              //       ? FutureBuilder<ProductModel>(
-              //           future: collectionController.dataModelFuture,
-              //           builder: (context, snapshot) {
-              //             if (snapshot.hasData) {
-              //               return ListView.builder(
-              //                   itemCount: snapshot.data!.data.length,
-              //                   itemBuilder: (context, index) {
-              //                     var dataList =
-              //                         snapshot.data!.data[index];
+                // Expanded(
+                //   child: TabBarView(children: [
+                // Expanded(
+                //   child: isListView
+                //       ? FutureBuilder<ProductModel>(
+                //           future: collectionController.dataModelFuture,
+                //           builder: (context, snapshot) {
+                //             if (snapshot.hasData) {
+                //               return ListView.builder(
+                //                   itemCount: snapshot.data!.data.length,
+                //                   itemBuilder: (context, index) {
+                //                     var dataList =
+                //                         snapshot.data!.data[index];
 
-              //                     var img =
-              //                         '${snapshot.data!.url + '/' + dataList.image}';
-              //                     return Card(
-              //                       color: Colors.white10,
-              //                       margin: const EdgeInsets.symmetric(
-              //                           vertical: 8),
-              //                       child: InkWell(
-              //                         onTap: () {
-              //                           print('clicked list');
-              //                           // Navigator.push(
-              //                           //     context,
-              //                           // MaterialPageRoute(
-              //                           //   builder: (c) => const ProductDetailView(),
-              //                           //   settings: RouteSettings(
-              //                           //     arguments: dataList[index],
-              //                           //   ),
-              //                           // ));
-              //                         },
-              //                         child: Column(
-              //                           crossAxisAlignment:
-              //                               CrossAxisAlignment.center,
-              //                           children: [
-              //                             Stack(
-              //                               children: [
-              //                                 Container(
-              //                                   height: 150,
-              //                                   width:
-              //                                       MediaQuery.of(context)
-              //                                               .size
-              //                                               .width /
-              //                                           1.15,
-              //                                   decoration: BoxDecoration(
-              //                                     borderRadius:
-              //                                         BorderRadius
-              //                                             .circular(15),
-              //                                   ),
-              //                                   child: Row(
-              //                                     children: [
-              //                                       Padding(
-              //                                         padding:
-              //                                             const EdgeInsets
-              //                                                     .symmetric(
-              //                                                 horizontal:
-              //                                                     10),
-              //                                         child: Image(
-              //                                           image:
-              //                                               NetworkImage(
-              //                                                   img),
-              //                                         ),
-              //                                       ),
-              //                                       const SizedBox(
-              //                                         width: 20,
-              //                                       ),
-              //                                       Column(
-              //                                         crossAxisAlignment:
-              //                                             CrossAxisAlignment
-              //                                                 .center,
-              //                                         children: [
-              //                                           const SizedBox(
-              //                                             height: 50,
-              //                                           ),
-              //                                           Text(
-              //                                             dataList
-              //                                                 .productname,
-              //                                             textAlign:
-              //                                                 TextAlign
-              //                                                     .justify,
-              //                                             style: const TextStyle(
-              //                                                 color: Colors
-              //                                                     .white,
-              //                                                 fontSize:
-              //                                                     17),
-              //                                           ),
-              //                                           const SizedBox(
-              //                                             height: 10,
-              //                                           ),
-              //                                           Row(
-              //                                             children: [
-              //                                               Text(
-              //                                                 dataList
-              //                                                     .description,
-              //                                                 textAlign:
-              //                                                     TextAlign
-              //                                                         .center,
-              //                                                 maxLines: 1,
-              //                                                 textWidthBasis:
-              //                                                     TextWidthBasis
-              //                                                         .longestLine,
-              //                                                 style: const TextStyle(
-              //                                                     color: Colors
-              //                                                         .white,
-              //                                                     fontSize:
-              //                                                         13),
-              //                                               ),
-              //                                             ],
-              //                                           ),
-              //                                           const SizedBox(
-              //                                             height: 10,
-              //                                           ),
-              //                                           Text(
-              //                                             ' \$${dataList.amount}',
-              //                                             textAlign:
-              //                                                 TextAlign
-              //                                                     .justify,
-              //                                             style: const TextStyle(
-              //                                                 color: Colors
-              //                                                     .white,
-              //                                                 fontSize:
-              //                                                     17),
-              //                                           ),
-              //                                         ],
-              //                                       )
-              //                                     ],
-              //                                   ),
-              //                                 ),
-              //                               ],
-              //                             )
-              //                           ],
-              //                         ),
-              //                       ),
-              //                     );
-              //                   });
-              //             } else if (snapshot.hasError) {
-              //               return Text("${snapshot.error}");
-              //             }
-              //             return const Center(
-              //               child: CircularProgressIndicator(),
-              //             );
-              //           })
-              //       : FutureBuilder<ProductModel>(
-              //           future: collectionController.dataModelFuture,
-              //           builder: (context, snapshot) {
-              //             if (snapshot.hasData) {
-              //               return GridView.builder(
-              //                 gridDelegate:
-              //                     const SliverGridDelegateWithFixedCrossAxisCount(
-              //                   crossAxisCount: 2,
-              //                 ),
-              //                 itemCount: snapshot.data!.data.length,
-              //                 itemBuilder:
-              //                     (BuildContext context, int index) {
-              //                   var dataList = snapshot.data!.data[index];
+                //                     var img =
+                //                         '${snapshot.data!.url + '/' + dataList.image}';
+                //                     return Card(
+                //                       color: Colors.white10,
+                //                       margin: const EdgeInsets.symmetric(
+                //                           vertical: 8),
+                //                       child: InkWell(
+                //                         onTap: () {
+                //                           print('clicked list');
+                //                           // Navigator.push(
+                //                           //     context,
+                //                           // MaterialPageRoute(
+                //                           //   builder: (c) => const ProductDetailView(),
+                //                           //   settings: RouteSettings(
+                //                           //     arguments: dataList[index],
+                //                           //   ),
+                //                           // ));
+                //                         },
+                //                         child: Column(
+                //                           crossAxisAlignment:
+                //                               CrossAxisAlignment.center,
+                //                           children: [
+                //                             Stack(
+                //                               children: [
+                //                                 Container(
+                //                                   height: 150,
+                //                                   width:
+                //                                       MediaQuery.of(context)
+                //                                               .size
+                //                                               .width /
+                //                                           1.15,
+                //                                   decoration: BoxDecoration(
+                //                                     borderRadius:
+                //                                         BorderRadius
+                //                                             .circular(15),
+                //                                   ),
+                //                                   child: Row(
+                //                                     children: [
+                //                                       Padding(
+                //                                         padding:
+                //                                             const EdgeInsets
+                //                                                     .symmetric(
+                //                                                 horizontal:
+                //                                                     10),
+                //                                         child: Image(
+                //                                           image:
+                //                                               NetworkImage(
+                //                                                   img),
+                //                                         ),
+                //                                       ),
+                //                                       const SizedBox(
+                //                                         width: 20,
+                //                                       ),
+                //                                       Column(
+                //                                         crossAxisAlignment:
+                //                                             CrossAxisAlignment
+                //                                                 .center,
+                //                                         children: [
+                //                                           const SizedBox(
+                //                                             height: 50,
+                //                                           ),
+                //                                           Text(
+                //                                             dataList
+                //                                                 .productname,
+                //                                             textAlign:
+                //                                                 TextAlign
+                //                                                     .justify,
+                //                                             style: const TextStyle(
+                //                                                 color: Colors
+                //                                                     .white,
+                //                                                 fontSize:
+                //                                                     17),
+                //                                           ),
+                //                                           const SizedBox(
+                //                                             height: 10,
+                //                                           ),
+                //                                           Row(
+                //                                             children: [
+                //                                               Text(
+                //                                                 dataList
+                //                                                     .description,
+                //                                                 textAlign:
+                //                                                     TextAlign
+                //                                                         .center,
+                //                                                 maxLines: 1,
+                //                                                 textWidthBasis:
+                //                                                     TextWidthBasis
+                //                                                         .longestLine,
+                //                                                 style: const TextStyle(
+                //                                                     color: Colors
+                //                                                         .white,
+                //                                                     fontSize:
+                //                                                         13),
+                //                                               ),
+                //                                             ],
+                //                                           ),
+                //                                           const SizedBox(
+                //                                             height: 10,
+                //                                           ),
+                //                                           Text(
+                //                                             ' \$${dataList.amount}',
+                //                                             textAlign:
+                //                                                 TextAlign
+                //                                                     .justify,
+                //                                             style: const TextStyle(
+                //                                                 color: Colors
+                //                                                     .white,
+                //                                                 fontSize:
+                //                                                     17),
+                //                                           ),
+                //                                         ],
+                //                                       )
+                //                                     ],
+                //                                   ),
+                //                                 ),
+                //                               ],
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     );
+                //                   });
+                //             } else if (snapshot.hasError) {
+                //               return Text("${snapshot.error}");
+                //             }
+                //             return const Center(
+                //               child: CircularProgressIndicator(),
+                //             );
+                //           })
+                //       : FutureBuilder<ProductModel>(
+                //           future: collectionController.dataModelFuture,
+                //           builder: (context, snapshot) {
+                //             if (snapshot.hasData) {
+                //               return GridView.builder(
+                //                 gridDelegate:
+                //                     const SliverGridDelegateWithFixedCrossAxisCount(
+                //                   crossAxisCount: 2,
+                //                 ),
+                //                 itemCount: snapshot.data!.data.length,
+                //                 itemBuilder:
+                //                     (BuildContext context, int index) {
+                //                   var dataList = snapshot.data!.data[index];
 
-              //                   var img =
-              //                       '${snapshot.data!.url + '/' + dataList.image}';
-              //                   return InkWell(
-              //                     onTap: () {
-              //                       print('clicked grid');
-              //                     },
-              //                     child: Padding(
-              //                       padding:
-              //                           const EdgeInsets.only(top: 10),
-              //                       child: Card(
-              //                         elevation: 0.0,
-              //                         color: Colors.white10,
-              //                         semanticContainer: true,
-              //                         child: Container(
-              //                           height: 80,
-              //                           width: MediaQuery.of(context)
-              //                                   .size
-              //                                   .width /
-              //                               3.90,
-              //                           padding:
-              //                               const EdgeInsets.symmetric(
-              //                                   vertical: 15),
-              //                           decoration: BoxDecoration(
-              //                             borderRadius:
-              //                                 BorderRadius.circular(15),
-              //                           ),
-              //                           child: Column(
-              //                             children: [
-              //                               Container(
-              //                                 height: 100,
-              //                                 width: 100,
-              //                                 decoration: BoxDecoration(
-              //                                   image: DecorationImage(
-              //                                     image: NetworkImage(
-              //                                       img,
-              //                                     ),
-              //                                     fit: BoxFit.contain,
-              //                                   ),
-              //                                 ),
-              //                               ),
-              //                               const SizedBox(height: 15),
-              //                               Center(
-              //                                 child: Text(
-              //                                   dataList.productname,
-              //                                   style: const TextStyle(
-              //                                     color: Colors.white,
-              //                                   ),
-              //                                   maxLines: 1,
-              //                                   overflow:
-              //                                       TextOverflow.ellipsis,
-              //                                 ),
-              //                               )
-              //                             ],
-              //                           ),
-              //                         ),
-              //                       ),
-              //                     ),
-              //                   );
-              //                 },
-              //               );
-              //             } else if (snapshot.hasError) {
-              //               return Text("${snapshot.error}");
-              //             }
-              //             return const Center(
-              //               child: CircularProgressIndicator(),
-              //             );
-              //           }),
-              // ),
+                //                   var img =
+                //                       '${snapshot.data!.url + '/' + dataList.image}';
+                //                   return InkWell(
+                //                     onTap: () {
+                //                       print('clicked grid');
+                //                     },
+                //                     child: Padding(
+                //                       padding:
+                //                           const EdgeInsets.only(top: 10),
+                //                       child: Card(
+                //                         elevation: 0.0,
+                //                         color: Colors.white10,
+                //                         semanticContainer: true,
+                //                         child: Container(
+                //                           height: 80,
+                //                           width: MediaQuery.of(context)
+                //                                   .size
+                //                                   .width /
+                //                               3.90,
+                //                           padding:
+                //                               const EdgeInsets.symmetric(
+                //                                   vertical: 15),
+                //                           decoration: BoxDecoration(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(15),
+                //                           ),
+                //                           child: Column(
+                //                             children: [
+                //                               Container(
+                //                                 height: 100,
+                //                                 width: 100,
+                //                                 decoration: BoxDecoration(
+                //                                   image: DecorationImage(
+                //                                     image: NetworkImage(
+                //                                       img,
+                //                                     ),
+                //                                     fit: BoxFit.contain,
+                //                                   ),
+                //                                 ),
+                //                               ),
+                //                               const SizedBox(height: 15),
+                //                               Center(
+                //                                 child: Text(
+                //                                   dataList.productname,
+                //                                   style: const TextStyle(
+                //                                     color: Colors.white,
+                //                                   ),
+                //                                   maxLines: 1,
+                //                                   overflow:
+                //                                       TextOverflow.ellipsis,
+                //                                 ),
+                //                               )
+                //                             ],
+                //                           ),
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   );
+                //                 },
+                //               );
+                //             } else if (snapshot.hasError) {
+                //               return Text("${snapshot.error}");
+                //             }
+                //             return const Center(
+                //               child: CircularProgressIndicator(),
+                //             );
+                //           }),
+                // ),
 
-              FutureBuilder<CollectionAllModel>(
-                  future: collectionController.dataModelFuture,
-                  builder: (context, snapshot) {
-                    var datas = collectionController.parsedData['data'][0];
-                    return Text(
-                      datas['category'],
-                      style: TextStyle(color: Colors.white),
-                    );
-                  }),
+                FutureBuilder<CollectionAllModel>(
+                    future: collectionController.dataModelFuture,
+                    builder: (context, snapshot) {
 
-              //     Icon(Icons.home_filled),
-              //     Icon(Icons.home_filled),
-              //     Icon(
-              //       Icons.home_filled,
-              //       color: Colors.white,
-              //     ),
-              //   ]),
-              // ),
-              const SizedBox(
-                height: 15,
-              ),
-            ],
+
+                    switch(snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator(),);
+                        default:
+                        if (snapshot.hasData) {
+                          return Container(child: Text(
+                              snapshot.error.toString(),style: TextStyle(color: Colors.white),));
+                        } else {
+                          return SizedBox(
+                            height: 800,
+                            child: ListView.builder(
+                                itemCount: 8,
+                                itemBuilder: (context, index) {
+                                  var datas = collectionController
+                                      .parsedData['data'][index];
+
+
+                                  // var fuck = snapshot.data!.data[index];
+                                  var img = collectionController
+                                      .parsedData['url'] + '/' + datas['image'];
+                                  return Card(
+                                    color: Colors.white10,
+                                    child: Row(
+                                      children: [
+                                        Image(image: NetworkImage(img),
+                                          height: 130,
+                                          width: 130,),
+
+                                        SizedBox(width: 20,),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              datas['category'],
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          );
+                        }
+                    }
+                    }),
+
+                //     Icon(Icons.home_filled),
+                //     Icon(Icons.home_filled),
+                //     Icon(
+                //       Icons.home_filled,
+                //       color: Colors.white,
+                //     ),
+                //   ]),
+                // ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
         ),
       ),
