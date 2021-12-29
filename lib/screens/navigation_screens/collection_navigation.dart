@@ -331,7 +331,6 @@ class _ShoppingPageState extends State<ShoppingPage> {
                     future: collectionController.dataModelFuture,
                     builder: (context, snapshot) {
 
-
                     switch(snapshot.connectionState) {
                       case ConnectionState.none:
                       case ConnectionState.waiting:

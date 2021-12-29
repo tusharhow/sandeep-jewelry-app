@@ -88,68 +88,80 @@ class _HomeState extends State<Home> {
               FutureBuilder<SearchModel>(
                   future: searchController.searcModelFuture,
                   builder: (context, snapshot) {
-                    return SizedBox(
-                      height: 400,
-                      child: ListView.builder(
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            var img = searchController.data['data'][index]
-                                ['feature_img'];
+                    switch(snapshot.connectionState){
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator(),);
+                      default:
+                        if(snapshot.hasData){
+                          return Container(child: Text(snapshot.hasError.toString()),);
 
-                            var useImage =
-                                'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/img/product/' +
-                                    '${img}';
+                        }else{
+                          return SizedBox(
+                            height: 400,
+                            child: ListView.builder(
+                                itemCount: 2,
+                                itemBuilder: (context, index) {
+                                  var img = searchController.data['data'][index]
+                                  ['feature_img'];
 
-                            return InkWell(
-                              onTap: () {
-                                print('Clicked');
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Card(
-                                      child: Row(
+                                  var useImage =
+                                      'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/img/product/' +
+                                          '${img}';
+
+                                  return InkWell(
+                                    onTap: () {
+                                      print('Clicked');
+                                    },
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 15),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Image(
-                                            image: NetworkImage(useImage),
-                                            height: 120,
-                                            width: 120,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                          Card(
+                                            child: Row(
                                               children: [
-                                                Text(
-                                                  searchVal == ''
-                                                      ? ''
-                                                      : searchController
-                                                          .data['data'][index]
-                                                              ['productname']
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 25,
-                                                  ),
+                                                Image(
+                                                  image: NetworkImage(useImage),
+                                                  height: 120,
+                                                  width: 120,
                                                 ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  searchVal == ''
-                                                      ? ''
-                                                      : searchController
-                                                          .data['data'][index]
-                                                              ['description']
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12,
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.only(left: 10),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        searchVal == ''
+                                                            ? ''
+                                                            : searchController
+                                                            .data['data'][index]
+                                                        ['productname']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize: 25,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                        searchVal == ''
+                                                            ? ''
+                                                            : searchController
+                                                            .data['data'][index]
+                                                        ['description']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
@@ -158,12 +170,11 @@ class _HomeState extends State<Home> {
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-                    );
+                                  );
+                                }),
+                          );
+                        }
+                    }
                   }),
             ],
           ),

@@ -84,13 +84,23 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           title: FutureBuilder<ProductDetailsModel>(
               future: productDetailsController.detailsModelFuture,
               builder: (context, snapshot) {
-                return Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                      productDetailsController.parsedData['data']
-                          ['jwellery_name'],
-                      style: TextStyle(color: Colors.white)),
-                );
+                switch(snapshot.connectionState){
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator(),);
+                  default:
+                    if(snapshot.hasData){
+                      return Container(child: Text(snapshot.hasError.toString()),);
+                    }else{
+                      return Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                            productDetailsController.parsedData['data']
+                            ['jwellery_name'],
+                            style: TextStyle(color: Colors.white)),
+                      );
+                    }
+                }
               }),
           backgroundColor: Colors.transparent),
       body: SingleChildScrollView(

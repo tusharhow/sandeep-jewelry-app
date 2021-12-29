@@ -61,30 +61,43 @@ class _HomeNavigationState extends State<HomeNavigation> {
                       future: bannerController.bannerModelFuture,
                       builder: (context, snapshot) {
 
-                      return SizedBox(
-                        height: 160,
-                        child: ListView.builder(
-                            itemCount: 1,
-                            itemBuilder: (context,index){
-                              var datas = bannerController.decodedData['data'];
-                              // var fuck = snapshot.data!.data[index];
-                              var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
-                            child: Image(
-                              image: NetworkImage(
-                               img,
+                     switch(snapshot.connectionState){
+                       case ConnectionState.none:
+                       case ConnectionState.waiting:
+                         return Center(child: CircularProgressIndicator(),);
+                       default:
+                         if(snapshot.hasData){
+                           return Container(
+                             child: Text(snapshot.hasError.toString()),
+                           );
 
-                              ),
+                         }else{
+                           return SizedBox(
+                             height: 160,
+                             child: ListView.builder(
+                                 itemCount: 1,
+                                 itemBuilder: (context,index){
+                                   var datas = bannerController.decodedData['data'];
+                                   // var fuck = snapshot.data!.data[index];
+                                   var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
+                                   return ClipRRect(
+                                     borderRadius: BorderRadius.circular(25),
+                                     child: Image(
+                                       image: NetworkImage(
+                                         img,
 
-                              color: Colors.black38,
-                              colorBlendMode: BlendMode.hardLight,
+                                       ),
 
-                              fit: BoxFit.contain,
-                            ),
-                          );
-                        }),
-                      );
+                                       color: Colors.black38,
+                                       colorBlendMode: BlendMode.hardLight,
+
+                                       fit: BoxFit.contain,
+                                     ),
+                                   );
+                                 }),
+                           );
+                         }
+                     }
                       }),
 
 
@@ -365,36 +378,50 @@ class _HomeNavigationState extends State<HomeNavigation> {
               //   ),
               // ),
 
+
+
+
               FutureBuilder<BannerModel>(
                   future: bannerController.bannerModelFuture,
                   builder: (context, snapshot) {
 
-                    return SizedBox(
-                      height: 160,
-                      child: ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context,index){
-                            var datas = bannerController.decodedData['data'];
-                            // var fuck = snapshot.data!.data[index];
-                            var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
-                            return Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    image: NetworkImage(
-                                      img,
+                   switch(snapshot.connectionState){
+                     case ConnectionState.none:
+                     case ConnectionState.waiting:
+                       return  Center(child: CircularProgressIndicator(),);
 
-                                    ),
+                     default:
+                       if(snapshot.hasData){
+                         return Container(child: Text(snapshot.hasError.toString()),);
+                       }else{
+                         return SizedBox(
+                           height: 160,
+                           child: ListView.builder(
+                               itemCount: 1,
+                               itemBuilder: (context,index){
+                                 var datas = bannerController.decodedData['data'];
+                                 // var fuck = snapshot.data!.data[index];
+                                 var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
+                                 return Center(
+                                   child: ClipRRect(
+                                     borderRadius: BorderRadius.circular(10),
+                                     child: Image(
+                                       image: NetworkImage(
+                                         img,
+
+                                       ),
 
 
 
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              );
+                                       fit: BoxFit.contain,
+                                     ),
+                                   ),
+                                 );
 
-                          }),
-                    );
+                               }),
+                         );
+                       }
+                   }
                   }),
 
               const SizedBox(
