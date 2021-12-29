@@ -54,7 +54,7 @@ class ViewAllProducts extends StatelessWidget {
                                 var datas = snapshot.data!.data[index];
                                 var img =
                                     '${snapshot.data!.url + '/' + datas.image}';
-                                print(img);
+                                // print(img);
 
                                 return InkWell(
                                   onTap: () {

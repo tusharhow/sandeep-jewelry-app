@@ -39,4 +39,11 @@ class ProductController extends GetxController {
     super.onInit();
     dataModelFuture = getData();
   }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+    dataModelFuture = getData();
+  }
 }

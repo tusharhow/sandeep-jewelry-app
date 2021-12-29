@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -11,13 +10,16 @@ import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/config.dart';
+import 'package:sandeep_jwelery/controllers/banner_controller.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
+import 'package:sandeep_jwelery/models/banner_model.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
 import 'package:sandeep_jwelery/screens/category_details.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
 import 'package:sandeep_jwelery/screens/view_all_products.dart';
 
 final productController = Get.put(ProductController());
+final bannerController = Get.put(BannerController());
 
 class HomeNavigation extends StatefulWidget {
   const HomeNavigation({Key? key}) : super(key: key);
@@ -55,18 +57,40 @@ class _HomeNavigationState extends State<HomeNavigation> {
             child: Column(children: [
               Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: const Image(
-                      image: AssetImage('assets/images/caro2.png'),
-                      color: Colors.black38,
-                      colorBlendMode: BlendMode.hardLight,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  FutureBuilder<BannerModel>(
+                      future: bannerController.bannerModelFuture,
+                      builder: (context, snapshot) {
+
+                      return SizedBox(
+                        height: 160,
+                        child: ListView.builder(
+                            itemCount: 1,
+                            itemBuilder: (context,index){
+                              var datas = bannerController.decodedData['data'];
+                              // var fuck = snapshot.data!.data[index];
+                              var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Image(
+                              image: NetworkImage(
+                               img,
+
+                              ),
+
+                              color: Colors.black38,
+                              colorBlendMode: BlendMode.hardLight,
+
+                              fit: BoxFit.contain,
+                            ),
+                          );
+                        }),
+                      );
+                      }),
+
+
                   const Positioned(
                     left: 10,
-                    top: 50,
+                    top: 30,
                     child: Text(
                       'Your Favourite Designs\n Now at your Doorstep',
                       style: TextStyle(
@@ -77,7 +101,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                   ),
                   Positioned(
                       left: 110,
-                      top: 120,
+                      top: 90,
                       child: InkWell(
                         onTap: () {},
                         child: Container(
@@ -184,19 +208,21 @@ class _HomeNavigationState extends State<HomeNavigation> {
 
                               return InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (c) => ProductDetailView(
-                                        prodId: datas.id.toString(),
-                                        img: img,
-                                        color: datas.color,
-                                        prodName: datas.jwelleryName,
-                                        size: datas.defaultSize,
-                                        items: datas.defaultSize,
+                                  setState(() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (c) => ProductDetailView(
+                                          prodId: datas.id.toString(),
+                                          img: img,
+                                          color: datas.color,
+                                          prodName: datas.jwelleryName,
+                                          size: datas.defaultSize,
+                                          items: datas.defaultSize,
+                                        ),
                                       ),
-                                    ),
-                                  );
+                                    );
+                                  });
                                 },
                                 child: Card(
                                   elevation: 0,
@@ -292,7 +318,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                                     height: 100,
                                                     width: 100,
                                                     fit: BoxFit.contain),
-                                                Text(datas.productname,
+                                                Text(datas.jwelleryName,
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         fontWeight:

@@ -1,9 +1,9 @@
-
 import 'package:carousel_pro/carousel_pro.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:sandeep_jwelery/components/about_this_product.dart';
@@ -54,6 +54,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     '21',
     '25',
   ];
+  bool isClicked = false;
   bool tapped = false;
   int groupValue = 0;
 
@@ -73,8 +74,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    // final datas = ModalRoute.of(context)!.settings.arguments;
     setState(() {});
+
     return Scaffold(
       appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -90,7 +91,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           ['jwellery_name'],
                       style: TextStyle(color: Colors.white)),
                 );
-                // By default, show a loading spinner
               }),
           backgroundColor: Colors.transparent),
       body: SingleChildScrollView(
@@ -101,32 +101,80 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3.60,
-                width: MediaQuery.of(context).size.width,
-                child: Carousel(
-                  images: List.generate(imgList.length, (int index) {
-                    return Column(
-                      children: [
-                        Image(
-                          image: AssetImage(imgList[index]),
-                          height: 200,
-                          width: 200,
-                        ),
-                      ],
-                    );
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height / 3.60,
+              //   width: MediaQuery.of(context).size.width,
+              //   child: Carousel(
+              //     images: List.generate(imgList.length, (int index) {
+              //       return Column(
+              //         children: [
+              //           Image(
+              //             image: AssetImage(imgList[index]),
+              //             height: 200,
+              //             width: 200,
+              //           ),
+              //         ],
+              //       );
+              //     }),
+              //     autoplay: true,
+              //     dotSize: 6,
+              //     dotPosition: DotPosition.bottomCenter,
+              //     dotColor: Colors.green,
+              //     dotIncreaseSize: 2,
+              //     dotIncreasedColor: Colors.amber,
+              //     indicatorBgPadding: 1,
+              //     dotBgColor: Colors.black12.withOpacity(0),
+              //     boxFit: BoxFit.contain,
+              //   ),
+              // ),
+              FutureBuilder<ProductDetailsModel>(
+                  future: productDetailsController.detailsModelFuture,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator());
+                      default:
+                        if (snapshot.hasError) {
+                          return Center(child: CircularProgressIndicator());
+                        } else {
+                          return Container(
+                              height: 160,
+                              width: MediaQuery.of(context).size.width,
+                              child: Swiper(
+                                  viewportFraction: 0.8,
+                                  fade: 0.3,
+                                  scale: 0.9,
+                                  autoplay: true,
+                                  itemCount: 1,
+                                  itemBuilder: (context, index) {
+                                    // var url = productDetailsController
+                                    //         .parsedData['url'] +
+                                    //     '/' +
+                                    //     productDetailsController
+                                    //             .parsedData['data']['files']
+                                    //         [index]['image'];
+
+                                    // var datas =
+                                    //     snapshot.data!.data.files[index];
+                                    // var img =
+                                    //     '${snapshot.data!.url + '/' + datas.image}';
+
+                                    var datas = productDetailsController
+                                        .parsedData['data']['files'][index];
+
+                                    var url2 = productDetailsController
+                                            .parsedData['url'] +
+                                        '/' +
+                                        productDetailsController
+                                                .parsedData['data']['files']
+                                            [index]['image'];
+
+                                    print(datas['image']);
+                                    return Image(image: NetworkImage(url2));
+                                  }));
+                        }
+                    }
                   }),
-                  autoplay: true,
-                  dotSize: 6,
-                  dotPosition: DotPosition.bottomCenter,
-                  dotColor: Colors.green,
-                  dotIncreaseSize: 2,
-                  dotIncreasedColor: Colors.amber,
-                  indicatorBgPadding: 1,
-                  dotBgColor: Colors.black12.withOpacity(0),
-                  boxFit: BoxFit.contain,
-                ),
-              ),
               const SizedBox(
                 height: 20,
               ),
@@ -159,11 +207,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-              // Container(
-              //   alignment: Alignment.bottomLeft,
-              //   child: Text("datas.productname",
-              //       style: TextStyle(fontSize: 23, color: Colors.white)),
-              // ),
+
               FutureBuilder<ProductDetailsModel>(
                   future: productDetailsController.detailsModelFuture,
                   builder: (context, snapshot) {
@@ -202,14 +246,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Text(
-                    '₹${5455}',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
+                  // const Text(
+                  //   '₹${5455}',
+                  //   style: TextStyle(
+                  //     fontSize: 15,
+                  //     color: Colors.white,
+                  //     decoration: TextDecoration.lineThrough,
+                  //   ),
+                  // ),
                 ],
               ),
               // const SizedBox(
@@ -419,15 +463,40 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               ),
               Row(
                 children: [
-                  ChipsChoice<int>.single(
-                    choiceStyle: const C2ChoiceStyle(color: Colors.white),
-                    value: tag,
-                    choiceActiveStyle: const C2ChoiceStyle(color: Colors.amber),
-                    onChanged: (val) => setState(() => tag = val),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: options,
-                      value: (i, v) => i,
-                      label: (i, v) => v,
+                  // ChipsChoice<int>.single(
+                  //   choiceStyle: const C2ChoiceStyle(color: Colors.white),
+                  //   value: tag,
+                  //   choiceActiveStyle: const C2ChoiceStyle(color: Colors.amber),
+                  //   onChanged: (val) => setState(() => tag = val),
+                  //   choiceItems: C2Choice.listFrom<int, String>(
+                  //     source: options,
+                  //     value: (i, v) => i,
+                  //     label: (i, v) => v,
+                  //   ),
+                  // ),
+
+                  InkWell(
+                    onTap: () {
+                      setState(
+                        () {
+                          if (isClicked == false) {
+                            {
+                              isClicked = true;
+                            }
+                          } else {
+                            isClicked = false;
+                          }
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width / 4.20,
+                      decoration: BoxDecoration(
+                        color:
+                            isClicked == true ? Colors.amber : Colors.white10,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                   ),
                 ],
