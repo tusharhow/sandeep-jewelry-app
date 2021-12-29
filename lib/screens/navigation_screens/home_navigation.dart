@@ -359,11 +359,44 @@ class _HomeNavigationState extends State<HomeNavigation> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Center(
-                child: Image(
-                  image: AssetImage('assets/images/banner.png'),
-                ),
-              ),
+              // const Center(
+              //   child: Image(
+              //     image: AssetImage('assets/images/banner.png'),
+              //   ),
+              // ),
+
+              FutureBuilder<BannerModel>(
+                  future: bannerController.bannerModelFuture,
+                  builder: (context, snapshot) {
+
+                    return SizedBox(
+                      height: 160,
+                      child: ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (context,index){
+                            var datas = bannerController.decodedData['data'];
+                            // var fuck = snapshot.data!.data[index];
+                            var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
+                            return Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    image: NetworkImage(
+                                      img,
+
+                                    ),
+
+
+
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              );
+
+                          }),
+                    );
+                  }),
+
               const SizedBox(
                 height: 20,
               ),

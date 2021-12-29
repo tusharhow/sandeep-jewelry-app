@@ -11,14 +11,17 @@ class BannerController extends GetxController {
   var decodedData;
   var url = "${AppConfig.BASE_URL}/banner";
   Future<BannerModel> getBannerData() async {
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var jsonString = response.body;
+   try {
+     var response = await http.get(Uri.parse(url));
+     if (response.statusCode == 200) {
+       var jsonString = response.body;
 
-      decodedData = json.decode(jsonString);
-      print(' $decodedData');
-    }
-
+       decodedData = json.decode(jsonString);
+       print(' $decodedData');
+    }}
+   catch(e){
+     print(e);
+   }
     return decodedData;
   }
 
