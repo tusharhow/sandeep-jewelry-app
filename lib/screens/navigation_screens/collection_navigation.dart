@@ -352,26 +352,31 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                   // var fuck = snapshot.data!.data[index];
                                   var img = collectionController
                                       .parsedData['url'] + '/' + datas['image'];
-                                  return Card(
-                                    color: Colors.white10,
-                                    child: Row(
-                                      children: [
-                                        Image(image: NetworkImage(img),
-                                          height: 130,
-                                          width: 130,),
+                                  return InkWell(
+                                    onTap: (){
+                                      print(datas['category']);
+                                    },
+                                    child: Card(
+                                      color: Colors.white10,
+                                      child: Row(
+                                        children: [
+                                          Image(image: NetworkImage(img),
+                                            height: 130,
+                                            width: 130,),
 
-                                        SizedBox(width: 20,),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              datas['category'],
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
+                                          SizedBox(width: 20,),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                datas['category'],
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
 
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }),

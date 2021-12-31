@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/banner_model.dart';
-import 'package:sandeep_jwelery/models/product_model.dart';
 
 class BannerController extends GetxController {
   Future<BannerModel>? bannerModelFuture;
@@ -33,7 +32,7 @@ class BannerController extends GetxController {
 
   // @override
   // void onReady() {
-  //   // TODO: implement onReady
+
   //   super.onReady();
   //   bannerModelFuture = getBannerData();
   // }

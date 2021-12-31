@@ -89,8 +89,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   case ConnectionState.waiting:
                     return Center(child: CircularProgressIndicator(),);
                   default:
-                    if(snapshot.hasData){
-                      return Container(child: Text(snapshot.hasError.toString()),);
+                    if(snapshot.hasError){
+                      return CircularProgressIndicator();
                     }else{
                       return Container(
                         alignment: Alignment.bottomLeft,
@@ -142,9 +142,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
+                      case ConnectionState.none:
                         return Center(child: CircularProgressIndicator());
                       default:
-                        if (snapshot.hasError) {
+                        if (snapshot.hasData) {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           return Container(
@@ -244,14 +245,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   FutureBuilder<ProductDetailsModel>(
                       future: productDetailsController.detailsModelFuture,
                       builder: (context, snapshot) {
-                        return Container(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                              '₹ ${productDetailsController.parsedData['data']['amount']}',
-                              style:
+                      switch(snapshot.connectionState){
+
+                        case ConnectionState.none:
+                        case ConnectionState.waiting:
+                          return Center(child: CircularProgressIndicator(),);
+
+                        default:
+                          if(snapshot.hasData){
+                            return Container(child: Text(
+                              snapshot.hasError.toString(),style: TextStyle(color: Colors.white),));
+                          }else{
+
+                            return Container(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                  '₹ ${productDetailsController.parsedData['data']['amount']}',
+                                  style:
                                   TextStyle(fontSize: 25, color: Colors.white)),
-                        );
-                        // By default, show a loading spinner
+                            );
+                          }
+                      }
                       }),
                   const SizedBox(
                     width: 10,
