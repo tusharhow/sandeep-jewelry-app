@@ -6,3 +6,4 @@ push({@required context, @required widget}) =>
 pushRemove({@required context, @required widget}) =>
     Navigator.pushAndRemoveUntil(context,
         CupertinoPageRoute(builder: (context) => widget), (route) => false);
+

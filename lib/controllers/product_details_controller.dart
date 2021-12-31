@@ -18,7 +18,7 @@ class ProductDetailsController extends GetxController {
 
     try {
       var url =
-          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/product_detail';
+          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/product_detail';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",

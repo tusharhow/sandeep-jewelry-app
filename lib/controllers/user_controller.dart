@@ -21,7 +21,7 @@ class UserController extends GetxController {
       userNumber = prefs.getString('mobile');
 
       var url =
-          "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/details";
+          "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/details";
       var response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
         'Authorization': 'Bearer ' + userToken!,

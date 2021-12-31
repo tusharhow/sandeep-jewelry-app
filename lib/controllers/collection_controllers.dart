@@ -11,7 +11,7 @@ class CollectionController extends GetxController {
     try {
       isLoading(true);
       var url =
-          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/collection';
+          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/collection';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",

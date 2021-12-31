@@ -13,7 +13,7 @@ class AppConfig {
   //configure this
   //static const DOMAIN_PATH = "192.168.0.104/ecommerce_demo_three"; //localhost
   static const DOMAIN_PATH =
-      "ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api"; // directly inside the public folder
+      "ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api"; // directly inside the public folder
 
   //do not configure these below
   static const String API_ENDPATH = "/api";
