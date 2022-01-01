@@ -8,9 +8,8 @@ import '../config.dart';
 
 class CollectionDetailsController extends GetxController{
 
-var data;
-var getValue;
 var parsedData;
+var getValue;
 var collectionDetailsModel;
 
   Future<CollectionDetailsModel> fetchData(String val) async {
@@ -26,14 +25,14 @@ var collectionDetailsModel;
        prefs.setString('collectionVal', val);
       getValue = prefs.getString('collectionVal');
       if (response.statusCode == 200) {
-        data = jsonDecode(response.body);
+        parsedData = jsonDecode(response.body);
 
-        print('Details Data: ${data['data']}');
+        print('Details Datasss: ${parsedData['data']}');
       }
     } catch (e) {
       print(e);
     }
-    return data;
+    return parsedData;
   }
 
   @override

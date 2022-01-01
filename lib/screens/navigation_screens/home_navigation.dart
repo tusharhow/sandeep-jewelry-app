@@ -12,14 +12,17 @@ import 'package:sandeep_jwelery/components/todays_deals_card.dart';
 import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/controllers/banner_controller.dart';
 import 'package:sandeep_jwelery/controllers/product_controller.dart';
+import 'package:sandeep_jwelery/controllers/shop_for-controller.dart';
 import 'package:sandeep_jwelery/models/banner_model.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
+import 'package:sandeep_jwelery/models/shop_for_category.dart';
 import 'package:sandeep_jwelery/screens/category_details.dart';
 import 'package:sandeep_jwelery/screens/product_details.dart';
 import 'package:sandeep_jwelery/screens/view_all_products.dart';
 
 final productController = Get.put(ProductController());
 final bannerController = Get.put(BannerController());
+final shopForController = Get.put(ShopForController());
 
 class HomeNavigation extends StatefulWidget {
   const HomeNavigation({Key? key}) : super(key: key);
@@ -145,51 +148,63 @@ class _HomeNavigationState extends State<HomeNavigation> {
               const SizedBox(
                 height: 20,
               ),
-              FutureBuilder<ProductModel>(
-                  future: productController.dataModelFuture,
+              FutureBuilder<ShopForCategoryModel>(
+                  future: shopForController.allDataModelFuture,
                   builder: (context, snapshot) {
-                    return SizedBox(
-                      height: 130,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: productJson.length,
-                        itemBuilder: (context, index) {
-                          var datas = snapshot.data!.data[index];
-                          var img = '${snapshot.data!.url + '/' + datas.image}';
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (c) => CategoryDetails(
-                                    imageProd: img,
-                                    title: datas.productname,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Card(
-                              elevation: 0,
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              color: Colors.black,
-                              child: Row(
-                                children: [
-                                  ShopCarousel(
-                                    // image: 'assets/images/human.png',
-                                    image: img,
-                                    label: datas.productname,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                   switch(snapshot.connectionState){
+                     case ConnectionState.none:
+                     case ConnectionState.waiting:
+                       return Center(child: CircularProgressIndicator(),);
+                     default:
+                       if(snapshot.hasData){
+                         return Container(
+                           child: Text(snapshot.error.toString(),style: TextStyle(color: Colors.white),),
+                         );
+                       }else{
+                         return SizedBox(
+                           height: 170,
+                           child: ListView.builder(
+                             scrollDirection: Axis.horizontal,
+                             itemCount: 5,
+                             itemBuilder: (context, index) {
+                               var datas = shopForController.allParsedData['data'][index]['image'];
+                               var img = '${shopForController.allParsedData['url'] + '/' + datas}';
+                               return InkWell(
+                                 onTap: () {
+                                   // Navigator.push(
+                                   //   context,
+                                   //   MaterialPageRoute(
+                                   //     builder: (c) => CategoryDetails(
+                                   //       imageProd: img,
+                                   //       title: datas.productname,
+                                   //     ),
+                                   //   ),
+                                   // );
+                                 },
+                                 child: Card(
+                                   elevation: 0,
+                                   margin: const EdgeInsets.symmetric(horizontal: 8),
+                                   color: Colors.black,
+                                   child: Row(
+                                     children: [
+                                       ShopCarousel(
+                                         // image: 'assets/images/human.png',
+                                         image: img,
+                                         label: shopForController.allParsedData['data'][index]['category'],
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                               );
+                             },
+                           ),
+                         );
+                       }
+                   }
                   }),
 
               const SizedBox(
-                height: 25,
+                height: 15,
               ),
               Container(
                   alignment: Alignment.bottomLeft,

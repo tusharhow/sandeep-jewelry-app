@@ -14,11 +14,13 @@ class ShopCarousel extends StatelessWidget {
     return Column(
       children: [
         Image(
-          image: AssetImage(image),
+          image: NetworkImage(image),
           fit: BoxFit.fill,
+          height: 130,
+          width: 120,
         ),
         const SizedBox(
-          height: 5,
+          height: 8,
         ),
         Center(
           child: Text('$label',

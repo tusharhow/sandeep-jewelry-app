@@ -14,9 +14,9 @@ var collectionDetailsController = Get.put(CollectionDetailsController());
 class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
-     collectionDetailsController.fetchData(widget.catId.toString());
+    CollectionDetailsController().fetchData(widget.catId.toString());
   }
   @override
   Widget build(BuildContext context) {
@@ -42,45 +42,20 @@ class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
                             snapshot.error.toString(),style: TextStyle(color: Colors.white),));
                         } else {
                           return SizedBox(
-                            height: 800,
+                            height: 500,
                             child: ListView.builder(
                                 itemCount: 1,
                                 itemBuilder: (context, index) {
-                                  var datas = collectionDetailsController
-                                      .data['data'][index];
+                                  // var datas = collectionDetailsController
+                                  //     .data['data'][index];
 
 
                                   // var fuck = snapshot.data!.data[index];
-                                  var img = collectionDetailsController
-                                      .data['url'] + '/' + datas['image'];
-                                  return InkWell(
-                                    onTap: (){
-                                      print(datas['category']);
-                                    },
-                                    child: Card(
-                                      margin: EdgeInsets.only(top: 15),
-                                      color: Colors.white10,
-                                      child: Row(
-                                        children: [
-                                          Image(image: NetworkImage(img),
-                                            height: 130,
-                                            width: 130,),
+                                  // print("Fuckkkkkkkkk ${collectionDetailsController.parsedData['category']}");
+                                  // var img = collectionDetailsController
+                                  //     .data['url'] + '/' + datas['image'];
 
-                                          SizedBox(width: 20,),
-                                          Column(
-                                            children: [
-                                              Text(
-                                                datas['category'],
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                                  return Text(collectionDetailsController.parsedData['data'].toString(),style:TextStyle(color:Colors.white));
                                 }),
                           );
                         }
