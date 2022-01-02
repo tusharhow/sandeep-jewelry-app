@@ -7,10 +7,12 @@ import 'package:sandeep_jwelery/models/product_model.dart';
 class ProductController extends GetxController {
   Future<ProductModel>? dataModelFuture;
 
+  var isLoading = true.obs;
   var dataModel;
   var url = "${AppConfig.BASE_URL}/productlist";
   Future<ProductModel> getData() async {
     try {
+      isLoading(true);
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         var jsonString = response.body;
@@ -26,8 +28,10 @@ class ProductController extends GetxController {
         // prefs.setString('product', data);
 
         // print('Datas /////////// ${data}');
+        isLoading(false);
       }
     } catch (e) {
+      isLoading(false);
       print(e);
     }
 
@@ -38,12 +42,7 @@ class ProductController extends GetxController {
   void onInit() {
     super.onInit();
     dataModelFuture = getData();
+    dataModel = getData();
   }
 
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
-    dataModelFuture = getData();
-  }
 }

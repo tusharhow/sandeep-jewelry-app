@@ -32,9 +32,9 @@ class ShopForController extends GetxController {
         print('Collection Data hit successful ' + '${allParsedData}');
         // print(parsedData);
         isLoading(false);
-      }
+      }isLoading(false);
     } catch (e) {
-      print(e);
+      print(e);isLoading(false);
     }
     return allParsedData;
   }
@@ -44,6 +44,7 @@ class ShopForController extends GetxController {
   void onInit() {
     super.onInit();
     allDataModelFuture = getAllCategory() ;
+
 
   }
 }

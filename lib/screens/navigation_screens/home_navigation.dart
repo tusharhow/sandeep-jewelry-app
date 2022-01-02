@@ -173,6 +173,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                return InkWell(
                                  onTap: () {
                                    setState(() {
+
                                   push(context: context, widget: CategoryDetails(varId:podId.toString()));
 
                                    });
