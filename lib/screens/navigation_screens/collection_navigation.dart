@@ -140,7 +140,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                         var img = collectionController
                                             .allParsedData['url'] + '/' + datas['image'];
                                         var catId = collectionController
-                                            .allParsedData['data'][index]['id'];
+                                            .allParsedData['data'][index]['category_id'];
                                         return InkWell(
                                           onTap: (){
                                             print(catId);

@@ -54,8 +54,12 @@ class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
                                   // print("Fuckkkkkkkkk ${collectionDetailsController.parsedData['category']}");
                                   // var img = collectionDetailsController
                                   //     .data['url'] + '/' + datas['image'];
+// var datas = collectionDetailsController.parsedData['data'][index];
 
-                                  return Text(collectionDetailsController.parsedData['data'].toString(),style:TextStyle(color:Colors.white));
+// print('Fucking...${datas}');
+                                  return Card(
+                                      color: Colors.white10,
+                                      child: Text(collectionDetailsController.parsedData['data'][index]['product_id'].toString(),style:TextStyle(color:Colors.white)));
                                 }),
                           );
                         }

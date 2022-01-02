@@ -181,6 +181,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                             [index]['image'];
 
                                     print(datas['image']);
+                                    print(datas['image']);
                                     return Image(image: NetworkImage(url2));
                                   }));
                         }
