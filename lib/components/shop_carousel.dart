@@ -15,9 +15,9 @@ class ShopCarousel extends StatelessWidget {
       children: [
         Image(
           image: NetworkImage(image),
-          fit: BoxFit.fill,
-          height: 130,
-          width: 120,
+          fit: BoxFit.contain,
+          height: 110,
+          width: 110,
         ),
         const SizedBox(
           height: 8,

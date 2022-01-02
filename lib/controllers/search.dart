@@ -78,13 +78,13 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    searchController.fetchData(searchVal);
-
-                    print('Seacrched: ${searchController.controller.text}');
-                  },
-                  child: Text('Search')),
+              // ElevatedButton(
+              //     onPressed: () {
+              //       searchController.fetchData(searchVal);
+              //
+              //       print('Seacrched: ${searchController.controller.text}');
+              //     },
+              //     child: Text('Search')),
               FutureBuilder<SearchModel>(
                   future: searchController.searcModelFuture,
                   builder: (context, snapshot) {
@@ -100,13 +100,13 @@ class _HomeState extends State<Home> {
                           return SizedBox(
                             height: 400,
                             child: ListView.builder(
-                                itemCount: 2,
+                                itemCount: searchVal==null?0:2,
                                 itemBuilder: (context, index) {
                                   var img = searchController.data['data'][index]
                                   ['feature_img'];
 
                                   var useImage =
-                                      'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/img/product/' +
+                                      'http://erc2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/img/product/' +
                                           '${img}';
 
                                   return InkWell(
@@ -135,9 +135,7 @@ class _HomeState extends State<Home> {
                                                     CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        searchVal == ''
-                                                            ? ''
-                                                            : searchController
+                                                        searchController
                                                             .data['data'][index]
                                                         ['productname']
                                                             .toString(),
@@ -150,9 +148,7 @@ class _HomeState extends State<Home> {
                                                         height: 10,
                                                       ),
                                                       Text(
-                                                        searchVal == ''
-                                                            ? ''
-                                                            : searchController
+                                                       searchController
                                                             .data['data'][index]
                                                         ['description']
                                                             .toString(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/controllers/profile_controllers/search_function.dart';
+import 'package:sandeep_jwelery/controllers/search.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/favourite_list_screen.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
@@ -85,8 +86,10 @@ class _HomePageMainState extends State<HomePageMain> {
             //     width: MediaQuery.of(context).size.width - 210,
             //     child: SearchFunction()),
             IconButton(
-                onPressed: () =>
-                    showSearch(context: context, delegate: Search()),
+                onPressed: () {
+                  push(context: context, widget: Home());
+                },
+
                 icon: Icon(
                   Icons.search,
                   size: 30,
