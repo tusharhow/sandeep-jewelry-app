@@ -22,7 +22,7 @@ class TodaysDealsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 450,
-      height: 200,
+      height: 180,
       // width: 150,
       width: 140,
       decoration: BoxDecoration(

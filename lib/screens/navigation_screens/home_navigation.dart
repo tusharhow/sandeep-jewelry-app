@@ -162,7 +162,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                          );
                        }else{
                          return SizedBox(
-                           height: 150,
+                           height: 140,
                            child: ListView.builder(
                              scrollDirection: Axis.horizontal,
                              itemCount: 5,
@@ -183,15 +183,11 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                  child: Card(
                                    elevation: 0,
                                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                                   color: Colors.black,
-                                   child: Row(
-                                     children: [
-                                       ShopCarousel(
-                                         // image: 'assets/images/human.png',
-                                         image: img,
-                                         label: shopForController.allParsedData['data'][index]['category'],
-                                       ),
-                                     ],
+                                   color: Colors.white10,
+                                   child: ShopCarousel(
+
+                                     image: img,
+                                     label: shopForController.allParsedData['data'][index]['category'],
                                    ),
                                  ),
                                );

@@ -16,15 +16,15 @@ class ShopCarousel extends StatelessWidget {
         Image(
           image: NetworkImage(image),
           fit: BoxFit.contain,
-          height: 110,
-          width: 110,
+          height: 100,
+          width: 100,
         ),
         const SizedBox(
-          height: 8,
+          height: 13,
         ),
         Center(
           child: Text('$label',
-              style: TextStyle(color: Colors.white, fontSize: 14)),
+              style: TextStyle(color: Colors.white, fontSize: 12)),
         ),
       ],
     );
