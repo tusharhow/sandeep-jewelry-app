@@ -9,6 +9,7 @@ import 'package:sandeep_jwelery/models/womens_collection_model.dart';
 class ShopForController extends GetxController {
   var allParsedData;
 
+
   var isLoading = true.obs;
   Future<ShopForCategoryModel>? allDataModelFuture;
 

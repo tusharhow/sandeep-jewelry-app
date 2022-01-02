@@ -1,0 +1,44 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
+import 'package:sandeep_jwelery/models/collection_details_model.dart';
+import 'package:sandeep_jwelery/models/shop_for_details.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../config.dart';
+
+class ShopForDetailsController extends GetxController{
+
+  var parsedDetailsData;
+  var getValue;
+  var shopDetailsModel;
+
+  Future<ShopForCategoryDetailsModel> fetchDetailsCategory(String val) async {
+    try {
+      final response = await http
+          .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
+        "category_id":val,
+      }, headers: {
+        "Accept": "application/json"
+      });
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('shopforVal', val);
+      getValue = prefs.getString('shopforVal');
+      if (response.statusCode == 200) {
+        parsedDetailsData = jsonDecode(response.body);
+
+        print('Details Datasss: ${parsedDetailsData['data']}');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return parsedDetailsData;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    shopDetailsModel = fetchDetailsCategory(getValue);
+  }
+}

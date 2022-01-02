@@ -169,17 +169,15 @@ class _HomeNavigationState extends State<HomeNavigation> {
                              itemBuilder: (context, index) {
                                var datas = shopForController.allParsedData['data'][index]['image'];
                                var img = '${shopForController.allParsedData['url'] + '/' + datas}';
+                             var podId = shopForController.allParsedData['data'][index]['id'];
                                return InkWell(
                                  onTap: () {
-                                   // Navigator.push(
-                                   //   context,
-                                   //   MaterialPageRoute(
-                                   //     builder: (c) => CategoryDetails(
-                                   //       imageProd: img,
-                                   //       title: datas.productname,
-                                   //     ),
-                                   //   ),
-                                   // );
+                                   setState(() {
+                                  push(context: context, widget: CategoryDetails(varId:podId.toString()));
+
+                                   });
+
+                                   // print(shopForController.allParsedData['data'][index]['id']);
                                  },
                                  child: Card(
                                    elevation: 0,
@@ -237,19 +235,14 @@ class _HomeNavigationState extends State<HomeNavigation> {
                               return InkWell(
                                 onTap: () {
                                   setState(() {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (c) => ProductDetailView(
-                                          prodId: datas.id.toString(),
-                                          img: img,
-                                          color: datas.color,
-                                          prodName: datas.jwelleryName,
-                                          size: datas.defaultSize,
-                                          items: datas.defaultSize,
-                                        ),
-                                      ),
-                                    );
+                                   push(context: context, widget: ProductDetailView(
+                                     prodId: datas.id.toString(),
+                                     img: img,
+                                     color: datas.color,
+                                     prodName: datas.jwelleryName,
+                                     size: datas.defaultSize,
+                                     items: datas.defaultSize,
+                                   ),);
                                   });
                                 },
                                 child: Card(
