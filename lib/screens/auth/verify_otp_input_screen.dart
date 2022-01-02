@@ -205,7 +205,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
 
   Future otpValidation() async {
     var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/login";
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/login";
     var response = await http.post(Uri.parse(url), body: {
       "mobile_no": widget.phoneNumber,
       "one_singnal": "y",

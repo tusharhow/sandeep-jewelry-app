@@ -201,35 +201,35 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GFCheckbox(
-                          size: GFSize.SMALL,
-                          activeBgColor: GFColors.SUCCESS,
-                          onChanged: (value) {
-                            setState(() {
-                              isChecked = value;
-                            });
-                          },
-                          value: isChecked,
-                        ),
-                        const Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: ' I have read and accept ',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16)),
-                              TextSpan(
-                                  text: 'Terms & Conditions',
-                                  style: TextStyle(
-                                      color: Colors.blue, fontSize: 16))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     GFCheckbox(
+                    //       size: GFSize.SMALL,
+                    //       activeBgColor: GFColors.SUCCESS,
+                    //       onChanged: (value) {
+                    //         setState(() {
+                    //           isChecked = value;
+                    //         });
+                    //       },
+                    //       value: isChecked,
+                    //     ),
+                    //     const Text.rich(
+                    //       TextSpan(
+                    //         children: [
+                    //           TextSpan(
+                    //               text: ' I have read and accept ',
+                    //               style: TextStyle(
+                    //                   color: Colors.white, fontSize: 16)),
+                    //           TextSpan(
+                    //               text: 'Terms & Conditions',
+                    //               style: TextStyle(
+                    //                   color: Colors.blue, fontSize: 16))
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 25,
                     ),
@@ -256,7 +256,7 @@ class _SignUpState extends State<SignUp> {
 
   Future Registration() async {
     var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/register";
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/register";
     var response = await http.post(Uri.parse(url), body: {
       "name": _nameController.text,
       "email": _emailController.text,

@@ -169,7 +169,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   Future loginOtp() async {
     var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/otp/request";
+        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/otp/request";
     var response = await http.post(Uri.parse(url), body: {
       "mobile_no": _phoneController.text,
     });

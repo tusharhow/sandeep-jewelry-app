@@ -89,7 +89,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   case ConnectionState.waiting:
                     return Center(child: CircularProgressIndicator(),);
                   default:
-                    if(snapshot.hasError){
+                    if(snapshot.hasData){
                       return CircularProgressIndicator();
                     }else{
                       return Container(

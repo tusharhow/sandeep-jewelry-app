@@ -44,11 +44,8 @@ class ProductDetailsController extends GetxController {
   void onInit() {
     super.onInit();
     detailsModelFuture = getProdCall(sharedString);
+    parsedData = getProdCall(sharedString);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    detailsModelFuture = getProdCall(sharedString);
-  }
+
 }
