@@ -8,6 +8,7 @@ class ProductDetailsController extends GetxController {
   var parsedData;
   var sharedString;
 
+
   Future<ProductDetailsModel>? detailsModelFuture;
   Future<ProductDetailsModel> getProdCall(String prodId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,6 +34,12 @@ class ProductDetailsController extends GetxController {
         print('Data hit successful ' + '${parsedData['data']}');
         print('Fuck hit successful ' + '${parsedData['data']['category']}');
         print('prod name - ' + parsedData);
+        SharedPreferences prefs =await SharedPreferences.getInstance();
+        prefs.setString("prodNam", parsedData['data']['productname']);
+        prefs.setString("prodPrice", parsedData['data']['amount']);
+        prefs.setString("prodCount", 2.toString());
+        prefs.setString("prodColor", parsedData['data']['jewellery_color']);
+        prefs.setString("prodSize", parsedData['data']['jewellery_size']);
       }
     } catch (e) {
       print(e);

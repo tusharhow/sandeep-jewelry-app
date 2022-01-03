@@ -14,6 +14,7 @@ import 'package:sandeep_jwelery/controllers/add_cart_controller.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
 import 'package:sandeep_jwelery/models/product_details_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final cartCotroller = Get.put(CartController());
 final productDetailsCotroller = Get.put(ProductDetailsController());
@@ -62,19 +63,25 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   void initState() {
     super.initState();
     productDetailsController.getProdCall(widget.prodId.toString());
-    cartController.addCart(
-      widget.prodId,
-      widget.size,
-      widget.items,
-      widget.prodName,
-      widget.color,
-      widget.img,
-    );
-  }
+    cartController.addToCart(
 
+    );
+    names();
+  }
+names()async{
+  SharedPreferences prefs =await SharedPreferences.getInstance();
+  prefs.setString("prodNam", widget.prodName.toString());
+  prefs.setString("prodSize", widget.size.toString());
+  prefs.setString("prodCount", widget.items.toString());
+  prefs.setString("prodImg", widget.img.toString());
+
+  prefs.setString("prodColor", widget.color.toString());
+}
   @override
   Widget build(BuildContext context) {
-    setState(() {});
+    setState(() {
+
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -461,7 +468,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 children: [
                   MiniButton(
                     btnText: 'Add to Cart',
-                    onPressed: () {},
+                    onPressed: () {
+cartController.addToCart();
+                    },
                     btnTextColor: Colors.white,
                     // btnColor: const Color(0xff393939)
                     btnColor: Colors.amber,

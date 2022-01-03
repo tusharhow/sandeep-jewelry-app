@@ -95,15 +95,15 @@ class _HomePageMainState extends State<HomePageMain> {
                   size: 30,
                   color: Colors.white,
                 )),
-            InkWell(
-              onTap: () {
-                push(
-                    context: context, widget: const FavouriteProductListView());
-              },
-              child: const Image(
-                image: AssetImage('assets/icons/heart.png'),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //     push(
+            //         context: context, widget: const FavouriteProductListView());
+            //   },
+            //   child: const Image(
+            //     image: AssetImage('assets/icons/heart.png'),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 Navigator.push(context,

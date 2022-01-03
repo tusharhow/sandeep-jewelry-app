@@ -7,19 +7,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../config.dart';
 
-class ShopForDetailsController extends GetxController{
-
+class ShopForDetailsController extends GetxController {
   var parsedDetailsData;
   var getValue;
   var shopDetailsModel;
   var isLoading = true.obs;
 
-  Future<ShopForCategoryDetailsModel> fetchDetailsCategory(String val) async {
+ Future<dynamic> fetchDetailsCategory(String val) async {
     try {
-      // isLoading(true);
+      isLoading(true);
       final response = await http
           .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
-        "category_id":val,
+        "category_id": val,
       }, headers: {
         "Accept": "application/json"
       });
@@ -28,15 +27,17 @@ class ShopForDetailsController extends GetxController{
       prefs.setString('shopforVal', val);
       getValue = prefs.getString('shopforVal');
       if (response.statusCode == 200) {
-        parsedDetailsData = jsonDecode(response.body);
-      // return  shopForCategoryDetailsModelFromJson(parsedDetailsData);
+        // parsedDetailsData = jsonDecode(response.body);
+        var map = json.decode(response.body);
+        List<dynamic> data = map["data"];
+        parsedDetailsData = data;
+        // return  shopForCategoryDetailsModelFromJson(parsedDetailsData);
         print('Details Datasss: ${parsedDetailsData['data']}');
 
-
+        isLoading(false);
       }
-
     } catch (e) {
-
+      isLoading(false);
       print(e);
     }
     return parsedDetailsData;
@@ -45,10 +46,7 @@ class ShopForDetailsController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-  shopDetailsModel = fetchDetailsCategory(getValue);
-  // parsedDetailsData = fetchDetailsCategory(getValue);
-
+    // shopDetailsModel = fetchDetailsCategory(getValue);
+    parsedDetailsData = fetchDetailsCategory(getValue);
   }
-
-
 }
