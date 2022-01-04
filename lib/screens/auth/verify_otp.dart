@@ -34,8 +34,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
   }
 
   buildBody(BuildContext context) {
-    if (_futureJwt == null) {
-      return Padding(
+    return SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
@@ -111,9 +111,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 //           phoneNumber: _phoneController.text));
                 // }
                 loginOtp();
+
               },
               textColor: Colors.black,
             ),
+
             const SizedBox(
               height: 50,
             ),
@@ -133,40 +135,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ),
           ],
         ),
-      );
-    } else {
-      return FutureBuilder<LoginApiResponse>(
-        //refer the object to the future
-        future: _futureJwt,
-        //
-        builder: (context, snapshot) {
-          //if the data is getting
-          if (snapshot.hasData) {
-            var token = snapshot.data!.token;
-            print('Token Is: ${token}');
-            return HomeNavigation();
-          }
-          //if the data results an error
-          else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-
-          return CircularProgressIndicator();
-        },
-      );
+      ),
+    );
     }
-  }
-
-  bool validateAndSave() {
-    final form = globalFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   Future loginOtp() async {
     var url =
         "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/otp/request";
@@ -182,16 +153,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
       print("mmmmmmmmmm" + loginArr.toString());
       SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString("mobile", _phoneController.text);
-      // await FlutterKeychain.put(
-      //     key: "pinkUserToken", value: loginArr['token'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserName", value: loginArr['name'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserUserID", value: loginArr['id'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserEmail", value: loginArr['email'].toString());
-      // await FlutterKeychain.put(
-      //     key: "pinkUserPhone", value: loginArr['mobile_no'].toString());
 
       push(
           context: context,
@@ -199,7 +160,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             phoneNumber: _phoneController.text,
           ));
 
-          
+
     } else {
       print('OTP sent failed');
       // Create a flutter toast.
@@ -213,4 +174,16 @@ class _VerifyOtpState extends State<VerifyOtp> {
           fontSize: 20.0);
     }
   }
-}
+  }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+

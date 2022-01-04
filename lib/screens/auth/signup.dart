@@ -30,23 +30,23 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _dobController = TextEditingController();
 
   var dateFormat = DateFormat('dd MMMM, yyyy');
-  var onTapRecognizer;
-  @override
-  void initState() {
-    onTapRecognizer = TapGestureRecognizer()
-      ..onTap = () {
-        Navigator.pop(context);
-      };
-
-    super.initState();
-  }
+  // var onTapRecognizer;
+  // @override
+  // void initState() {
+  //   onTapRecognizer = TapGestureRecognizer()
+  //     ..onTap = () {
+  //       Navigator.pop(context);
+  //     };
+  //
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               const SizedBox(
@@ -264,7 +264,8 @@ class _SignUpState extends State<SignUp> {
       "type": "client",
       "mobile_no": _phoneController.text,
       "pan_no": "BBDER551",
-    });
+    },
+    );
 
     if (response.statusCode == 200) {
       // var jshonString = response.body;
@@ -276,11 +277,12 @@ class _SignUpState extends State<SignUp> {
       prefs.setString('email', _emailController.text);
       prefs.setString('mobile', _phoneController.text);
 
-      push(
+      pushRemove(
           context: context,
           widget: VerifyOtpInputScreen(
             phoneNumber: _phoneController.text,
           ));
+      print('Registration Success');
     } else {
       print('Registration failed');
       // Create a flutter toast.

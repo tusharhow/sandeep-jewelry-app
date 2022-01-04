@@ -46,7 +46,7 @@ class _CartPageState extends State<CartPage> {
                       return SizedBox(
                         height: 150,
                         child: ListView.builder(
-                            itemCount: 4,
+                            itemCount: 7,
                             itemBuilder: (context, index) {
                               // var datas = showCartController.allParsedData[index];
                               // var fuck = showCartController.fuckedData[index];
@@ -63,6 +63,10 @@ class _CartPageState extends State<CartPage> {
                                         Text(
                                          showCartController.allParsedData['data'][index]['productName'].toString(),
                                           style: TextStyle(color: Colors.white,fontSize: 20),
+                                        ),
+                                        Text(
+                                          showCartController.allParsedData['data'][index]['amount'].toString(),
+                                          style: TextStyle(color: Colors.white,fontSize: 18),
                                         ),
                                       ],
                                     ),
