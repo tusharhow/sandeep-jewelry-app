@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/controllers/add_cart_controller.dart';
+import 'package:sandeep_jwelery/controllers/show_cart_controller.dart';
+import 'package:sandeep_jwelery/models/show_cart_model.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -8,13 +10,13 @@ class CartPage extends StatefulWidget {
   @override
   _CartPageState createState() => _CartPageState();
 }
-final cartController = Get.put(CartController());
+final showCartController = Get.put(ShowCartController());
 class _CartPageState extends State<CartPage> {
   @override
   void initState() {
 
     super.initState();
-    cartController.addToCart();
+    showCartController.getAllCart();
   }
   @override
   Widget build(BuildContext context) {
@@ -41,31 +43,36 @@ class _CartPageState extends State<CartPage> {
           Expanded(
             child: Obx(
                   () {
-                if (cartController.isLoading.value) {
+                if (showCartController.isLoading.value) {
                   return Center(child: CircularProgressIndicator());
                 } else
-                  return SizedBox(
-                    height: 150,
-                    child: ListView.builder(
-                        itemCount: 2,
-                        itemBuilder: (context, index) {
-                          var datas = cartController.parsedData[index];
-                          var img = cartController.parsedData['url']+'/'+cartController.parsedData[index]['feature_img'];
-                          print('Fuckkinh ${img}');
-                          return Card(
-                            color: Colors.white10,
-                            child: Row(
-                              children: [
-                                Image(image: NetworkImage(img),height: 150,width: 150,),
-                                Text(
-                                  datas['productname'],
-                                  style: TextStyle(color: Colors.white),
+                  return FutureBuilder<ShowCartModel>(
+                    future: showCartController.allDataModelFuture,
+                    builder: (context, snapshot) {
+                      return SizedBox(
+                        height: 150,
+                        child: ListView.builder(
+                            itemCount: 2,
+                            itemBuilder: (context, index) {
+                              var datas = showCartController.allParsedData[index];
+                              // var img = showCartController.allParsedData['url']+'/'+showCartController.allParsedData[index]['feature_img'];
+                              // print('Fuckkinh ${img}');
+                              return Card(
+                                color: Colors.white10,
+                                child: Row(
+                                  children: [
+                                    // Image(image: NetworkImage(img),height: 150,width: 150,),
+                                    Text(
+                                      showCartController.fuckedData.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        }
-                    ),
+                              );
+                            }
+                        ),
+                      );
+                    }
                   );
               },
             ),

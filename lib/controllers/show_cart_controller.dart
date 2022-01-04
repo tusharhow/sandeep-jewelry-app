@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,7 @@ class ShowCartController extends GetxController{
 
 
   var allParsedData;
+  var fuckedData;
 
 
   var isLoading = true.obs;
@@ -34,22 +36,24 @@ class ShowCartController extends GetxController{
         // print('url hit successful' + response.body);
 
         allParsedData = json.decode(response.body);
-        print('Collection Data hit successful ' + '${allParsedData}');
-        // print(parsedData);
+        fuckedData=       showCartModelFromJson(response.body);
+        // print('Show Cart Data hit successful ' + '${allParsedData['data']}');
+        print('My Fucked Data ${fuckedData}');
         isLoading(false);
       }isLoading(false);
     } catch (e) {
-      print(e);isLoading(false);
+      print(e);
+      isLoading(false);
     }
-    return allParsedData;
+    return fuckedData;
   }
 
 
   @override
   void onInit() {
     super.onInit();
-    allDataModelFuture = getAllCart() ;
-
+    // allDataModelFuture = getAllCart() ;
+fuckedData = getAllCart();
 
   }
 
