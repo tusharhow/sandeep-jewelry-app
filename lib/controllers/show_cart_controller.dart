@@ -16,8 +16,6 @@ class ShowCartController extends GetxController{
   var isLoading = true.obs;
   Future<ShowCartModel>? allDataModelFuture;
 
-
-
   Future<ShowCartModel> getAllCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -34,26 +32,27 @@ class ShowCartController extends GetxController{
       // print(" url call from " + url);
       if (response.statusCode == 200) {
         // print('url hit successful' + response.body);
-
-        allParsedData = json.decode(response.body);
-        fuckedData=       showCartModelFromJson(response.body);
-        // print('Show Cart Data hit successful ' + '${allParsedData['data']}');
-        print('My Fucked Data ${fuckedData}');
+        var jsonString = response.body;
+        allParsedData = json.decode(jsonString);
+        update();
+        // fuckedData=       showCartModelFromJson(response.body);
+        print('Show Cart Data hit successful ' + '${allParsedData['data']}');
+        // print('My Fucked Data ${fuckedData}');
         isLoading(false);
       }isLoading(false);
     } catch (e) {
       print(e);
       isLoading(false);
     }
-    return fuckedData;
+    return allParsedData;
   }
 
 
   @override
   void onInit() {
     super.onInit();
-    // allDataModelFuture = getAllCart() ;
-fuckedData = getAllCart();
+    allDataModelFuture = getAllCart() ;
+allParsedData = getAllCart();
 
   }
 

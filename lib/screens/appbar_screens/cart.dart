@@ -21,25 +21,19 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        title: Text('Cart',  style: TextStyle(
+
+
+            color: Colors.white, fontWeight: FontWeight.w900),),
+      ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    "ShopMe",
-                    style: TextStyle(
-                        fontFamily: "avenir",
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          
           Expanded(
             child: Obx(
                   () {
@@ -52,19 +46,25 @@ class _CartPageState extends State<CartPage> {
                       return SizedBox(
                         height: 150,
                         child: ListView.builder(
-                            itemCount: 2,
+                            itemCount: 4,
                             itemBuilder: (context, index) {
-                              var datas = showCartController.allParsedData[index];
-                              // var img = showCartController.allParsedData['url']+'/'+showCartController.allParsedData[index]['feature_img'];
+                              // var datas = showCartController.allParsedData[index];
+                              // var fuck = showCartController.fuckedData[index];
+                              var img = showCartController.allParsedData['url']+'/'+showCartController.allParsedData['data'][index]['image'];
                               // print('Fuckkinh ${img}');
                               return Card(
                                 color: Colors.white10,
                                 child: Row(
                                   children: [
-                                    // Image(image: NetworkImage(img),height: 150,width: 150,),
-                                    Text(
-                                      showCartController.fuckedData.toString(),
-                                      style: TextStyle(color: Colors.white),
+                                    Image(image: NetworkImage(img),height: 120,width: 120,),
+
+                                    Column(
+                                      children: [
+                                        Text(
+                                         showCartController.allParsedData['data'][index]['productName'].toString(),
+                                          style: TextStyle(color: Colors.white,fontSize: 20),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
