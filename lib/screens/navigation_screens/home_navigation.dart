@@ -32,22 +32,9 @@ class HomeNavigation extends StatefulWidget {
 }
 
 class _HomeNavigationState extends State<HomeNavigation> {
-  var productJson = [];
-  void fetchProducts() async {
-    final response =
-        await http.get(Uri.parse('${AppConfig.BASE_URL}/productlist'));
-    final jsonData = jsonDecode(response.body);
-
-    setState(() {
-      productJson = jsonData;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-
-    fetchProducts();
   }
 
   @override
@@ -63,47 +50,46 @@ class _HomeNavigationState extends State<HomeNavigation> {
                   FutureBuilder<BannerModel>(
                       future: bannerController.bannerModelFuture,
                       builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                          case ConnectionState.waiting:
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          default:
+                            if (snapshot.hasData) {
+                              return Container(
+                                child: Text(snapshot.hasError.toString()),
+                              );
+                            } else {
+                              return SizedBox(
+                                height: 160,
+                                child: ListView.builder(
+                                    itemCount: 1,
+                                    itemBuilder: (context, index) {
+                                      var datas =
+                                          bannerController.decodedData['data'];
 
-                     switch(snapshot.connectionState){
-                       case ConnectionState.none:
-                       case ConnectionState.waiting:
-                         return Center(child: CircularProgressIndicator(),);
-                       default:
-                         if(snapshot.hasData){
-                           return Container(
-                             child: Text(snapshot.hasError.toString()),
-                           );
-
-                         }else{
-                           return SizedBox(
-                             height: 160,
-                             child: ListView.builder(
-                                 itemCount: 1,
-                                 itemBuilder: (context,index){
-                                   var datas = bannerController.decodedData['data'];
-                                   // var fuck = snapshot.data!.data[index];
-                                   var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
-                                   return ClipRRect(
-                                     borderRadius: BorderRadius.circular(25),
-                                     child: Image(
-                                       image: NetworkImage(
-                                         img,
-
-                                       ),
-
-                                       color: Colors.black38,
-                                       colorBlendMode: BlendMode.hardLight,
-
-                                       fit: BoxFit.contain,
-                                     ),
-                                   );
-                                 }),
-                           );
-                         }
-                     }
+                                      var url =
+                                          'https://admin.sandeepjewellers.com/app/public/img/banner/';
+                                      var img =
+                                          '${url + bannerController.decodedData['data'][index]['image']}';
+                                      return ClipRRect(
+                                        borderRadius: BorderRadius.circular(25),
+                                        child: Image(
+                                          image: NetworkImage(
+                                            img,
+                                          ),
+                                          color: Colors.black38,
+                                          colorBlendMode: BlendMode.hardLight,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      );
+                                    }),
+                              );
+                            }
+                        }
                       }),
-
-
                   const Positioned(
                     left: 10,
                     top: 30,
@@ -151,51 +137,62 @@ class _HomeNavigationState extends State<HomeNavigation> {
               FutureBuilder<ShopForCategoryModel>(
                   future: shopForController.allDataModelFuture,
                   builder: (context, snapshot) {
-                   switch(snapshot.connectionState){
-                     case ConnectionState.none:
-                     case ConnectionState.waiting:
-                       return Center(child: CircularProgressIndicator(),);
-                     default:
-                       if(snapshot.hasData){
-                         return Container(
-                           child: Text(snapshot.error.toString(),style: TextStyle(color: Colors.white),),
-                         );
-                       }else{
-                         return SizedBox(
-                           height: 140,
-                           child: ListView.builder(
-                             scrollDirection: Axis.horizontal,
-                             itemCount: 5,
-                             itemBuilder: (context, index) {
-                               var datas = shopForController.allParsedData['data'][index]['image'];
-                               var img = '${shopForController.allParsedData['url'] + '/' + datas}';
-                             var podId = shopForController.allParsedData['data'][index]['id'];
-                               return InkWell(
-                                 onTap: () {
-                                   setState(() {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      default:
+                        if (snapshot.hasData) {
+                          return Container(
+                            child: Text(
+                              snapshot.error.toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        } else {
+                          return SizedBox(
+                            height: 140,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                var url =
+                                    'https://admin.sandeepjewellers.com/app/public/img/category/';
+                                var img =
+                                    '${url + shopForController.allParsedData['data'][index]['image']}';
+                                var podId = shopForController
+                                    .allParsedData['data'][index]['id'];
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      push(
+                                          context: context,
+                                          widget: CategoryDetails(
+                                              varId: podId.toString()));
+                                    });
 
-                                  push(context: context, widget: CategoryDetails(varId:podId.toString()));
-
-                                   });
-
-                                   // print(shopForController.allParsedData['data'][index]['id']);
-                                 },
-                                 child: Card(
-                                   elevation: 0,
-                                   margin: const EdgeInsets.symmetric(horizontal: 8),
-                                   color: Colors.white10,
-                                   child: ShopCarousel(
-
-                                     image: img,
-                                     label: shopForController.allParsedData['data'][index]['category'],
-                                   ),
-                                 ),
-                               );
-                             },
-                           ),
-                         );
-                       }
-                   }
+                                    // print(shopForController.allParsedData['data'][index]['id']);
+                                  },
+                                  child: Card(
+                                    elevation: 0,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    color: Colors.white10,
+                                    child: ShopCarousel(
+                                      image: img,
+                                      label: shopForController
+                                              .allParsedData['data'][index]
+                                          ['category'],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                    }
                   }),
 
               const SizedBox(
@@ -225,21 +222,24 @@ class _HomeNavigationState extends State<HomeNavigation> {
                             itemCount: snapshot.data!.data.length,
                             itemBuilder: (context, index) {
                               var datas = snapshot.data!.data[index];
-                              var img =
-                                  '${snapshot.data!.url + '/' + datas.image}';
-                              // print(img);
 
+                              var url =
+                                  'https://admin.sandeepjewellers.com/app/public/img/product/';
+                              var img = '${url + datas.image}';
                               return InkWell(
                                 onTap: () {
                                   setState(() {
-                                   push(context: context, widget: ProductDetailView(
-                                     prodId: datas.id.toString(),
-                                     img: img,
-                                     color: datas.color,
-                                     prodName: datas.jwelleryName,
-                                     size: datas.defaultSize,
-                                     items: datas.defaultSize,
-                                   ),);
+                                    push(
+                                      context: context,
+                                      widget: ProductDetailView(
+                                        prodId: datas.id.toString(),
+                                        img: img,
+                                        color: datas.color,
+                                        prodName: datas.jwelleryName,
+                                        size: datas.defaultSize,
+                                        items: datas.defaultSize,
+                                      ),
+                                    );
                                   });
                                 },
                                 child: Card(
@@ -287,6 +287,18 @@ class _HomeNavigationState extends State<HomeNavigation> {
               const SizedBox(
                 height: 20,
               ),
+              // FutureBuilder(
+              //     future: productController.dataModelFuture,
+              //     builder: (context, snapshot) {
+              //       return Text(
+              //         bannerController.decodedData['data'][0]['productname']
+              //             .toString(),
+              //         style: TextStyle(
+              //           color: Colors.white,
+              //           fontSize: 20,
+              //         ),
+              //       );
+              //     }),
               Container(
                   alignment: Alignment.bottomLeft,
                   child: const Text(
@@ -315,8 +327,10 @@ class _HomeNavigationState extends State<HomeNavigation> {
                               itemCount: 4,
                               itemBuilder: (context, index) {
                                 var datas = snapshot.data!.data[index];
-                                var img =
-                                    '${snapshot.data!.url + '/' + datas.image}';
+
+                                var url =
+                                    'https://admin.sandeepjewellers.com/app/public/img/product/';
+                                var img = '${url + datas.image}';
                                 return InkWell(
                                     onTap: () => print("click"),
                                     child: Padding(
@@ -336,12 +350,15 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                                     height: 100,
                                                     width: 100,
                                                     fit: BoxFit.contain),
+                                                SizedBox(
+                                                  height: 8,
+                                                ),
                                                 Text(datas.jwelleryName,
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.w500,
-                                                        fontSize: 14,
+                                                        fontSize: 13,
                                                         color: Colors.white)),
                                                 Container(
                                                   child: Text(
@@ -383,50 +400,49 @@ class _HomeNavigationState extends State<HomeNavigation> {
               //   ),
               // ),
 
-
-
-
               FutureBuilder<BannerModel>(
                   future: bannerController.bannerModelFuture,
                   builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
 
-                   switch(snapshot.connectionState){
-                     case ConnectionState.none:
-                     case ConnectionState.waiting:
-                       return  Center(child: CircularProgressIndicator(),);
-
-                     default:
-                       if(snapshot.hasData){
-                         return Container(child: Text(snapshot.hasError.toString()),);
-                       }else{
-                         return SizedBox(
-                           height: 160,
-                           child: ListView.builder(
-                               itemCount: 1,
-                               itemBuilder: (context,index){
-                                 var datas = bannerController.decodedData['data'];
-                                 // var fuck = snapshot.data!.data[index];
-                                 var img = bannerController.decodedData['url']+'/'+datas[index]['image'];
-                                 return Center(
-                                   child: ClipRRect(
-                                     borderRadius: BorderRadius.circular(10),
-                                     child: Image(
-                                       image: NetworkImage(
-                                         img,
-
-                                       ),
-
-
-
-                                       fit: BoxFit.contain,
-                                     ),
-                                   ),
-                                 );
-
-                               }),
-                         );
-                       }
-                   }
+                      default:
+                        if (snapshot.hasData) {
+                          return Container(
+                            child: Text(snapshot.hasError.toString()),
+                          );
+                        } else {
+                          return SizedBox(
+                            height: 160,
+                            child: ListView.builder(
+                                itemCount: 1,
+                                itemBuilder: (context, index) {
+                                  var datas =
+                                      bannerController.decodedData['data'];
+                                  // var fuck = snapshot.data!.data[index];
+                                  var url =
+                                      'https://admin.sandeepjewellers.com/app/public/img/banner/';
+                                  var img =
+                                      '${url + bannerController.decodedData['data'][index]['image']}';
+                                  return Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image(
+                                        image: NetworkImage(
+                                          img,
+                                        ),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          );
+                        }
+                    }
                   }),
 
               const SizedBox(
@@ -458,8 +474,9 @@ class _HomeNavigationState extends State<HomeNavigation> {
                           itemCount: 4,
                           itemBuilder: (context, index) {
                             var datas = snapshot.data!.data[index];
-                            var img =
-                                '${snapshot.data!.url + '/' + datas.image}';
+                            var url =
+                                'https://admin.sandeepjewellers.com/app/public/img/product/';
+                            var img = '${url + datas.image}';
                             return InkWell(
                                 onTap: () => print("click"),
                                 child: Padding(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/product_details_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +11,7 @@ class ProductDetailsController extends GetxController {
 
 
   Future<ProductDetailsModel>? detailsModelFuture;
-  Future<ProductDetailsModel> getProdCall(String prodId) async {
+  Future<ProductDetailsModel?> getProdCall(String prodId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('proId', prodId);
@@ -19,13 +20,13 @@ class ProductDetailsController extends GetxController {
 
     try {
       var url =
-          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/product_detail';
+          '${AppConfig.BASE_URL}/product_detail';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
-      }, body: {
+      }, body:jsonEncode(<String,String>{
         "product_id": prodId,
-      });
+      }),);
       // print(" url call from " + url);
       if (response.statusCode == 200) {
         // print('url hit successful' + response.body);
@@ -40,18 +41,24 @@ class ProductDetailsController extends GetxController {
         prefs.setString("prodCount", 2.toString());
         prefs.setString("prodColor", parsedData['data']['jewellery_color']);
         prefs.setString("prodSize", parsedData['data']['jewellery_size']);
+
+        return ProductDetailsModel.fromJson(parsedData);
+      }else {
+
+        throw Exception('Failed to create album.');
       }
     } catch (e) {
-      print(e);
+    return null;
     }
-    return parsedData;
+
   }
 
   @override
   void onInit() {
     super.onInit();
-    detailsModelFuture = getProdCall(sharedString);
-    parsedData = getProdCall(sharedString);
+    // detailsModelFuture = getProdCall(sharedString);
+    // parsedData = getProdCall(sharedString);
+    detailsModelFuture = getProdCall(sharedString) as Future<ProductDetailsModel>?;
   }
 
 

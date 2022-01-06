@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
+import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/login_response.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
@@ -111,11 +112,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 //           phoneNumber: _phoneController.text));
                 // }
                 loginOtp();
-
               },
               textColor: Colors.black,
             ),
-
             const SizedBox(
               height: 50,
             ),
@@ -137,10 +136,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
         ),
       ),
     );
-    }
+  }
+
   Future loginOtp() async {
-    var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/otp/request";
+    var url = "${AppConfig.BASE_URL}/otp/request";
     var response = await http.post(Uri.parse(url), body: {
       "mobile_no": _phoneController.text,
     });
@@ -159,8 +158,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
           widget: VerifyOtpInputScreen(
             phoneNumber: _phoneController.text,
           ));
-
-
     } else {
       print('OTP sent failed');
       // Create a flutter toast.
@@ -174,16 +171,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
           fontSize: 20.0);
     }
   }
+}
+
+bool validateAndSave() {
+  final form = globalFormKey.currentState;
+  if (form!.validate()) {
+    form.save();
+    return true;
+  } else {
+    return false;
   }
-
-  bool validateAndSave() {
-    final form = globalFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
+}

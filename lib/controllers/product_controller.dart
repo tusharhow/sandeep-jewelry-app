@@ -44,5 +44,4 @@ class ProductController extends GetxController {
     dataModelFuture = getData();
     dataModel = getData();
   }
-
 }

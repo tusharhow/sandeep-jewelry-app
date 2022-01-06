@@ -7,6 +7,7 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart
 import 'package:sandeep_jwelery/components/textformfield.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -256,7 +257,7 @@ class _SignUpState extends State<SignUp> {
 
   Future Registration() async {
     var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/register";
+        "${AppConfig.BASE_URL}/register";
     var response = await http.post(Uri.parse(url), body: {
       "name": _nameController.text,
       "email": _emailController.text,

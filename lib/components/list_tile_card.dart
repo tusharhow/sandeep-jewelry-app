@@ -40,7 +40,7 @@ class ListTileCard extends StatelessWidget {
                   Text(
                     label,
                     textAlign: TextAlign.justify,
-                    style: const TextStyle(color: Colors.white, fontSize: 15),
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
                   ),
                   const SizedBox(
                     height: 10,

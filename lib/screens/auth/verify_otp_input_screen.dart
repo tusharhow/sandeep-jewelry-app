@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
@@ -204,8 +205,7 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
   }
 
   Future otpValidation() async {
-    var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/login";
+    var url = "${AppConfig.BASE_URL}/login";
     var response = await http.post(Uri.parse(url), body: {
       "mobile_no": widget.phoneNumber,
       "one_singnal": "y",

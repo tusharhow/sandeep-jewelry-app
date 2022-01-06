@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:sandeep_jwelery/models/collection_details_model.dart';
-import 'package:sandeep_jwelery/models/shop_for_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../config.dart';

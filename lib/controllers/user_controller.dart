@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,8 +21,7 @@ class UserController extends GetxController {
       var userToken = prefs.getString('userToken');
       userNumber = prefs.getString('mobile');
 
-      var url =
-          "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/details";
+      var url = "${AppConfig.BASE_URL}/details";
       var response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
         'Authorization': 'Bearer ' + userToken!,

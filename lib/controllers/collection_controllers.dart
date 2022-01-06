@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/config.dart';
 import 'package:sandeep_jwelery/models/collection_all_model.dart';
 import 'package:sandeep_jwelery/models/mens_collection_model.dart';
 import 'package:sandeep_jwelery/models/womens_collection_model.dart';
@@ -14,12 +15,10 @@ class CollectionController extends GetxController {
   Future<WomensCollectionModel>? allWomensModelFuture;
   Future<MensCollectionModel>? allMensModelFuture;
 
-
   Future<CollectionAllModel> getAllCollection() async {
     try {
       isLoading(true);
-      var url =
-          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/collection';
+      var url = '${AppConfig.BASE_URL}/collection';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
@@ -41,15 +40,10 @@ class CollectionController extends GetxController {
     return allParsedData;
   }
 
-
-
-
-
   Future<WomensCollectionModel> getWomensCollection() async {
     try {
       isLoading(true);
-      var url =
-          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/collection';
+      var url = 'https://admin.sandeepjewellers.com/app/public/api/collection';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
@@ -69,15 +63,12 @@ class CollectionController extends GetxController {
       print(e);
     }
     return allWomensData;
-
   }
-
 
   Future<MensCollectionModel> getMensCollection() async {
     try {
       isLoading(true);
-      var url =
-          'http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/public/api/collection';
+      var url = 'https://admin.sandeepjewellers.com/app/public/api/collection';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
@@ -97,10 +88,7 @@ class CollectionController extends GetxController {
       print(e);
     }
     return allMensData;
-
   }
-
-
 
   @override
   void onInit() {

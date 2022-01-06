@@ -20,7 +20,6 @@ class ShoppingPage extends StatefulWidget {
 }
 
 class _ShoppingPageState extends State<ShoppingPage> {
-
   // final productController = Get.put(ProductController());
 
   bool isListView = true;
@@ -36,7 +35,6 @@ class _ShoppingPageState extends State<ShoppingPage> {
     collectionController.getAllCollection();
     collectionController.getWomensCollection();
     collectionController.getMensCollection();
-
   }
 
   @override
@@ -107,199 +105,217 @@ class _ShoppingPageState extends State<ShoppingPage> {
                           height: 40,
                           text: "Mens",
                         ),
-
                       ],
                     ),
                   ),
-               SizedBox(
-                 height: 500,
-                 child: TabBarView(children: [
-                    FutureBuilder<CollectionAllModel>(
-                        future: collectionController.allDataModelFuture,
-                        builder: (context, snapshot) {
-
-                          switch(snapshot.connectionState) {
-                            case ConnectionState.none:
-                            case ConnectionState.waiting:
-                              return Center(child: CircularProgressIndicator(),);
-                            default:
-                              if (snapshot.hasData) {
-                                return Container(child: Text(
-                                  snapshot.error.toString(),style: TextStyle(color: Colors.white),));
-                              } else {
-                                return SizedBox(
-                                  height: 800,
-                                  child: ListView.builder(
-                                      itemCount: 8,
-                                      itemBuilder: (context, index) {
-                                        var datas = collectionController
-                                            .allParsedData['data'][index];
-
-
-                                        // var fuck = snapshot.data!.data[index];
-                                        var img = collectionController
-                                            .allParsedData['url'] + '/' + datas['image'];
-                                        var catId = collectionController
-                                            .allParsedData['data'][index]['category_id'];
-                                        return InkWell(
-                                          onTap: (){
-                                            print(catId);
-
-                                            push(context: context, widget: CollectionDetailsScreen(catId: catId.toString(),));
-                                          },
-                                          child: Card(
-                                            margin: EdgeInsets.only(top: 15),
-                                            color: Colors.white10,
-                                            child: Row(
-                                              children: [
-                                                Image(image: NetworkImage(img),
-                                                  height: 130,
-                                                  width: 130,),
-
-                                                SizedBox(width: 20,),
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      datas['category'],
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
-
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      }),
+                  SizedBox(
+                    height: 500,
+                    child: TabBarView(children: [
+                      FutureBuilder<CollectionAllModel>(
+                          future: collectionController.allDataModelFuture,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                              case ConnectionState.waiting:
+                                return Center(
+                                  child: CircularProgressIndicator(),
                                 );
-                              }
-                          }
-                        }),
+                              default:
+                                if (snapshot.hasData) {
+                                  return Container(
+                                      child: Text(
+                                    snapshot.error.toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ));
+                                } else {
+                                  return SizedBox(
+                                    height: 800,
+                                    child: ListView.builder(
+                                        itemCount: 8,
+                                        itemBuilder: (context, index) {
+                                          var datas = collectionController
+                                              .allParsedData['data'][index];
 
+                                          var url =
+                                              'https://admin.sandeepjewellers.com/app/public/img/category/';
+                                          var img = url + datas['image'];
+                                          var catId = collectionController
+                                                  .allParsedData['data'][index]
+                                              ['id'];
+                                          return InkWell(
+                                            onTap: () {
+                                              print(catId);
 
-                   FutureBuilder<WomensCollectionModel>(
-                       future: collectionController.allWomensModelFuture,
-                       builder: (context, snapshot) {
+                                              push(
+                                                  context: context,
+                                                  widget:
+                                                      CollectionDetailsScreen(
+                                                    catId: catId.toString(),
+                                                  ));
+                                            },
+                                            child: Card(
+                                              margin: EdgeInsets.only(top: 15),
+                                              color: Colors.white10,
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    image: NetworkImage(img),
+                                                    height: 130,
+                                                    width: 130,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        datas['category'],
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                }
+                            }
+                          }),
+                      FutureBuilder<WomensCollectionModel>(
+                          future: collectionController.allWomensModelFuture,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                              case ConnectionState.waiting:
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              default:
+                                if (snapshot.hasData) {
+                                  return Container(
+                                      child: Text(
+                                    snapshot.error.toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ));
+                                } else {
+                                  return SizedBox(
+                                    height: 800,
+                                    child: ListView.builder(
+                                        itemCount: 1,
+                                        itemBuilder: (context, index) {
+                                          var datas = collectionController
+                                              .allWomensData['data'][index];
 
-                         switch(snapshot.connectionState) {
-                           case ConnectionState.none:
-                           case ConnectionState.waiting:
-                             return Center(child: CircularProgressIndicator(),);
-                           default:
-                             if (snapshot.hasData) {
-                               return Container(child: Text(
-                                 snapshot.error.toString(),style: TextStyle(color: Colors.white),));
-                             } else {
-                               return SizedBox(
-                                 height: 800,
-                                 child: ListView.builder(
-                                     itemCount: 1,
-                                     itemBuilder: (context, index) {
-                                       var datas = collectionController
-                                           .allWomensData['data'][index];
+                                          var url =
+                                              'https://admin.sandeepjewellers.com/app/public/img/category/';
+                                          var img = url + datas['image'];
+                                          return InkWell(
+                                            onTap: () {
+                                              // print(datas['category']);
+                                            },
+                                            child: Card(
+                                              margin: EdgeInsets.only(top: 15),
+                                              color: Colors.white10,
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    image: NetworkImage(img),
+                                                    height: 130,
+                                                    width: 130,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        datas['category'],
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                }
+                            }
+                          }),
+                      FutureBuilder<MensCollectionModel>(
+                          future: collectionController.allMensModelFuture,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                              case ConnectionState.waiting:
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              default:
+                                if (snapshot.hasData) {
+                                  return Container(
+                                      child: Text(
+                                    snapshot.error.toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ));
+                                } else {
+                                  return SizedBox(
+                                    height: 800,
+                                    child: ListView.builder(
+                                        itemCount: 1,
+                                        itemBuilder: (context, index) {
+                                          var datas = collectionController
+                                              .allMensData['data'][index];
 
-
-                                       // var fuck = snapshot.data!.data[index];
-                                       var img = collectionController
-                                           .allWomensData['url'] + '/' + datas['image'];
-                                       return InkWell(
-                                         onTap: (){
-                                           print(datas['category']);
-                                         },
-                                         child: Card(
-                                           margin: EdgeInsets.only(top: 15),
-                                           color: Colors.white10,
-                                           child: Row(
-                                             children: [
-                                               Image(image: NetworkImage(img),
-                                                 height: 130,
-                                                 width: 130,),
-
-                                               SizedBox(width: 20,),
-                                               Column(
-                                                 children: [
-                                                   Text(
-                                                     datas['category'],
-                                                     style: TextStyle(
-                                                         color: Colors.white),
-                                                   ),
-                                                 ],
-                                               ),
-
-                                             ],
-                                           ),
-                                         ),
-                                       );
-                                     }),
-                               );
-                             }
-                         }
-                       }),
-
-
-
-                   FutureBuilder<MensCollectionModel>(
-                       future: collectionController.allMensModelFuture,
-                       builder: (context, snapshot) {
-
-                         switch(snapshot.connectionState) {
-                           case ConnectionState.none:
-                           case ConnectionState.waiting:
-                             return Center(child: CircularProgressIndicator(),);
-                           default:
-                             if (snapshot.hasData) {
-                               return Container(child: Text(
-                                 snapshot.error.toString(),style: TextStyle(color: Colors.white),));
-                             } else {
-                               return SizedBox(
-                                 height: 800,
-                                 child: ListView.builder(
-                                     itemCount: 1,
-                                     itemBuilder: (context, index) {
-                                       var datas = collectionController
-                                           .allMensData['data'][index];
-
-
-                                       // var fuck = snapshot.data!.data[index];
-                                       var img = collectionController
-                                           .allMensData['url'] + '/' + datas['image'];
-                                       return InkWell(
-                                         onTap: (){
-                                           print(datas['category']);
-                                         },
-                                         child: Card(
-                                           margin: EdgeInsets.only(top: 15),
-                                           color: Colors.white10,
-                                           child: Row(
-                                             children: [
-                                               Image(image: NetworkImage(img),
-                                                 height: 130,
-                                                 width: 130,),
-
-                                               SizedBox(width: 20,),
-                                               Column(
-                                                 children: [
-                                                   Text(
-                                                     datas['category'],
-                                                     style: TextStyle(
-                                                         color: Colors.white),
-                                                   ),
-                                                 ],
-                                               ),
-
-                                             ],
-                                           ),
-                                         ),
-                                       );
-                                     }),
-                               );
-                             }
-                         }
-                       }),
-
-                  ]),
-               ),
+                                          // var fuck = snapshot.data!.data[index];
+                                          var url =
+                                              'https://admin.sandeepjewellers.com/app/public/img/category/';
+                                          var img = url + datas['image'];
+                                          return InkWell(
+                                            onTap: () {
+                                              print(datas['category']);
+                                            },
+                                            child: Card(
+                                              margin: EdgeInsets.only(top: 15),
+                                              color: Colors.white10,
+                                              child: Row(
+                                                children: [
+                                                  Image(
+                                                    image: NetworkImage(img),
+                                                    height: 130,
+                                                    width: 130,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        datas['category'],
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                }
+                            }
+                          }),
+                    ]),
+                  ),
                   // Expanded(
                   //   child: TabBarView(children: [
                   // Expanded(
@@ -526,14 +542,13 @@ class _ShoppingPageState extends State<ShoppingPage> {
                   //           }),
                   // ),
 
-
-                      //
-                      // Icon(Icons.home_filled),
-                      // Icon(Icons.home_filled),
-                      // Icon(
-                      //   Icons.home_filled,
-                      //   color: Colors.white,
-                      // ),
+                  //
+                  // Icon(Icons.home_filled),
+                  // Icon(Icons.home_filled),
+                  // Icon(
+                  //   Icons.home_filled,
+                  //   color: Colors.white,
+                  // ),
                   //   ]),
                   // ),
                   const SizedBox(
@@ -549,56 +564,56 @@ class _ShoppingPageState extends State<ShoppingPage> {
   }
 }
 
-class Category extends StatefulWidget {
-  const Category({Key? key}) : super(key: key);
+// class Category extends StatefulWidget {
+//   const Category({Key? key}) : super(key: key);
 
-  @override
-  _CategoryState createState() => _CategoryState();
-}
+//   @override
+//   _CategoryState createState() => _CategoryState();
+// }
 
-class _CategoryState extends State<Category> {
-  List<String> categories = ["All", "Mens", "Womens", "Kids"];
+// class _CategoryState extends State<Category> {
+//   List<String> categories = ["All", "Mens", "Womens", "Kids"];
 
-  int selectedIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) => InkWell(
-          onTap: () {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: _buildCategory(index),
-          ),
-        ),
-      ),
-    );
-  }
+//   int selectedIndex = 0;
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 40,
+//       child: ListView.builder(
+//         scrollDirection: Axis.horizontal,
+//         itemCount: categories.length,
+//         itemBuilder: (context, index) => InkWell(
+//           onTap: () {
+//             setState(() {
+//               selectedIndex = index;
+//             });
+//           },
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 15),
+//             child: _buildCategory(index),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
-  Widget _buildCategory(int index) {
-    return Container(
-      height: 45,
-      width: 70,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: selectedIndex == index
-            ? const Color(0xffFDD700)
-            : Colors.transparent,
-      ),
-      child: Center(
-        child: Text(
-          categories[index],
-          style: TextStyle(
-              color: selectedIndex == index ? Colors.black : Colors.white),
-        ),
-      ),
-    );
-  }
-}
+//   Widget _buildCategory(int index) {
+//     return Container(
+//       height: 45,
+//       width: 70,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(20),
+//         color: selectedIndex == index
+//             ? const Color(0xffFDD700)
+//             : Colors.transparent,
+//       ),
+//       child: Center(
+//         child: Text(
+//           categories[index],
+//           style: TextStyle(
+//               color: selectedIndex == index ? Colors.black : Colors.white),
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -6,23 +6,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../config.dart';
 
-class CollectionDetailsController extends GetxController{
-
-var parsedData;
-var getValue;
-var collectionDetailsModel;
+class CollectionDetailsController extends GetxController {
+  var parsedData;
+  var getValue;
+  var collectionDetailsModel;
 
   Future<CollectionDetailsModel> fetchData(String val) async {
     try {
       final response = await http
           .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
-        "category_id":val,
+        "category_id": val,
       }, headers: {
         "Accept": "application/json"
       });
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-       prefs.setString('collectionVal', val);
+      prefs.setString('collectionVal', val);
       getValue = prefs.getString('collectionVal');
       if (response.statusCode == 200) {
         parsedData = jsonDecode(response.body);

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
-
 class TodaysDealsCard extends StatelessWidget {
   const TodaysDealsCard({
     Key? key,
     @required this.label,
     @required this.labelImage,
-    @required this.rating,
-    @required this.ratingLevel,
-    @required this.ratingCount,
+    // @required this.rating,
+    // @required this.ratingLevel,
+    // @required this.ratingCount,
     @required this.productDesc,
   }) : super(key: key);
   final label;
   final labelImage;
-  final rating;
-  final ratingLevel;
-  final ratingCount;
+  // final rating;
+  // final ratingLevel;
+  // final ratingCount;
   final productDesc;
 
   @override
@@ -46,14 +45,16 @@ class TodaysDealsCard extends StatelessWidget {
           ),
           Text(
             label ?? '',
-            style: const TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(color: Colors.white, fontSize: 13),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
             productDesc ?? '',
-            style: const TextStyle(color: Colors.white54, fontSize: 12),
+            style: const TextStyle(color: Colors.white54, fontSize: 13),
+            textAlign: TextAlign.justify,
+            maxLines: 1,
           ),
           const SizedBox(
             height: 10,
