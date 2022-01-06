@@ -9,7 +9,6 @@ class ProductDetailsController extends GetxController {
   var parsedData;
   var sharedString;
 
-
   Future<ProductDetailsModel>? detailsModelFuture;
   Future<ProductDetailsModel?> getProdCall(String prodId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -19,38 +18,37 @@ class ProductDetailsController extends GetxController {
     sharedString = prefs.getString('proId');
 
     try {
-      var url =
-          '${AppConfig.BASE_URL}/product_detail';
+      var url = '${AppConfig.BASE_URL}/product_detail';
 
-      final response = await http.post(Uri.parse(url), headers: {
-        "Accept": "application/json",
-      }, body:jsonEncode(<String,String>{
-        "product_id": prodId,
-      }),);
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+        },
+        body: jsonEncode(<String, String>{
+          "product_id": prodId,
+        }),
+      );
       // print(" url call from " + url);
       if (response.statusCode == 200) {
         // print('url hit successful' + response.body);
 
         parsedData = json.decode(response.body);
         print('Data hit successful ' + '${parsedData['data']}');
-        print('Fuck hit successful ' + '${parsedData['data']['category']}');
-        print('prod name - ' + parsedData);
-        SharedPreferences prefs =await SharedPreferences.getInstance();
+        print(' hit successful ' + '${parsedData['data']['category']}');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("prodNam", parsedData['data']['productname']);
         prefs.setString("prodPrice", parsedData['data']['amount']);
         prefs.setString("prodCount", 2.toString());
         prefs.setString("prodColor", parsedData['data']['jewellery_color']);
         prefs.setString("prodSize", parsedData['data']['jewellery_size']);
 
-        return ProductDetailsModel.fromJson(parsedData);
-      }else {
-
-        throw Exception('Failed to create album.');
+        return parsedData;
       }
     } catch (e) {
-    return null;
+      return null;
     }
-
   }
 
   @override
@@ -58,8 +56,7 @@ class ProductDetailsController extends GetxController {
     super.onInit();
     // detailsModelFuture = getProdCall(sharedString);
     // parsedData = getProdCall(sharedString);
-    detailsModelFuture = getProdCall(sharedString) as Future<ProductDetailsModel>?;
+    detailsModelFuture =
+        getProdCall(sharedString) as Future<ProductDetailsModel>?;
   }
-
-
 }

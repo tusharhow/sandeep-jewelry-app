@@ -122,22 +122,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       // ));
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    "ShopMe",
-                    style: TextStyle(
-                        fontFamily: "avenir",
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: Obx(
               () {
@@ -147,30 +131,38 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                   return SizedBox(
                     height: 150,
                     child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: 3,
                         itemBuilder: (context, index) {
                           var datas =
                               shopForDetailsController.parsedDetailsData[index];
                           var url =
-                              'https:/admin.sandeepjewellers.com/app/public/img/product';
+                              'https://admin.sandeepjewellers.com/app/public/img/product/';
                           var img = url +
                               shopForDetailsController.parsedDetailsData[index]
                                   ['feature_img'];
-                          print('Fuckkinh ${img}');
-                          return Card(
-                            color: Colors.white10,
-                            child: Row(
-                              children: [
-                                Image(
-                                  image: NetworkImage(img),
-                                  height: 150,
-                                  width: 150,
-                                ),
-                                Text(
-                                  datas['productname'],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
+                          var prodId = datas['product_id'];
+                          return InkWell(
+                            onTap: () {
+                              push(
+                                  context: context,
+                                  widget: CategoryProductsDetails(
+                                      prodId: prodId.toString()));
+                            },
+                            child: Card(
+                              color: Colors.white10,
+                              child: Row(
+                                children: [
+                                  Image(
+                                    image: NetworkImage(img),
+                                    height: 150,
+                                    width: 150,
+                                  ),
+                                  Text(
+                                    datas['productname'],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }),

@@ -18,8 +18,7 @@ class CategoryProductDetailsController extends GetxController {
     sharedString = prefs.getString('proId');
 
     try {
-      var url =
-          '${AppConfig.BASE_URL}/product_detail';
+      var url = '${AppConfig.BASE_URL}/product_detail';
 
       final response = await http.post(Uri.parse(url), headers: {
         "Accept": "application/json",
@@ -32,7 +31,7 @@ class CategoryProductDetailsController extends GetxController {
 
         parsedData = json.decode(response.body);
         print('Data hit successful ' + '${parsedData['data']}');
-        print('Fuck hit successful ' + '${parsedData['data']['category']}');
+
         print('prod name - ' + parsedData);
       }
     } catch (e) {

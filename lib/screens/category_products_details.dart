@@ -10,14 +10,16 @@ import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/category_products_details_controller.dart';
 import 'package:sandeep_jwelery/models/category_products_details_model.dart';
 
-
 class CategoryProductsDetails extends StatefulWidget {
-   CategoryProductsDetails({Key? key,required this.prodId}) : super(key: key);
-String prodId;
+  CategoryProductsDetails({Key? key, required this.prodId}) : super(key: key);
+  String prodId;
   @override
-  _CategoryProductsDetailsState createState() => _CategoryProductsDetailsState();
+  _CategoryProductsDetailsState createState() =>
+      _CategoryProductsDetailsState();
 }
-var categoryProductsDetailsController = Get.put(CategoryProductDetailsController());
+
+var categoryProductsDetailsController =
+    Get.put(CategoryProductDetailsController());
 int tag = 1;
 List<String> options = [
   '21',
@@ -27,14 +29,13 @@ bool isClicked = false;
 bool tapped = false;
 int groupValue = 0;
 
-
 class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     categoryProductsDetailsController.getProdCall(widget.prodId.toString());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,15 +107,15 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                                     // var img =
                                     //     '${snapshot.data!.url + '/' + datas.image}';
 
-                                    var datas = categoryProductsDetailsController
-                                        .parsedData['data']['files'][index];
-
-                                    var url2 = categoryProductsDetailsController
-                                        .parsedData['url'] +
-                                        '/' +
+                                    var datas =
                                         categoryProductsDetailsController
-                                            .parsedData['data']['files']
-                                        [index]['image'];
+                                            .parsedData['data']['files'][index];
+                                    var url =
+                                        'https://admin.sandeepjewellers.com/app/public/img/product/';
+                                    var url2 = url +
+                                        categoryProductsDetailsController
+                                                .parsedData['data']['files']
+                                            [index]['image'];
 
                                     print(datas['image']);
                                     return Image(image: NetworkImage(url2));
@@ -162,7 +163,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                       alignment: Alignment.bottomLeft,
                       child: Text(
                           categoryProductsDetailsController.parsedData['data']
-                          ['jwellery_name'],
+                              ['jwellery_name'],
                           style: TextStyle(fontSize: 23, color: Colors.white)),
                     );
                     // By default, show a loading spinner
@@ -179,26 +180,30 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                   //       style: TextStyle(fontSize: 25, color: Colors.white)),
                   // ),
                   FutureBuilder<CategoryProductsDetailsModel>(
-                      future: categoryProductsDetailsController.detailsModelFuture,
+                      future:
+                          categoryProductsDetailsController.detailsModelFuture,
                       builder: (context, snapshot) {
-                        switch(snapshot.connectionState){
-
+                        switch (snapshot.connectionState) {
                           case ConnectionState.none:
                           case ConnectionState.waiting:
-                            return Center(child: CircularProgressIndicator(),);
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
 
                           default:
-                            if(snapshot.hasData){
-                              return Container(child: Text(
-                                snapshot.hasError.toString(),style: TextStyle(color: Colors.white),));
-                            }else{
-
+                            if (snapshot.hasData) {
+                              return Container(
+                                  child: Text(
+                                snapshot.hasError.toString(),
+                                style: TextStyle(color: Colors.white),
+                              ));
+                            } else {
                               return Container(
                                 alignment: Alignment.bottomLeft,
                                 child: Text(
                                     '₹ ${categoryProductsDetailsController.parsedData['data']['amount']}',
-                                    style:
-                                    TextStyle(fontSize: 25, color: Colors.white)),
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white)),
                               );
                             }
                         }
@@ -438,7 +443,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                   InkWell(
                     onTap: () {
                       setState(
-                            () {
+                        () {
                           if (isClicked == false) {
                             {
                               isClicked = true;
@@ -454,7 +459,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                       width: MediaQuery.of(context).size.width / 4.20,
                       decoration: BoxDecoration(
                         color:
-                        isClicked == true ? Colors.amber : Colors.white10,
+                            isClicked == true ? Colors.amber : Colors.white10,
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
@@ -556,7 +561,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               const AboutThisProduct(
                   label: 'Features',
                   labelDesc:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis,am viverra orci sagittis eu volutpat odio'),
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis,am viverra orci sagittis eu volutpat odio'),
               const SizedBox(
                 height: 20,
               ),

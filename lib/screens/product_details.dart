@@ -63,25 +63,23 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   void initState() {
     super.initState();
     productDetailsController.getProdCall(widget.prodId.toString());
-    cartController.addToCart(
-
-    );
+    cartController.addToCart();
     names();
   }
-names()async{
-  SharedPreferences prefs =await SharedPreferences.getInstance();
-  prefs.setString("prodNam", widget.prodName.toString());
-  prefs.setString("prodSize", widget.size.toString());
-  prefs.setString("prodCount", widget.items.toString());
-  prefs.setString("prodImg", widget.img.toString());
 
-  prefs.setString("prodColor", widget.color.toString());
-}
+  names() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("prodNam", widget.prodName.toString());
+    prefs.setString("prodSize", widget.size.toString());
+    prefs.setString("prodCount", widget.items.toString());
+    prefs.setString("prodImg", widget.img.toString());
+
+    prefs.setString("prodColor", widget.color.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
-    setState(() {
-
-    });
+    setState(() {});
 
     return Scaffold(
       appBar: AppBar(
@@ -91,19 +89,21 @@ names()async{
           title: FutureBuilder<ProductDetailsModel>(
               future: productDetailsController.detailsModelFuture,
               builder: (context, snapshot) {
-                switch(snapshot.connectionState){
+                switch (snapshot.connectionState) {
                   case ConnectionState.none:
                   case ConnectionState.waiting:
-                    return Center(child: CircularProgressIndicator(),);
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   default:
-                    if(snapshot.hasData){
+                    if (snapshot.hasData) {
                       return CircularProgressIndicator();
-                    }else{
+                    } else {
                       return Container(
                         alignment: Alignment.bottomLeft,
                         child: Text(
                             productDetailsController.parsedData['data']
-                            ['jwellery_name'],
+                                ['jwellery_name'],
                             style: TextStyle(color: Colors.white)),
                       );
                     }
@@ -179,17 +179,11 @@ names()async{
 
                                     var datas = productDetailsController
                                         .parsedData['data']['files'][index];
+                                    var url =
+                                        'https://admin.sandeepjewellers.com/app/public/img/product/';
+                                    var img = url + datas['feature_img'];
 
-                                    var url2 = productDetailsController
-                                            .parsedData['url'] +
-                                        '/' +
-                                        productDetailsController
-                                                .parsedData['data']['files']
-                                            [index]['image'];
-
-                                    print(datas['image']);
-                                    print(datas['image']);
-                                    return Image(image: NetworkImage(url2));
+                                    return Image(image: NetworkImage(img));
                                   }));
                         }
                     }
@@ -253,27 +247,30 @@ names()async{
                   FutureBuilder<ProductDetailsModel>(
                       future: productDetailsController.detailsModelFuture,
                       builder: (context, snapshot) {
-                      switch(snapshot.connectionState){
-
-                        case ConnectionState.none:
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator(),);
-
-                        default:
-                          if(snapshot.hasData){
-                            return Container(child: Text(
-                              snapshot.hasError.toString(),style: TextStyle(color: Colors.white),));
-                          }else{
-
-                            return Container(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                  '₹ ${productDetailsController.parsedData['data']['amount']}',
-                                  style:
-                                  TextStyle(fontSize: 25, color: Colors.white)),
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                          case ConnectionState.waiting:
+                            return Center(
+                              child: CircularProgressIndicator(),
                             );
-                          }
-                      }
+
+                          default:
+                            if (snapshot.hasData) {
+                              return Container(
+                                  child: Text(
+                                snapshot.hasError.toString(),
+                                style: TextStyle(color: Colors.white),
+                              ));
+                            } else {
+                              return Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                    '₹ ${productDetailsController.parsedData['data']['amount']}',
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white)),
+                              );
+                            }
+                        }
                       }),
                   const SizedBox(
                     width: 10,
@@ -469,7 +466,7 @@ names()async{
                   MiniButton(
                     btnText: 'Add to Cart',
                     onPressed: () {
-cartController.addToCart();
+                      cartController.addToCart();
                     },
                     btnTextColor: Colors.white,
                     // btnColor: const Color(0xff393939)
