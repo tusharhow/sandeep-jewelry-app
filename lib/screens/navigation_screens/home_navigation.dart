@@ -35,6 +35,29 @@ class _HomeNavigationState extends State<HomeNavigation> {
   @override
   void initState() {
     super.initState();
+    bannerModelFuture = getBannerData();
+  }
+
+  Future<BannerModel>? bannerModelFuture;
+
+  var bannerModelData;
+
+  var decodedData;
+  var url = "${AppConfig.BASE_URL}/banner";
+  Future<BannerModel> getBannerData() async {
+    try {
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+
+        decodedData = json.decode(jsonString);
+        bannerModelData = BannerModel.fromJson(decodedData);
+        print(' $decodedData');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return bannerModelData;
   }
 
   @override
@@ -57,9 +80,12 @@ class _HomeNavigationState extends State<HomeNavigation> {
                               child: CircularProgressIndicator(),
                             );
                           default:
-                            if (snapshot.hasData) {
+                            if (!snapshot.hasData) {
                               return Container(
-                                child: Text(snapshot.hasError.toString()),
+                                child: Text(
+                                  snapshot.hasError.toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               );
                             } else {
                               return SizedBox(
@@ -91,20 +117,25 @@ class _HomeNavigationState extends State<HomeNavigation> {
                         }
                       }),
                   Positioned(
-                    left: 10,
-                    top: 30,
-                    child: FutureBuilder<BannerModel>(
-                        future: bannerController.bannerModelFuture,
-                        builder: (context, snapshot) {
-                          return Text(
-                            bannerController.decodedData['data'][0]['title'],
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          );
-                        }),
-                  ),
+                      left: 10,
+                      top: 30,
+                      child: FutureBuilder<BannerModel>(
+                          future: bannerController.bannerModelFuture,
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              return Text(
+                                snapshot.data!.data[0].title,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              );
+                            }
+                          })),
                   Positioned(
                       left: 110,
                       top: 90,

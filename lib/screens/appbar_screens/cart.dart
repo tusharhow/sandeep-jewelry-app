@@ -126,7 +126,7 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                       Text(
                                         'Quantity: ' +
-                                            cartController.count.toString(),
+                                            '${snapshot.data!.data[index].count}',
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 14),
                                       ),
