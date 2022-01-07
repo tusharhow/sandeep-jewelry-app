@@ -167,6 +167,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                 return InkWell(
                                   onTap: () {
                                     setState(() {
+                                      print('Product Id: $podId');
                                       push(
                                           context: context,
                                           widget: CategoryDetails(
@@ -229,6 +230,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                               return InkWell(
                                 onTap: () {
                                   setState(() {
+                                    print('Product Id: ${datas.id}');
                                     push(
                                       context: context,
                                       widget: ProductDetailView(

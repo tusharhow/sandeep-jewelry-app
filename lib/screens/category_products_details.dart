@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,8 @@ import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/category_products_details_controller.dart';
 import 'package:sandeep_jwelery/models/category_products_details_model.dart';
+import 'package:http/http.dart' as http;
+import '../config.dart';
 
 class CategoryProductsDetails extends StatefulWidget {
   CategoryProductsDetails({Key? key, required this.prodId}) : super(key: key);
@@ -18,8 +22,6 @@ class CategoryProductsDetails extends StatefulWidget {
       _CategoryProductsDetailsState();
 }
 
-var categoryProductsDetailsController =
-    Get.put(CategoryProductDetailsController());
 int tag = 1;
 List<String> options = [
   '21',
@@ -28,18 +30,68 @@ List<String> options = [
 bool isClicked = false;
 bool tapped = false;
 int groupValue = 0;
+var shopForModel;
 
 class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
   @override
   void initState() {
     super.initState();
-    categoryProductsDetailsController.getProdCall(widget.prodId.toString());
+    detailsModelFuture = getProdCall();
+  }
+
+  Future<CategoryProductsDetailsModel>? detailsModelFuture;
+
+  Future<CategoryProductsDetailsModel> getProdCall() async {
+    try {
+      var url = '${AppConfig.BASE_URL}/product_detail';
+
+      final response = await http.post(Uri.parse(url), headers: {
+        "Accept": "application/json",
+      }, body: {
+        "product_id": widget.prodId.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var parsedData = json.decode(response.body);
+
+        shopForModel = CategoryProductsDetailsModel.fromJson(parsedData);
+      }
+    } catch (e) {
+      print(e);
+    }
+    return shopForModel;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Colors.white, //change your color here
+          ),
+          title: FutureBuilder<CategoryProductsDetailsModel>(
+              future: detailsModelFuture,
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+
+                  case ConnectionState.waiting:
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  default:
+                    if (!snapshot.hasData) {
+                      return CircularProgressIndicator();
+                    } else {
+                      return Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(snapshot.data!.data.jwelleryName,
+                            style: TextStyle(color: Colors.white)),
+                      );
+                    }
+                }
+              }),
+          backgroundColor: Colors.transparent),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -75,14 +127,14 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               //   ),
               // ),
               FutureBuilder<CategoryProductsDetailsModel>(
-                  future: categoryProductsDetailsController.detailsModelFuture,
+                  future: detailsModelFuture,
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                       case ConnectionState.none:
                         return Center(child: CircularProgressIndicator());
                       default:
-                        if (snapshot.hasData) {
+                        if (!snapshot.hasData) {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           return Container(
@@ -93,32 +145,19 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                                   fade: 0.3,
                                   scale: 0.9,
                                   autoplay: true,
-                                  itemCount: 1,
+                                  itemCount: snapshot.data!.data.files.length,
                                   itemBuilder: (context, index) {
-                                    // var url = productDetailsController
-                                    //         .parsedData['url'] +
-                                    //     '/' +
-                                    //     productDetailsController
-                                    //             .parsedData['data']['files']
-                                    //         [index]['image'];
-
-                                    // var datas =
-                                    //     snapshot.data!.data.files[index];
-                                    // var img =
-                                    //     '${snapshot.data!.url + '/' + datas.image}';
-
                                     var datas =
-                                        categoryProductsDetailsController
-                                            .parsedData['data']['files'][index];
+                                        snapshot.data!.data.files[index];
                                     var url =
                                         'https://admin.sandeepjewellers.com/app/public/img/product/';
-                                    var url2 = url +
-                                        categoryProductsDetailsController
-                                                .parsedData['data']['files']
-                                            [index]['image'];
+                                    var url2 = url + datas.image;
 
-                                    print(datas['image']);
-                                    return Image(image: NetworkImage(url2));
+                                    return Image(
+                                      image: NetworkImage(url2),
+                                      height: 130,
+                                      width: 130,
+                                    );
                                   }));
                         }
                     }
@@ -157,16 +196,18 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               ),
 
               FutureBuilder<CategoryProductsDetailsModel>(
-                  future: categoryProductsDetailsController.detailsModelFuture,
+                  future: detailsModelFuture,
                   builder: (context, snapshot) {
-                    return Container(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                          categoryProductsDetailsController.parsedData['data']
-                              ['jwellery_name'],
-                          style: TextStyle(fontSize: 23, color: Colors.white)),
-                    );
-                    // By default, show a loading spinner
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(snapshot.data!.data.jwelleryName.toString(),
+                            style:
+                                TextStyle(fontSize: 23, color: Colors.white)),
+                      );
+                    }
                   }),
 
               const SizedBox(
@@ -180,8 +221,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                   //       style: TextStyle(fontSize: 25, color: Colors.white)),
                   // ),
                   FutureBuilder<CategoryProductsDetailsModel>(
-                      future:
-                          categoryProductsDetailsController.detailsModelFuture,
+                      future: detailsModelFuture,
                       builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.none:
@@ -191,7 +231,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                             );
 
                           default:
-                            if (snapshot.hasData) {
+                            if (!snapshot.hasData) {
                               return Container(
                                   child: Text(
                                 snapshot.hasError.toString(),
@@ -200,8 +240,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                             } else {
                               return Container(
                                 alignment: Alignment.bottomLeft,
-                                child: Text(
-                                    '₹ ${categoryProductsDetailsController.parsedData['data']['amount']}',
+                                child: Text('₹ ${snapshot.data!.data.amount}',
                                     style: TextStyle(
                                         fontSize: 25, color: Colors.white)),
                               );

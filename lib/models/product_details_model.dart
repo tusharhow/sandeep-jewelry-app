@@ -19,7 +19,7 @@ class ProductDetailsModel {
     required this.url,
   });
 
-  List <Data> data;
+   Data data;
   Assets assets;
   List<SimilarProduct> similarProducts;
   int status;
@@ -27,7 +27,7 @@ class ProductDetailsModel {
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) =>
       ProductDetailsModel(
-        data: List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
+       data: Data.fromJson(json["data"]),
         assets: Assets.fromJson(json["assets"]),
         similarProducts: List<SimilarProduct>.from(
             json["similar_products"].map((x) => SimilarProduct.fromJson(x))),
@@ -36,7 +36,7 @@ class ProductDetailsModel {
       );
 
   Map<String, dynamic> toJson() => {
-       "data": List<dynamic>.from(data.map((x) => x.toJson())),
+       "data": data.toJson(),
         "assets": assets.toJson(),
         "similar_products":
             List<dynamic>.from(similarProducts.map((x) => x.toJson())),
