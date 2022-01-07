@@ -97,10 +97,29 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                                     height: 150,
                                     width: 150,
                                   ),
-                                  Text(
-                                    snapshot.data!.data[index].jwelleryName
-                                        .toString(),
-                                    style: TextStyle(color: Colors.white),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.data[index].jwelleryName
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 17),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        '₹ ${snapshot.data!.data[index].amount}'
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 14),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

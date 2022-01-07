@@ -515,8 +515,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                             child: ListView.builder(
                                 itemCount: 1,
                                 itemBuilder: (context, index) {
-                                  var datas =
-                                      bannerController.decodedData['data'];
+                                 
 
                                   var url =
                                       'https://admin.sandeepjewellers.com/app/public/img/banner/';
