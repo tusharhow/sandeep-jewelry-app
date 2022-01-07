@@ -8,8 +8,11 @@ import 'package:sandeep_jwelery/models/womens_collection_model.dart';
 
 class CollectionController extends GetxController {
   var allParsedData;
+  var allParsedModelData;
   var allWomensData;
+  var allWomensModelData;
   var allMensData;
+  var allMensModelData;
   var isLoading = true.obs;
   Future<CollectionAllModel>? allDataModelFuture;
   Future<WomensCollectionModel>? allWomensModelFuture;
@@ -30,6 +33,7 @@ class CollectionController extends GetxController {
         // print('url hit successful' + response.body);
 
         allParsedData = json.decode(response.body);
+        allParsedModelData = CollectionAllModel.fromJson(allParsedData);
         print('Collection Data hit successful ' + '${allParsedData}');
         // print(parsedData);
         isLoading(false);
@@ -37,7 +41,7 @@ class CollectionController extends GetxController {
     } catch (e) {
       print(e);
     }
-    return allParsedData;
+    return allParsedModelData;
   }
 
   Future<WomensCollectionModel> getWomensCollection() async {
@@ -55,6 +59,7 @@ class CollectionController extends GetxController {
         // print('url hit successful' + response.body);
 
         allWomensData = json.decode(response.body);
+        allWomensModelData = WomensCollectionModel.fromJson(allWomensData);
         print('Collection Data hit successful ' + '${allWomensData}');
         // print(parsedData);
         isLoading(false);
@@ -62,7 +67,7 @@ class CollectionController extends GetxController {
     } catch (e) {
       print(e);
     }
-    return allWomensData;
+    return allWomensModelData;
   }
 
   Future<MensCollectionModel> getMensCollection() async {
@@ -80,6 +85,7 @@ class CollectionController extends GetxController {
         // print('url hit successful' + response.body);
 
         allMensData = json.decode(response.body);
+        allMensModelData = MensCollectionModel.fromJson(allMensData);
         print('Collection Data hit successful ' + '${allMensData}');
         // print(parsedData);
         isLoading(false);
@@ -87,7 +93,7 @@ class CollectionController extends GetxController {
     } catch (e) {
       print(e);
     }
-    return allMensData;
+    return allMensModelData;
   }
 
   @override

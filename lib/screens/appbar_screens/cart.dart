@@ -35,6 +35,7 @@ class _CartPageState extends State<CartPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
+
     try {
       var url = '${AppConfig.BASE_URL}/cartlist';
 
@@ -120,18 +121,40 @@ class _CartPageState extends State<CartPage> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 14),
                                       ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'Quantity: ' +
+                                            cartController.count.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 14),
+                                      ),
                                     ],
                                   ),
                                 ),
                                 Spacer(),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(right: 20),
+                                //   child: Text(
+                                //     '₹ ${snapshot.data!.data[index].amount}'
+                                //         .toString(),
+                                //     style: TextStyle(
+                                //         color: Colors.white, fontSize: 20),
+                                //   ),
+                                // ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: Text(
-                                    '₹ ${snapshot.data!.data[index].amount}'
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                  padding: const EdgeInsets.only(
+                                    left: 20,
                                   ),
+                                  child: Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.remove_circle_outlined,
+                                            color: Colors.red,
+                                          ))),
                                 ),
                               ],
                             ),
@@ -152,6 +175,18 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(
+          //     left: 20,
+          //   ),
+          //   child: Container(
+          //     alignment: Alignment.bottomLeft,
+          //     child: Text(
+          //       'Total Amount: ${cartController.totalPrice}'.toString(),
+          //       style: TextStyle(color: Colors.white, fontSize: 20),
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(
               left: 20,
@@ -159,7 +194,7 @@ class _CartPageState extends State<CartPage> {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Text(
-                'Total Amount: ${cartController.products}'.toString(),
+                'Total Amount: ${cartController.totalPrice}'.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),

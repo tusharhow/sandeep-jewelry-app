@@ -90,16 +90,20 @@ class _HomeNavigationState extends State<HomeNavigation> {
                             }
                         }
                       }),
-                  const Positioned(
+                  Positioned(
                     left: 10,
                     top: 30,
-                    child: Text(
-                      'Your Favourite Designs\n Now at your Doorstep',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
+                    child: FutureBuilder<BannerModel>(
+                        future: bannerController.bannerModelFuture,
+                        builder: (context, snapshot) {
+                          return Text(
+                            bannerController.decodedData['data'][0]['title'],
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          );
+                        }),
                   ),
                   Positioned(
                       left: 110,
@@ -240,6 +244,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                         prodName: datas.jwelleryName,
                                         size: datas.defaultSize,
                                         items: datas.defaultSize,
+                                        prodPrice: datas.amount,
                                       ),
                                     );
                                   });
@@ -334,7 +339,23 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                     'https://admin.sandeepjewellers.com/app/public/img/product/';
                                 var img = '${url + datas.image}';
                                 return InkWell(
-                                    onTap: () => print("click"),
+                                    onTap: () {
+                                      setState(() {
+                                        print('Product Id: ${datas.id}');
+                                        push(
+                                          context: context,
+                                          widget: ProductDetailView(
+                                            prodId: datas.id.toString(),
+                                            img: img,
+                                            color: datas.color,
+                                            prodName: datas.jwelleryName,
+                                            size: datas.defaultSize,
+                                            items: datas.defaultSize,
+                                            prodPrice: datas.amount,
+                                          ),
+                                        );
+                                      });
+                                    },
                                     child: Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: Container(
@@ -480,7 +501,23 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                 'https://admin.sandeepjewellers.com/app/public/img/product/';
                             var img = '${url + datas.image}';
                             return InkWell(
-                                onTap: () => print("click"),
+                                onTap: () {
+                                  setState(() {
+                                    print('Product Id: ${datas.id}');
+                                    push(
+                                      context: context,
+                                      widget: ProductDetailView(
+                                        prodPrice: datas.amount,
+                                        prodId: datas.id.toString(),
+                                        img: img,
+                                        color: datas.color,
+                                        prodName: datas.jwelleryName,
+                                        size: datas.defaultSize,
+                                        items: datas.defaultSize,
+                                      ),
+                                    );
+                                  });
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Container(

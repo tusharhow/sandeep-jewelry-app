@@ -15,6 +15,7 @@ import 'package:sandeep_jwelery/controllers/add_cart_controller.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
 import 'package:sandeep_jwelery/models/cart_model.dart';
+import 'package:sandeep_jwelery/models/category_products_details_model.dart';
 import 'package:sandeep_jwelery/models/product_details_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,6 +32,7 @@ class ProductDetailView extends StatefulWidget {
   String prodName;
   String color;
   String img;
+  String prodPrice;
 
   ProductDetailView({
     required this.prodId,
@@ -38,6 +40,7 @@ class ProductDetailView extends StatefulWidget {
     required this.items,
     required this.prodName,
     required this.img,
+    required this.prodPrice,
     required this.color,
   });
 
@@ -62,6 +65,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   bool isClicked = false;
   bool tapped = false;
   int groupValue = 0;
+  var shopForModel;
   var detailsForModel;
   var prodName;
   var prodCount;
@@ -73,44 +77,66 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   var detailsResponse;
   void initState() {
     super.initState();
-
-    names();
-    shareds();
-    productDetailsModelFuture = getProdCall();
-    dataModelFuture = addToCart();
+    setState(() {
+      names();
+      shareds();
+      // productDetailsModelFuture = getProdCall();
+      dataModelFuture = addToCart();
+      detailsModelFuture = getProdCall();
+    });
   }
 
+  Future<CategoryProductsDetailsModel>? detailsModelFuture;
+
   Future<CartModel>? dataModelFuture;
+
+  Future<CategoryProductsDetailsModel> getProdCall() async {
+    try {
+      var url = '${AppConfig.BASE_URL}/product_detail';
+
+      final response = await http.post(Uri.parse(url), headers: {
+        "Accept": "application/json",
+      }, body: {
+        "product_id": widget.prodId.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        var parsedData = json.decode(response.body);
+
+        shopForModel = CategoryProductsDetailsModel.fromJson(parsedData);
+      }
+    } catch (e) {
+      print(e);
+    }
+    return shopForModel;
+  }
+
   Future<CartModel> addToCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
-    prodId = prefs.getString('proId');
-    prodName = prefs.getString('prodNam');
-    prodeColor = prefs.getString('prodColor');
-    prodCount = prefs.getString('prodCount');
-    prodPrice = prefs.getString('prodPrice');
-    prodSizee = prefs.getString('prodSize');
+
     var url = 'https://admin.sandeepjewellers.com/app/public/api/cart';
 
     final response = await http.post(Uri.parse(url), headers: {
       "Accept": "application/json",
       "Authorization": "Bearer $token",
     }, body: {
-      "product_id": prodId,
-      "product_size": prodSizee,
-      "count": prodCount,
-      "selectedColor": prodeColor,
-      "jwellery_name": prodName,
+      "product_id": widget.prodId.toString(),
+      "product_size": widget.size.toString(),
+      "count": widget.items.toString(),
+      "selectedColor": widget.color,
+      "jwellery_name": widget.prodName,
       "assests": ""
     });
-    
+
     if (response.statusCode == 200) {
-      parsedData = json.decode(response.body);
-      detailsResponse = CartModel.fromJson(parsedData);
+      setState(() {
+        parsedData = json.decode(response.body);
+        detailsResponse = CartModel.fromJson(parsedData);
+      });
     } else {
       print('failed to get data');
-     
     }
     return detailsResponse;
   }
@@ -122,7 +148,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     prefs.setString("prodSize", widget.size.toString());
     prefs.setString("prodCount", widget.items.toString());
     prefs.setString("prodImg", widget.img.toString());
-
+    prefs.setString('prodPrice', widget.prodPrice.toString());
     prefs.setString("prodColor", widget.color.toString());
   }
 
@@ -137,26 +163,26 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     prodSizee = prefs.getString('prodSize');
   }
 
-  Future<ProductDetailsModel> getProdCall() async {
-    try {
-      var url = '${AppConfig.BASE_URL}/product_detail';
+  // Future<ProductDetailsModel> getProdCall() async {
+  //   try {
+  //     var url = '${AppConfig.BASE_URL}/product_detail';
 
-      final response = await http.post(Uri.parse(url), headers: {
-        "Accept": "application/json",
-      }, body: {
-        "product_id": widget.prodId.toString(),
-      });
+  //     final response = await http.post(Uri.parse(url), headers: {
+  //       "Accept": "application/json",
+  //     }, body: {
+  //       "product_id": widget.prodId.toString(),
+  //     });
 
-      if (response.statusCode == 200) {
-        var parsedData = json.decode(response.body);
+  //     if (response.statusCode == 200) {
+  //       var parsedData = json.decode(response.body);
 
-        detailsForModel = ProductDetailsModel.fromJson(parsedData);
-      }
-    } catch (e) {
-      print(e);
-    }
-    return detailsForModel;
-  }
+  //       detailsForModel = ProductDetailsModel.fromJson(parsedData);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return detailsForModel;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -165,15 +191,15 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           iconTheme: const IconThemeData(
             color: Colors.white, //change your color here
           ),
-          title: FutureBuilder<ProductDetailsModel>(
-              future: productDetailsModelFuture,
+          title: FutureBuilder<CategoryProductsDetailsModel>(
+              future: detailsModelFuture,
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
 
                   case ConnectionState.waiting:
                     return Center(
-                      child: Center(child: CircularProgressIndicator()),
+                      child: CircularProgressIndicator(),
                     );
                   default:
                     if (!snapshot.hasData) {
@@ -181,7 +207,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     } else {
                       return Container(
                         alignment: Alignment.bottomLeft,
-                        child: Text(snapshot.data!.data.jwelleryName.toString(),
+                        child: Text(snapshot.data!.data.jwelleryName,
                             style: TextStyle(color: Colors.white)),
                       );
                     }
@@ -222,8 +248,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               //     boxFit: BoxFit.contain,
               //   ),
               // ),
-              FutureBuilder<ProductDetailsModel>(
-                  future: productDetailsModelFuture,
+              FutureBuilder<CategoryProductsDetailsModel>(
+                  future: detailsModelFuture,
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -259,7 +285,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     }
                   }),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 children: [
@@ -272,27 +298,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   const Text('Flat 50% Off on this Product',
                       style: TextStyle(fontSize: 14, color: Colors.amber)),
                   const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        tapped = !tapped;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.favorite,
-                      color: tapped ? Colors.red : Colors.grey,
-                    ),
-                    splashColor: Colors.redAccent,
-                    iconSize: 30,
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       tapped = !tapped;
+                  //     });
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.favorite,
+                  //     color: tapped ? Colors.red : Colors.grey,
+                  //   ),
+                  //   splashColor: Colors.redAccent,
+                  //   iconSize: 30,
+                  // ),
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
 
-              FutureBuilder<ProductDetailsModel>(
-                  future: productDetailsModelFuture,
+              FutureBuilder<CategoryProductsDetailsModel>(
+                  future: detailsModelFuture,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
@@ -316,8 +342,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   //   child: Text('₹ ${"widget.prodPrice"}',
                   //       style: TextStyle(fontSize: 25, color: Colors.white)),
                   // ),
-                  FutureBuilder<ProductDetailsModel>(
-                      future: productDetailsModelFuture,
+                  FutureBuilder<CategoryProductsDetailsModel>(
+                      future: detailsModelFuture,
                       builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.none:
@@ -538,7 +564,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     btnText: 'Add to Cart',
                     onPressed: () {
                       addToCart();
-                      print('Tapped');
                     },
                     btnTextColor: Colors.white,
                     // btnColor: const Color(0xff393939)

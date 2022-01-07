@@ -52,9 +52,10 @@ class ViewAllProducts extends StatelessWidget {
                               itemCount: snapshot.data!.data.length,
                               itemBuilder: (context, index) {
                                 var datas = snapshot.data!.data[index];
-                                var img =
-                                    '${snapshot.data!.url + '/' + datas.image}';
-                                // print(img);
+
+                                var url =
+                                    'https://admin.sandeepjewellers.com/app/public/img/product/';
+                                var img = '${url + datas.image}';
 
                                 return InkWell(
                                   onTap: () {
@@ -68,6 +69,7 @@ class ViewAllProducts extends StatelessWidget {
                                           prodName: datas.jwelleryName,
                                           size: datas.defaultSize,
                                           items: datas.defaultSize,
+                                          prodPrice: datas.amount,
                                         ),
                                       ),
                                     );

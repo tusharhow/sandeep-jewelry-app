@@ -163,7 +163,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                     }
                   }),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 children: [
@@ -176,19 +176,19 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                   const Text('Flat 50% Off on this Product',
                       style: TextStyle(fontSize: 14, color: Colors.amber)),
                   const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        tapped = !tapped;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.favorite,
-                      color: tapped ? Colors.red : Colors.grey,
-                    ),
-                    splashColor: Colors.redAccent,
-                    iconSize: 30,
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       tapped = !tapped;
+                  //     });
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.favorite,
+                  //     color: tapped ? Colors.red : Colors.grey,
+                  //   ),
+                  //   splashColor: Colors.redAccent,
+                  //   iconSize: 30,
+                  // ),
                 ],
               ),
               const SizedBox(

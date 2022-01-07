@@ -1,31 +1,63 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/controllers/search_controller.dart';
 import 'package:sandeep_jwelery/models/search_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../config.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-final searchController = Get.put(SearchController());
+// final searchController = Get.put(SearchController());
 
 class _HomeState extends State<Home> {
   TextEditingController controller = new TextEditingController();
 
   String currentValue = "";
   var searchVal;
-  Future fetchString() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<SearchModel>? searcModelFuture;
 
-    prefs.setString('controllerFor', controller.text);
-  }
+  var searchData;
+  var value;
+
+  // Future fetchString() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //   prefs.setString('controllerFor', controller.text);
+  // }
 
   @override
   void initState() {
     super.initState();
-    // _search = data;
+    searcModelFuture = fetchData(searchVal);
+  }
+
+  Future<SearchModel> fetchData(String val) async {
+    try {
+      final response = await http
+          .post(Uri.parse("${AppConfig.BASE_URL}/filter_product"), body: {
+        "search": val,
+      }, headers: {
+        "Accept": "application/json"
+      });
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+
+        searchData = SearchModel.fromJson(data);
+
+        print('Search OBJ: ${data['data']}');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return searchData;
   }
 
   @override
@@ -43,133 +75,64 @@ class _HomeState extends State<Home> {
                     leading: Icon(Icons.search),
                     title: TextField(
                       onEditingComplete: () {
-                        fetchString();
+                        // fetchString();
                       },
-                      onChanged: (value) {
+                      onChanged: (value) async {
                         // print("searchValueLength" + value.length.toString());
-                        setState(() {
-                          if (value.isNotEmpty) {
-                            searchVal = value.trim().toLowerCase().toString();
+                        if (value.isNotEmpty) {
+                          searchVal = value.trim().toLowerCase().toString();
 
-                            searchController.fetchData(searchVal);
-                          } else if (searchVal.isEmpty) {
-                            print('Empty');
-                          } else {
-                            print('Else');
-                          }
-
-                          // SharedPreferences prefs =
-                          //     Get.find<SharedPreferences>();
-
-                          // prefs.setString('searchVal', searchVal);
-                        });
+                          await fetchData(searchVal);
+                          print('Fuckkkkkkkkkkkkkkkk: ${searchVal}');
+                        } else {
+                          print('Else');
+                        }
                       },
-                      controller: searchController.controller,
+                      controller: controller,
                       decoration: InputDecoration(
                           hintText: "Search products..",
                           border: InputBorder.none),
                     ),
                     trailing: IconButton(
                       onPressed: () {
-                        searchController.controller.clear();
+                        controller.clear();
                       },
                       icon: Icon(Icons.cancel),
                     ),
                   ),
                 ),
               ),
-              // ElevatedButton(
-              //     onPressed: () {
-              //       searchController.fetchData(searchVal);
-              //
-              //       print('Seacrched: ${searchController.controller.text}');
-              //     },
-              //     child: Text('Search')),
+              SizedBox(
+                height: 20,
+              ),
               FutureBuilder<SearchModel>(
-                  future: searchController.searcModelFuture,
+                  future: searcModelFuture,
                   builder: (context, snapshot) {
-                    switch(snapshot.connectionState){
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return Center(child: CircularProgressIndicator(),);
-                      default:
-                        if(snapshot.hasData){
-                          return Container(child: Text(snapshot.hasError.toString()),);
-
-                        }else{
-                          return SizedBox(
-                            height: 400,
-                            child: ListView.builder(
-                                itemCount: searchVal==null?0:2,
-                                itemBuilder: (context, index) {
-                                  var img = searchController.data['data'][index]
-                                  ['feature_img'];
-
-                                  var useImage =
-                                      'http://erc2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/img/product/' +
-                                          '${img}';
-
-                                  return InkWell(
-                                    onTap: () {
-                                      print('Clicked');
-                                    },
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 15),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Card(
-                                            child: Row(
-                                              children: [
-                                                Image(
-                                                  image: NetworkImage(useImage),
-                                                  height: 120,
-                                                  width: 120,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets.only(left: 10),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        searchController
-                                                            .data['data'][index]
-                                                        ['productname']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize: 25,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                       searchController
-                                                            .data['data'][index]
-                                                        ['description']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return SizedBox(
+                        height: 400,
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.data.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {},
+                                child: Card(
+                                  child: Text(
+                                    snapshot.data!.data[index].productname
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
                                     ),
-                                  );
-                                }),
-                          );
-                        }
+                                  ),
+                                ),
+                              );
+                            }),
+                      );
                     }
                   }),
             ],

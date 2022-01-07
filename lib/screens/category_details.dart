@@ -98,7 +98,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                                     width: 150,
                                   ),
                                   Text(
-                                    snapshot.data!.data[index].category
+                                    snapshot.data!.data[index].jwelleryName
                                         .toString(),
                                     style: TextStyle(color: Colors.white),
                                   ),

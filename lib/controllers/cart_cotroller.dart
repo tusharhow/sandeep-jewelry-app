@@ -1,28 +1,28 @@
 import 'package:get/get.dart';
+import 'package:sandeep_jwelery/models/cart_model.dart';
+import 'package:sandeep_jwelery/models/show_cart_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartCotrollerIncreaments extends GetxController {
-
-
   @override
   void onInit() {
-
     super.onInit();
     sharedItems();
   }
 
   int counter = 0;
-  var products = [].obs;
-
+  List<CartModel> products = [];
+  var prodPrice;
   int get count => counter;
 
-  double get totalPrice => products.fold(0, (sum, item) => sum + item.price);
+  String get totalPrice =>
+      products.fold(0.toString(), (sum, item) => sum + item.count);
 
-  sharedItems()async{
-    SharedPreferences prefs =await SharedPreferences.getInstance();
+  sharedItems() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("CountShared", counter.toString());
+    prodPrice = prefs.getString('prodPrice');
   }
-
 
   void increments() {
     counter++;
