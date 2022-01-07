@@ -448,12 +448,6 @@ class _HomeNavigationState extends State<HomeNavigation> {
                 ),
               ),
               const SizedBox(height: 20),
-              // const Center(
-              //   child: Image(
-              //     image: AssetImage('assets/images/banner.png'),
-              //   ),
-              // ),
-
               FutureBuilder<BannerModel>(
                   future: bannerController.bannerModelFuture,
                   builder: (context, snapshot) {
@@ -498,10 +492,50 @@ class _HomeNavigationState extends State<HomeNavigation> {
                         }
                     }
                   }),
+              FutureBuilder<BannerModel>(
+                  future: bannerController.bannerModelFuture,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      default:
+                        if (!snapshot.hasData) {
+                          return Container(
+                            child: Text(
+                              snapshot.hasError.toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        } else {
+                          return SizedBox(
+                            height: 130,
+                            child: ListView.builder(
+                                itemCount: 1,
+                                itemBuilder: (context, index) {
+                                  var datas =
+                                      bannerController.decodedData['data'];
 
-              const SizedBox(
-                height: 20,
-              ),
+                                  var url =
+                                      'https://admin.sandeepjewellers.com/app/public/img/banner/';
+                                  var img =
+                                      '${url + bannerController.decodedData['data'][3]['image']}';
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image(
+                                      image: NetworkImage(
+                                        img,
+                                      ),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  );
+                                }),
+                          );
+                        }
+                    }
+                  }),
               Container(
                   alignment: Alignment.bottomLeft,
                   child: const Text(
