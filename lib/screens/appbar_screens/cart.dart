@@ -18,19 +18,21 @@ class CartPage extends StatefulWidget {
   _CartPageState createState() => _CartPageState();
 }
 
-// final showCartController = Get.put(ShowCartController());
 var allParsedData;
 var cartData;
+final cartController = Get.put(CartCotrollerIncreaments());
 
 class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
-    allDataModelFuture = getAllCart();
+    setState(() {
+      allDataModelFuture = getAllCart();
+    });
   }
 
   Future<ShowCartModel>? allDataModelFuture;
-  final cartController = Get.put(CartCotrollerIncreaments());
+
   Future<ShowCartModel> getAllCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -46,9 +48,8 @@ class _CartPageState extends State<CartPage> {
           "Authorization": "Bearer $token",
         },
       );
-    
+
       if (response.statusCode == 200) {
-      
         setState(() {
           var jsonString = response.body;
           allParsedData = json.decode(jsonString);

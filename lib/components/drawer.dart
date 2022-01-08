@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer_listview_buttorn.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/about_us.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/call_screen.dart';
+import 'package:sandeep_jwelery/screens/sidebar_components_screen/chat_screen.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/exchange.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/faq.dart';
 import 'package:sandeep_jwelery/screens/sidebar_components_screen/privacy.dart';
@@ -135,14 +137,18 @@ class AppDrawer extends StatelessWidget {
           ),
           DrawerListViewButton(
             label: 'Call',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: CallScreen());
+            },
           ),
           const SizedBox(
             height: 15,
           ),
           DrawerListViewButton(
             label: 'Chat',
-            onPressed: () {},
+            onPressed: () {
+              push(context: context, widget: ChatScreen());
+            },
           ),
           const SizedBox(
             height: 30,
