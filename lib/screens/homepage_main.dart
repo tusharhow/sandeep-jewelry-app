@@ -4,7 +4,6 @@ import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/controllers/profile_controllers/search_function.dart';
 import 'package:sandeep_jwelery/controllers/search.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
-import 'package:sandeep_jwelery/screens/appbar_screens/favourite_list_screen.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
@@ -89,7 +88,6 @@ class _HomePageMainState extends State<HomePageMain> {
                 onPressed: () {
                   push(context: context, widget: Home());
                 },
-
                 icon: Icon(
                   Icons.search,
                   size: 30,

@@ -46,9 +46,9 @@ class _CartPageState extends State<CartPage> {
           "Authorization": "Bearer $token",
         },
       );
-      // print(" url call from " + url);
+    
       if (response.statusCode == 200) {
-        // print('url hit successful' + response.body);
+      
         setState(() {
           var jsonString = response.body;
           allParsedData = json.decode(jsonString);

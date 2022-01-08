@@ -563,7 +563,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   MiniButton(
                     btnText: 'Add to Cart',
                     onPressed: () {
-                      addToCart();
+                      setState(() {
+                        addToCart();
+                      });
                     },
                     btnTextColor: Colors.white,
                     // btnColor: const Color(0xff393939)

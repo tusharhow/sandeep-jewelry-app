@@ -10,7 +10,7 @@ class CartCotrollerIncreaments extends GetxController {
     sharedItems();
   }
 
-  int counter = 0;
+  int counter = 1;
   List<CartModel> products = [];
   var prodPrice;
   int get count => counter;
@@ -30,9 +30,7 @@ class CartCotrollerIncreaments extends GetxController {
   }
 
   void decrements() {
-    if (counter == 0) {
-      counter = 1;
-    } else {
+    if (counter > 1) {
       counter--;
       update();
     }

@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/controllers/search_controller.dart';
 import 'package:sandeep_jwelery/models/search_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../config.dart';
 
 class Home extends StatefulWidget {
@@ -19,23 +18,28 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   TextEditingController controller = new TextEditingController();
 
-  String currentValue = "";
-  var searchVal;
+  // String currentValue = "";
+
   Future<SearchModel>? searcModelFuture;
 
   var searchData;
-  var value;
+  var parsedValue;
+  var sharedValue;
+  var fuckData;
 
-  // Future fetchString() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  names() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //   prefs.setString('controllerFor', controller.text);
-  // }
+    sharedValue = prefs.getString('searchValue');
+  }
 
   @override
   void initState() {
     super.initState();
-    searcModelFuture = fetchData(searchVal);
+    names();
+    searcModelFuture = fetchData(fuckData);
+
+    print('Khanki Magiiiiiiiiiiiiiiiiiiiii ${sharedValue}');
   }
 
   Future<SearchModel> fetchData(String val) async {
@@ -48,11 +52,13 @@ class _HomeState extends State<Home> {
       });
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
+        setState(() {
+          parsedValue = jsonDecode(response.body);
 
-        searchData = SearchModel.fromJson(data);
+          searchData = SearchModel.fromJson(parsedValue);
+        });
 
-        print('Search OBJ: ${data['data']}');
+        print('Search OBJ: ${parsedValue['data']}');
       }
     } catch (e) {
       print(e);
@@ -80,10 +86,16 @@ class _HomeState extends State<Home> {
                       onChanged: (value) async {
                         // print("searchValueLength" + value.length.toString());
                         if (value.isNotEmpty) {
-                          searchVal = value.trim().toLowerCase().toString();
+                          setState(() {
+                            fuckData = value.trim().toLowerCase().toString();
 
-                          await fetchData(searchVal);
-                          print('Fuckkkkkkkkkkkkkkkk: ${searchVal}');
+                            fetchData(fuckData);
+                            print('Fuckkkkkkkkkkkkkkkk: ${fuckData}');
+                          });
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+
+                          prefs.setString('searchValue', fuckData);
                         } else {
                           print('Else');
                         }
@@ -121,6 +133,7 @@ class _HomeState extends State<Home> {
                               return InkWell(
                                 onTap: () {},
                                 child: Card(
+                                  color: Colors.white10,
                                   child: Text(
                                     snapshot.data!.data[index].productname
                                         .toString(),

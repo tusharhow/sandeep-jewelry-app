@@ -52,6 +52,7 @@ android {
         applicationId "com.example.sandeep_jwelery"
         minSdkVersion 21
         targetSdkVersion 30
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
