@@ -1,14 +1,17 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/models/show_cart_model.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/search.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// String? username;
-// String? fullname;
+import '../config.dart';
 
 class HomePageMain extends StatefulWidget {
   const HomePageMain({Key? key}) : super(key: key);
@@ -27,6 +30,46 @@ class _HomePageMainState extends State<HomePageMain> {
   ];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      allDataModelFuture = getAllCart();
+    });
+  }
+
+  Future<ShowCartModel>? allDataModelFuture;
+
+  Future<ShowCartModel> getAllCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    try {
+      var url = '${AppConfig.BASE_URL}/cartlist';
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          var jsonString = response.body;
+          allParsedData = json.decode(jsonString);
+
+          cartData = ShowCartModel.fromJson(allParsedData);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+    return cartData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,18 +144,44 @@ class _HomePageMainState extends State<HomePageMain> {
             //     image: AssetImage('assets/icons/heart.png'),
             //   ),
             // ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (c) => const CartPage()));
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Image(
-                  image: AssetImage('assets/icons/basket.png'),
-                ),
-              ),
-            ),
+
+            // FutureBuildler
+            FutureBuilder<ShowCartModel>(
+                future: allDataModelFuture,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Image(
+                      image: AssetImage('assets/icons/basket.png'),
+                    );
+                  } else {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (c) => const CartPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Column(
+                            children: [
+                              Text(
+                                '${snapshot.data!.data.length}',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 12),
+                              ),
+                              Image(
+                                image: AssetImage('assets/icons/basket.png'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                })
           ],
         ),
         body: screens[_selectedIndex]);

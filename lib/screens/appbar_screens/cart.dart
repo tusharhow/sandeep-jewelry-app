@@ -171,7 +171,7 @@ class _CartPageState extends State<CartPage> {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Text(
-                'Total Items: ${cartController.counter}'.toString(),
+                'Total Items: ${cartController.count}'.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
