@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:sandeep_jwelery/controllers/search_controller.dart';
 import 'package:sandeep_jwelery/models/search_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config.dart';
@@ -13,33 +10,27 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-// final searchController = Get.put(SearchController());
-
 class _HomeState extends State<Home> {
   TextEditingController controller = new TextEditingController();
-
-  // String currentValue = "";
 
   Future<SearchModel>? searcModelFuture;
 
   var searchData;
   var parsedValue;
   var sharedValue;
-  var fuckData;
+  String SeatchModelData = '';
 
   names() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    sharedValue = prefs.getString('searchValue');
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    names();
-    searcModelFuture = fetchData(fuckData);
-
-    print('Khanki Magiiiiiiiiiiiiiiiiiiiii ${sharedValue}');
+    setState(() {
+      names();
+      searcModelFuture = fetchData(SeatchModelData);
+    });
   }
 
   Future<SearchModel> fetchData(String val) async {
@@ -58,7 +49,7 @@ class _HomeState extends State<Home> {
           searchData = SearchModel.fromJson(parsedValue);
         });
 
-        print('Search OBJ: ${parsedValue['data']}');
+        // print('Search OBJ: ${parsedValue['data']}');
       }
     } catch (e) {
       print(e);
@@ -74,28 +65,31 @@ class _HomeState extends State<Home> {
           child: Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(10.0),
-                color: Colors.blue,
+                padding: EdgeInsets.all(15.0),
+                color: Colors.green,
                 child: Card(
                   child: ListTile(
                     leading: Icon(Icons.search),
                     title: TextField(
                       onEditingComplete: () {
-                        // fetchString();
+                        setState(() {
+                          SeatchModelData = controller.text;
+                          searcModelFuture = fetchData(SeatchModelData);
+                        });
                       },
                       onChanged: (value) async {
                         // print("searchValueLength" + value.length.toString());
                         if (value.isNotEmpty) {
                           setState(() {
-                            fuckData = value.trim().toLowerCase().toString();
-
-                            fetchData(fuckData);
-                            print('Fuckkkkkkkkkkkkkkkk: ${fuckData}');
+                            SeatchModelData =
+                                value.trim().toLowerCase().toString();
+                            searcModelFuture = fetchData(SeatchModelData);
                           });
+
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
 
-                          prefs.setString('searchValue', fuckData);
+                          prefs.setString('searchValue', SeatchModelData);
                         } else {
                           print('Else');
                         }
@@ -126,21 +120,72 @@ class _HomeState extends State<Home> {
                       );
                     } else {
                       return SizedBox(
-                        height: 400,
+                        height: MediaQuery.of(context).size.height,
                         child: ListView.builder(
                             itemCount: snapshot.data!.data.length,
                             itemBuilder: (context, index) {
+                              var url =
+                                  'https://admin.sandeepjewellers.com/app/public/img/product/';
                               return InkWell(
                                 onTap: () {},
                                 child: Card(
                                   color: Colors.white10,
-                                  child: Text(
-                                    snapshot.data!.data[index].productname
-                                        .toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                    ),
+                                  child: Row(
+                                    children: [
+                                      Image(
+                                        image: NetworkImage(url +
+                                            snapshot
+                                                .data!.data[index].featureImg),
+                                        height: 80,
+                                        width: 80,
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            snapshot
+                                                .data!.data[index].productname
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            snapshot
+                                                .data!.data[index].description
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 13,
+                                            ),
+                                            textAlign: TextAlign.justify,
+                                            maxLines: 1,
+                                            softWrap: true,
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: Text(
+                                          '₹ ${snapshot.data!.data[index].amount}'
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );

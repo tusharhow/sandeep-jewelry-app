@@ -512,22 +512,25 @@ class _HomeNavigationState extends State<HomeNavigation> {
                         } else {
                           return SizedBox(
                             height: 130,
+                            width: double.infinity,
                             child: ListView.builder(
                                 itemCount: 1,
                                 itemBuilder: (context, index) {
-                                 
-
                                   var url =
                                       'https://admin.sandeepjewellers.com/app/public/img/banner/';
                                   var img =
-                                      '${url + bannerController.decodedData['data'][3]['image']}';
+                                      '${url + bannerController.decodedData['data'][6]['image']}';
                                   return ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image(
-                                      image: NetworkImage(
-                                        img,
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Center(
+                                      child: Image(
+                                        image: NetworkImage(
+                                          img,
+                                        ),
+                                        // height: 200,
+                                        // width: 200,
+                                        fit: BoxFit.contain,
                                       ),
-                                      fit: BoxFit.contain,
                                     ),
                                   );
                                 }),
@@ -535,6 +538,9 @@ class _HomeNavigationState extends State<HomeNavigation> {
                         }
                     }
                   }),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                   alignment: Alignment.bottomLeft,
                   child: const Text(

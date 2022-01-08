@@ -22,7 +22,7 @@ Future<void> main() async {
         primarySwatch: Colors.grey,
       ),
       debugShowCheckedModeBanner: false,
-      home: Splash()));
+      home: Home()));
 }
 
 // class MyApp exteHomeScreennds StatelessWidget {
