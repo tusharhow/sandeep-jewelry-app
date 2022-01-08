@@ -55,19 +55,20 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var token = prefs.getString('userToken');
+    var _token = prefs.getString('userToken');
 
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
       print(_seen);
 
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePageMain()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) =>
+              _seen == false ? SplashScreenFirst() : HomePageMain()));
     } else {
       await prefs.setBool('seen', true);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => token == null ? HomePage() : HomePageMain()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => SplashScreenFirst()));
     }
   }
 

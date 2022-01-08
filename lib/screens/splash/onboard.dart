@@ -1,4 +1,3 @@
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
@@ -27,14 +26,14 @@ class _Intro2State extends State<Intro2> {
   ];
   final List<String> labellist = [
     "We use 100% Pure Metals",
-    "We use 100% Pure Metals",
-    "We use 100% Pure Metals",
+    "We use 100% Pure Golds",
+    "We use 100% Pure Diammonds",
   ];
 
   final List<String> descriptionlist = [
     "So that you don't run out of options to choose from!",
-    "Can't make up your mind? Get a free The pink Lane jewellery trial at your doorstep.",
-    "Want a personal touch ? Visit our store and buy a free The pink Lane",
+    "Can't make up your mind? Get a free The Sandeep jewellery trial at your doorstep.",
+    "Want a personal touch ? Visit our store and buy a free Sandeep jewellery trial.",
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class _Intro2State extends State<Intro2> {
                   images: List.generate(imgList.length, (int index) {
                     return Column(
                       children: [
-                    const    SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Container(
@@ -59,7 +58,7 @@ class _Intro2State extends State<Intro2> {
                           child: Text(
                             labellist[index].toString(),
                             style: GoogleFonts.lora(
-                              textStyle:const TextStyle(
+                              textStyle: const TextStyle(
                                 color: Colors.white60,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800,
@@ -67,8 +66,7 @@ class _Intro2State extends State<Intro2> {
                             ),
                           ),
                         ),
-                  
-                    const    SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Image(
@@ -76,7 +74,7 @@ class _Intro2State extends State<Intro2> {
                           height: 350,
                           width: 350,
                         ),
-                 const SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Container(
@@ -126,7 +124,7 @@ class _Intro2State extends State<Intro2> {
               ReusablePrimaryButton(
                 childText: 'Get Started',
                 onPressed: () {
-                  push(context: context, widget:const HomePage());
+                  push(context: context, widget: const HomePage());
                 },
                 buttonColor: Colors.white,
                 textColor: Colors.black,
