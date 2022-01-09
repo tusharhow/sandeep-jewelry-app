@@ -81,7 +81,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       names();
       shareds();
       // productDetailsModelFuture = getProdCall();
-      dataModelFuture = addToCart();
+      addToCart();
       detailsModelFuture = getProdCall();
     });
   }
@@ -569,13 +569,17 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     },
                     btnTextColor: Colors.white,
                     // btnColor: const Color(0xff393939)
-                    btnColor: Colors.amber,
+                    btnColor: Colors.white24,
                   ),
                   MiniButton(
                       btnText: 'Buy Now',
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          addToCart();
+                        });
+                      },
                       btnTextColor: Colors.black,
-                      btnColor: Colors.amber),
+                      btnColor: Colors.orange),
                 ],
               ),
               const SizedBox(
@@ -626,6 +630,13 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         color:
                             isClicked == true ? Colors.amber : Colors.white10,
                         borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.size,
+                          style: TextStyle(
+                              color: isClicked == true ? Colors.black : null),
+                        ),
                       ),
                     ),
                   ),

@@ -9,6 +9,7 @@ import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
+import 'package:sandeep_jwelery/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
@@ -35,6 +36,7 @@ class _HomePageMainState extends State<HomePageMain> {
     super.initState();
     setState(() {
       allDataModelFuture = getAllCart();
+      getAllCart();
     });
   }
 
@@ -128,7 +130,7 @@ class _HomePageMainState extends State<HomePageMain> {
             //     child: SearchFunction()),
             IconButton(
                 onPressed: () {
-                  push(context: context, widget: Home());
+                  push(context: context, widget: SearchPage());
                 },
                 icon: Icon(
                   Icons.search,
@@ -150,16 +152,25 @@ class _HomePageMainState extends State<HomePageMain> {
                 future: allDataModelFuture,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Image(
-                      image: AssetImage('assets/icons/basket.png'),
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          push(context: context, widget: const NoCartItem());
+                        });
+                      },
+                      child: Image(
+                        image: AssetImage('assets/icons/basket.png'),
+                      ),
                     );
                   } else {
                     return InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (c) => const CartPage()));
+                        setState(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => const CartPage()));
+                        });
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),

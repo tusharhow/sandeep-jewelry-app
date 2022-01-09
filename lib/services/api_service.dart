@@ -1,4 +1,3 @@
-
 // import 'package:http/http.dart' as http;
 // import 'package:sandeep_jwelery/helpers/shared_helper.dart';
 // import 'dart:convert';
@@ -86,3 +85,33 @@
 //     }
 //   }
 // }
+
+import 'package:flutter/material.dart';
+
+class NoCartItem extends StatelessWidget {
+  const NoCartItem({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'No items in cart!',
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Back to home'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

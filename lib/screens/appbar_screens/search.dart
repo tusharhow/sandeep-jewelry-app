@@ -5,12 +5,12 @@ import 'package:sandeep_jwelery/models/search_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config.dart';
 
-class Home extends StatefulWidget {
+class SearchPage extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
-class _HomeState extends State<Home> {
+class _SearchPageState extends State<SearchPage> {
   TextEditingController controller = new TextEditingController();
 
   Future<SearchModel>? searcModelFuture;
