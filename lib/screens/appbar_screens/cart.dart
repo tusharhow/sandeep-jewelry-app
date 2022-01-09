@@ -123,251 +123,257 @@ class _CartPageState extends State<CartPage> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
         ),
       ),
-      body: Column(
-        children: [
-          FutureBuilder<ShowCartModel>(
-              future: allDataModelFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: snapshot.data!.data.length,
-                          itemBuilder: (context, index) {
-                            var datas = snapshot.data!.data[index];
-                            var url =
-                                'https://admin.sandeepjewellers.com/app/public/img/product/';
-                            var img = url + datas.image;
+      body: RefreshIndicator(
+        onRefresh: getAllCart,
+        child: Column(
+          children: [
+            FutureBuilder<ShowCartModel>(
+                future: allDataModelFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.data.length,
+                            itemBuilder: (context, index) {
+                              var datas = snapshot.data!.data[index];
+                              var url =
+                                  'https://admin.sandeepjewellers.com/app/public/img/product/';
+                              var img = url + datas.image;
 
-                            return Dismissible(
-                              key: UniqueKey(),
-                              onDismissed: (direction) {
-                                setState(() {
-                                  deleteCartItems(snapshot
-                                      .data!.data[index].cartId
-                                      .toString());
-                                });
-                                allDataModelFuture = getAllCart();
-                              },
-                              child: Card(
-                                color: Colors.white10,
-                                child: Row(
-                                  children: [
-                                    Image(
-                                      image: NetworkImage(img),
-                                      height: 120,
-                                      width: 100,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            snapshot.data?.data[index]
-                                                    .jwelleryType ??
-                                                'Deleted',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17),
-                                          ),
-                                          Text(
-                                            snapshot.data?.data[index]
-                                                    .description ??
-                                                'Deletedddd',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text('Select Quantity',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.white)),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                height: 35,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    3.65,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white10,
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    GetBuilder<
-                                                            CartCotrollerIncreaments>(
-                                                        init:
-                                                            CartCotrollerIncreaments(),
-                                                        builder: (_) {
-                                                          return IconButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                _.decrements();
-                                                              },
-                                                              icon: const Icon(
-                                                                Icons.remove,
-                                                                size: 14,
-                                                                color: Colors
-                                                                    .amber,
-                                                              ));
-                                                        }),
-                                                    GetBuilder<
-                                                            CartCotrollerIncreaments>(
-                                                        init:
-                                                            CartCotrollerIncreaments(),
-                                                        builder: (_) {
-                                                          return Text(
-                                                            '${_.counter}',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        13,
-                                                                    color: Colors
-                                                                        .white),
-                                                          );
-                                                        }),
-                                                    GetBuilder<
-                                                            CartCotrollerIncreaments>(
-                                                        init:
-                                                            CartCotrollerIncreaments(),
-                                                        builder: (_) {
-                                                          return IconButton(
-                                                              onPressed: () {
-                                                                _.increments();
-                                                              },
-                                                              icon: const Icon(
-                                                                Icons.add,
-                                                                size: 14,
-                                                                color: Colors
-                                                                    .amber,
-                                                              ));
-                                                        }),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                              return Dismissible(
+                                key: UniqueKey(),
+                                onDismissed: (direction) {
+                                  setState(() {
+                                    deleteCartItems(snapshot
+                                        .data!.data[index].cartId
+                                        .toString());
+                                  });
+                                  allDataModelFuture = getAllCart();
+                                },
+                                child: Card(
+                                  color: Colors.white10,
+                                  child: Row(
+                                    children: [
+                                      Image(
+                                        image: NetworkImage(img),
+                                        height: 120,
+                                        width: 100,
                                       ),
-                                    ),
-                                    Spacer(),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(right: 20),
-                                    //   child: Text(
-                                    //     '₹ ${snapshot.data!.data[index].amount}'
-                                    //         .toString(),
-                                    //     style: TextStyle(
-                                    //         color: Colors.white, fontSize: 20),
-                                    //   ),
-                                    // ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(
-                                    //     left: 20,
-                                    //   ),
-                                    //   child: Container(
-                                    //       alignment: Alignment.bottomLeft,
-                                    //       child: IconButton(
-                                    //           onPressed: () async {
-                                    //             SharedPreferences prefs =
-                                    //                 await SharedPreferences
-                                    //                     .getInstance();
-                                    //             prefs.setString(
-                                    //                 'cartId',
-                                    //                 snapshot
-                                    //                     .data!.data[index].cartId
-                                    //                     .toString());
-                                    // setState(() {
-                                    //   deleteCartItems(snapshot
-                                    //       .data!.data[index].cartId
-                                    //       .toString());
-                                    // });
-                                    //           },
-                                    //           icon: Icon(
-                                    //             Icons.remove_circle_outlined,
-                                    //             color: Colors.red,
-                                    //           ))),
-                                    // ),
-                                  ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              snapshot.data?.data[index]
+                                                      .jwelleryType ??
+                                                  'Deleted',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              snapshot.data?.data[index]
+                                                      .description ??
+                                                  'Deletedddd',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Text('Select Quantity',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.white)),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Container(
+                                                  height: 35,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      3.65,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white10,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      GetBuilder<
+                                                              CartCotrollerIncreaments>(
+                                                          init:
+                                                              CartCotrollerIncreaments(),
+                                                          builder: (_) {
+                                                            return IconButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  _.decrements();
+                                                                },
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.remove,
+                                                                  size: 14,
+                                                                  color: Colors
+                                                                      .amber,
+                                                                ));
+                                                          }),
+                                                      GetBuilder<
+                                                              CartCotrollerIncreaments>(
+                                                          init:
+                                                              CartCotrollerIncreaments(),
+                                                          builder: (_) {
+                                                            return Text(
+                                                              '${_.counter}',
+                                                              style: const TextStyle(
+                                                                  fontSize: 13,
+                                                                  color: Colors
+                                                                      .white),
+                                                            );
+                                                          }),
+                                                      GetBuilder<
+                                                              CartCotrollerIncreaments>(
+                                                          init:
+                                                              CartCotrollerIncreaments(),
+                                                          builder: (_) {
+                                                            return IconButton(
+                                                                onPressed: () {
+                                                                  _.increments();
+                                                                },
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.add,
+                                                                  size: 14,
+                                                                  color: Colors
+                                                                      .amber,
+                                                                ));
+                                                          }),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(right: 20),
+                                      //   child: Text(
+                                      //     '₹ ${snapshot.data!.data[index].amount}'
+                                      //         .toString(),
+                                      //     style: TextStyle(
+                                      //         color: Colors.white, fontSize: 20),
+                                      //   ),
+                                      // ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(
+                                      //     left: 20,
+                                      //   ),
+                                      //   child: Container(
+                                      //       alignment: Alignment.bottomLeft,
+                                      //       child: IconButton(
+                                      //           onPressed: () async {
+                                      //             SharedPreferences prefs =
+                                      //                 await SharedPreferences
+                                      //                     .getInstance();
+                                      //             prefs.setString(
+                                      //                 'cartId',
+                                      //                 snapshot
+                                      //                     .data!.data[index].cartId
+                                      //                     .toString());
+                                      // setState(() {
+                                      //   deleteCartItems(snapshot
+                                      //       .data!.data[index].cartId
+                                      //       .toString());
+                                      // });
+                                      //           },
+                                      //           icon: Icon(
+                                      //             Icons.remove_circle_outlined,
+                                      //             color: Colors.red,
+                                      //           ))),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
-                    );
+                              );
+                            }),
+                      );
+                    }
+                  } else {
+                    return Center(child: const CircularProgressIndicator());
                   }
-                } else {
-                  return Center(child: const CircularProgressIndicator());
-                }
-              }),
-          // Padding(
-          //   padding: const EdgeInsets.only(
-          //     left: 20,
-          //   ),
-          //   child: Container(
-          //     alignment: Alignment.bottomLeft,
-          //     child: Text(
-          //       'Total Items: ${cartController.count}'.toString(),
-          //       style: TextStyle(color: Colors.white, fontSize: 20),
-          //     ),
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(
-          //     left: 20,
-          //   ),
-          //   child: Container(
-          //     alignment: Alignment.bottomLeft,
-          //     child: Text(
-          //       'Total Amount: ${cartController.totalPrice}'.toString(),
-          //       style: TextStyle(color: Colors.white, fontSize: 20),
-          //     ),
-          //   ),
-          // ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-            ),
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Total Amount: ${cartController.count}'.toString(),
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                }),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //     left: 20,
+            //   ),
+            //   child: Container(
+            //     alignment: Alignment.bottomLeft,
+            //     child: Text(
+            //       'Total Items: ${cartController.count}'.toString(),
+            //       style: TextStyle(color: Colors.white, fontSize: 20),
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //     left: 20,
+            //   ),
+            //   child: Container(
+            //     alignment: Alignment.bottomLeft,
+            //     child: Text(
+            //       'Total Amount: ${cartController.totalPrice}'.toString(),
+            //       style: TextStyle(color: Colors.white, fontSize: 20),
+            //     ),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 20,
+              ),
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Total Amount: ${cartController.count}'.toString(),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          ReusablePrimaryButton(
-              childText: 'Place Order',
-              buttonColor: Colors.orange,
-              textColor: Colors.black,
-              onPressed: () {
-                push(context: context, widget: AddressConfirmation());
-              }),
-          SizedBox(
-            height: 20,
-          ),
-        ],
+            SizedBox(
+              height: 50,
+            ),
+            ReusablePrimaryButton(
+                childText: 'Place Order',
+                buttonColor: Colors.orange,
+                textColor: Colors.black,
+                onPressed: () {
+                  push(context: context, widget: AddressConfirmation());
+                }),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
       ),
     );
   }

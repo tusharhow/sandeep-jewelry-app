@@ -11,9 +11,14 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Address Confirmation'),
-      ),
-    );
+        body: SingleChildScrollView(
+      child: Column(children: [
+        Container(
+          height: 150,
+          width: 300,
+          color: Colors.white10,
+        ),
+      ]),
+    ));
   }
 }
