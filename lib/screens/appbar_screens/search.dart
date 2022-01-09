@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/models/search_model.dart';
+import 'package:sandeep_jwelery/screens/product_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config.dart';
 
@@ -124,10 +126,23 @@ class _SearchPageState extends State<SearchPage> {
                         child: ListView.builder(
                             itemCount: snapshot.data!.data.length,
                             itemBuilder: (context, index) {
+                              var datas = snapshot.data!.data[index];
                               var url =
                                   'https://admin.sandeepjewellers.com/app/public/img/product/';
                               return InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  push(
+                                      context: context,
+                                      widget: ProductDetailView(
+                                          prodId: datas.productId.toString(),
+                                          size: datas.sizeType,
+                                          items: datas.amount,
+                                          prodName: datas.productname,
+                                          img: datas.amount,
+                                          prodPrice: datas.amount,
+                                          color:
+                                              datas.jewelleryColor.toString()));
+                                },
                                 child: Card(
                                   color: Colors.white10,
                                   child: Row(

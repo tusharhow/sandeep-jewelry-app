@@ -220,7 +220,8 @@ class _CartPageState extends State<CartPage> {
                                                             CartCotrollerIncreaments(),
                                                         builder: (_) {
                                                           return IconButton(
-                                                              onPressed: () {
+                                                              onPressed:
+                                                                  () async {
                                                                 _.decrements();
                                                               },
                                                               icon: const Icon(

@@ -80,7 +80,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     setState(() {
       names();
       shareds();
-      // productDetailsModelFuture = getProdCall();
+
       addToCart();
       detailsModelFuture = getProdCall();
     });
