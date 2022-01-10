@@ -15,8 +15,16 @@ class CartCotrollerIncreaments extends GetxController {
   int counter = 1;
   // List<CartModel> products = [];
   List<ShowCartModel> prods = [];
+
+  // total cart length
+  int get totalCartLength => prods.length;
+
   var prodPrice;
+
   int get count => counter;
+
+  // double get totalPrice =>
+  //     prods.fold(0, (sum, item) => sum * int.parse(item.data[1].amount) * 2);
 
   sharedItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -24,7 +32,11 @@ class CartCotrollerIncreaments extends GetxController {
     prodPrice = prefs.getString('prodPrice');
   }
 
-// Total products price
+// Total price of the cart
+
+  // cartData() {
+  //   var fffff = print('OBJJJJJJJJJJJJJJJJJJJ${prods}');
+  // }
 
   //  var cartItems = <Product>[].obs;
 

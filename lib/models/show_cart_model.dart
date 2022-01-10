@@ -76,6 +76,8 @@ class Datum {
   String gst;
   dynamic assests;
 
+  
+
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         cartId: json["cart_id"],
         count: json["count"],

@@ -65,11 +65,12 @@ class _SearchPageState extends State<SearchPage> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
+            children: [
               Container(
                 padding: EdgeInsets.all(15.0),
                 color: Colors.green,
                 child: Card(
+                  
                   child: ListTile(
                     leading: Icon(Icons.search),
                     title: TextField(
