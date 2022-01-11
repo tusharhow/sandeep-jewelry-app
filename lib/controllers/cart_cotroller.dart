@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:sandeep_jwelery/models/cart_model.dart';
 import 'package:sandeep_jwelery/models/show_cart_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

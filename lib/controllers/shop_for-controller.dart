@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/config.dart';
-import 'package:sandeep_jwelery/models/collection_all_model.dart';
-import 'package:sandeep_jwelery/models/mens_collection_model.dart';
 import 'package:sandeep_jwelery/models/shop_for_category.dart';
 
 class ShopForController extends GetxController {

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/config.dart';

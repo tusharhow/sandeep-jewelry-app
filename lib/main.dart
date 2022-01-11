@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
-import 'package:sandeep_jwelery/screens/appbar_screens/search.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
