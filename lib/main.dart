@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'providers/cart_provider.dart';
 import 'screens/auth/verify_otp.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Provider.debugCheckInvalidValueType = null;
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // var loginStatus = prefs.getBool('isLoggedIn') ?? false;
   // print(loginStatus);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('userToken');
 
-  runApp(MaterialApp(
-      theme: ThemeData(
-        canvasColor: Colors.black,
-        primarySwatch: Colors.grey,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: Splash()));
+  runApp(MultiProvider(
+    providers: [
+      Provider<CartProvider>(create: (_) => CartProvider()),
+    ],
+    child: MaterialApp(
+        theme: ThemeData(
+          canvasColor: Colors.black,
+          primarySwatch: Colors.grey,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: Splash()),
+  ));
 }
 
 // class MyApp exteHomeScreennds StatelessWidget {
