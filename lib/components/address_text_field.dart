@@ -21,7 +21,7 @@ class AddressTextField extends StatelessWidget {
             hintText: hint,
             hintStyle: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: 15,
             ),
             filled: true,
             enabledBorder: OutlineInputBorder(
