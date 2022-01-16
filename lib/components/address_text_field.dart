@@ -15,6 +15,12 @@ class AddressTextField extends StatelessWidget {
       height: 55,
       width: MediaQuery.of(context).size.width / 1.10,
       child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please enter a valid address';
+          }
+          return null;
+        },
         controller: controller,
         decoration: InputDecoration(
             fillColor: Colors.white,
@@ -32,7 +38,7 @@ class AddressTextField extends StatelessWidget {
             )),
         style: TextStyle(
           color: Colors.black,
-          fontSize: 20,
+          fontSize: 16,
         ),
       ),
     );
