@@ -67,7 +67,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   int groupValue = 0;
   var shopForModel;
   var detailsForModel;
-  var janina;
+  var productCount;
+  var productPrice;
   var prodName;
   var prodCount;
   var prodSizee;
@@ -82,7 +83,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       names();
       shareds();
 
-      addToCart();
+      // addToCart();
       detailsModelFuture = getProdCall();
     });
   }
@@ -128,6 +129,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     });
   }
 
+  var pppp;
   Future<CartModel> addToCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -142,7 +144,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }, body: {
       "product_id": widget.prodId.toString(),
       "product_size": widget.size.toString(),
-      "count": dataCounts.toString(),
+      "count": dataCount.toString(),
       "selectedColor": widget.color,
       "jwellery_name": widget.prodName,
       "assests": ""
@@ -240,32 +242,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height / 3.60,
-              //   width: MediaQuery.of(context).size.width,
-              //   child: Carousel(
-              //     images: List.generate(imgList.length, (int index) {
-              //       return Column(
-              //         children: [
-              //           Image(
-              //             image: AssetImage(imgList[index]),
-              //             height: 200,
-              //             width: 200,
-              //           ),
-              //         ],
-              //       );
-              //     }),
-              //     autoplay: true,
-              //     dotSize: 6,
-              //     dotPosition: DotPosition.bottomCenter,
-              //     dotColor: Colors.green,
-              //     dotIncreaseSize: 2,
-              //     dotIncreasedColor: Colors.amber,
-              //     indicatorBgPadding: 1,
-              //     dotBgColor: Colors.black12.withOpacity(0),
-              //     boxFit: BoxFit.contain,
-              //   ),
-              // ),
+
               FutureBuilder<CategoryProductsDetailsModel>(
                   future: detailsModelFuture,
                   builder: (context, snapshot) {
@@ -594,19 +571,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   //   // btnColor: const Color(0xff393939)
                   //   btnColor: Colors.white24,
                   // ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        setState(() {
-                          prefs.setString('dataCount', widget.items);
-                          prefs.setInt('addCount', dataCounts);
-                          janina = prefs.getInt('addCount');
-                          addToCart();
-                        });
-                        print('Add to cart: ${janina}');
-                      },
-                      child: Text('Add to cart')),
+                  SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width / 2.30,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          setState(() {
+                            prefs.setString('dataCount', widget.items);
+                            prefs.setInt('addCount', dataCounts);
+
+                            productCount = prefs.getInt('addCount');
+                            prefs.setString('pfor', widget.prodPrice);
+                            pppp = prefs.getString('pfor');
+                            addToCart();
+                          });
+                          print('cart: ${productCount}');
+                          print('Price: ${pppp}');
+                        },
+                        child: Text('Add to cart')),
+                  ),
                   MiniButton(
                       btnText: 'Buy Now',
                       onPressed: () {

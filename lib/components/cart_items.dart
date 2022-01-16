@@ -149,8 +149,11 @@ class _CartItemsState extends State<CartItems> {
                                       setState(() {
                                         var itemCounts =
                                             prefs.getInt('addCount');
-                                        print('nice ${itemCounts}');
+                                        var clcik = prefs.getInt('ffffffffff');
+                                        print('Count ${itemCounts}');
+                                        print('Price ${clcik}');
                                       });
+
                                       // int quantity =
                                       //     _.count;
                                       // int price = int.parse(snapshot

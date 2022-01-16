@@ -20,6 +20,8 @@ class CartCotrollerIncreaments extends GetxController {
 
   List<ShowCartModel> prods = [];
 
+  // get total amount
+
   // total cart length
   int get totalCartLength => prods.length;
 
