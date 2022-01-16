@@ -11,18 +11,12 @@ import 'package:sandeep_jwelery/components/about_this_product.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
-import 'package:sandeep_jwelery/controllers/add_cart_controller.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
-import 'package:sandeep_jwelery/controllers/product_details_controller.dart';
 import 'package:sandeep_jwelery/models/cart_model.dart';
 import 'package:sandeep_jwelery/models/category_products_details_model.dart';
 import 'package:sandeep_jwelery/models/product_details_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../config.dart';
-
-// final cartCotroller = Get.put(CartController());
-// final productDetailsCotroller = Get.put(ProductDetailsController());
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
@@ -161,6 +155,32 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     return detailsResponse;
   }
 
+  var wishResponse;
+  Future<CartModel> addWishList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    var url = 'https://admin.sandeepjewellers.com/app/public/api/wishlist';
+
+    final response = await http.post(Uri.parse(url), headers: {
+      // "Accept": "application/json",
+      "Authorization": "Bearer $token",
+    }, body: {
+      "product_id": widget.prodId.toString(),
+    });
+
+    if (response.statusCode == 200) {
+      setState(() {
+        var wishData = json.decode(response.body);
+        wishResponse = CartModel.fromJson(wishData);
+      });
+    } else {
+      print('failed to get data');
+    }
+    return wishResponse;
+  }
+
   Future<ProductDetailsModel>? productDetailsModelFuture;
   names() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -293,19 +313,20 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   const Text('Flat 50% Off on this Product',
                       style: TextStyle(fontSize: 14, color: Colors.amber)),
                   const Spacer(),
-                  // IconButton(
-                  //   onPressed: () {
-                  //     setState(() {
-                  //       tapped = !tapped;
-                  //     });
-                  //   },
-                  //   icon: Icon(
-                  //     Icons.favorite,
-                  //     color: tapped ? Colors.red : Colors.grey,
-                  //   ),
-                  //   splashColor: Colors.redAccent,
-                  //   iconSize: 30,
-                  // ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        tapped = !tapped;
+                        addWishList();
+                      });
+                    },
+                    icon: Icon(
+                      Icons.favorite,
+                      color: tapped ? Colors.red : Colors.grey,
+                    ),
+                    splashColor: Colors.redAccent,
+                    iconSize: 30,
+                  ),
                 ],
               ),
               const SizedBox(

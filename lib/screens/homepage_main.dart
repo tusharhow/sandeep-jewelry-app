@@ -15,6 +15,7 @@ import 'package:sandeep_jwelery/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
+import 'favourite_list.dart';
 
 class HomePageMain extends StatefulWidget {
   const HomePageMain({Key? key}) : super(key: key);
@@ -139,44 +140,24 @@ class _HomePageMainState extends State<HomePageMain> {
                   size: 30,
                   color: Colors.white,
                 )),
-            // InkWell(
-            //   onTap: () {
-            //     push(
-            //         context: context, widget: const FavouriteProductListView());
-            //   },
-            //   child: const Image(
-            //     image: AssetImage('assets/icons/heart.png'),
-            //   ),
-            // ),
+            InkWell(
+              onTap: () {
+                push(
+                    context: context, widget:  FavouriteProductListView());
+              },
+              child: const Image(
+                image: AssetImage('assets/icons/heart.png'),
+              ),
+            ),
             InkWell(
               onTap: () {
                 setState(() {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (c) => const CartPage()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (c) => CartPage()));
                 });
               },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Column(
-                    children: [
-                      GetBuilder<CartCotrollerIncreaments>(
-                        init: CartCotrollerIncreaments(),
-                        initState: (_) {},
-                        builder: (_) {
-                          return Text(
-                            '${_.totalCartLength}',
-                            style: TextStyle(color: Colors.red, fontSize: 12),
-                          );
-                        },
-                      ),
-                      Image(
-                        image: AssetImage('assets/icons/basket.png'),
-                      ),
-                    ],
-                  ),
-                ),
+              child: Image(
+                image: AssetImage('assets/icons/basket.png'),
               ),
             )
 

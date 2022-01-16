@@ -16,7 +16,7 @@ class AddressTextField extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 1.10,
       child: TextFormField(
         validator: (value) {
-          if (value!.isEmpty) {
+          if (value!.isNotEmpty) {
             return 'Please enter a valid address';
           }
           return null;

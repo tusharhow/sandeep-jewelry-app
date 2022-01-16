@@ -68,7 +68,6 @@ class _HomeNavigationState extends State<HomeNavigation> {
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: SingleChildScrollView(
             child: RefreshIndicator(
-            
               onRefresh: getBannerData,
               child: Column(children: [
                 Stack(
@@ -140,22 +139,6 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                 );
                               }
                             })),
-                    // Positioned(
-                    //     left: 110,
-                    //     top: 90,
-                    //     child: InkWell(
-                    //       onTap: () {},
-                    //       child: Container(
-                    //           height: 45,
-                    //           width: 120,
-                    //           decoration: BoxDecoration(
-                    //             color: Colors.white,
-                    //             borderRadius: BorderRadius.circular(10),
-                    //           ),
-                    //           child: const Center(
-                    //             child: Text('Browse Now'),
-                    //           )),
-                    //     )),
                   ],
                 ),
                 const SizedBox(

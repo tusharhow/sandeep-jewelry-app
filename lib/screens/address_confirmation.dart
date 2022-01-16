@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/address_text_field.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
@@ -52,12 +51,12 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
         addressResponse = AddressConfirmationModel.fromJson(parsedData);
       });
     } else {
-      print('failed to get data');
+      print('Not Successful');
     }
     return addressResponse;
   }
 
-  GlobalKey<FormState> _keyState = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

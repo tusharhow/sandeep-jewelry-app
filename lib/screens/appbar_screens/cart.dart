@@ -30,6 +30,7 @@ var allParsedData;
 var allDeleteParsedData;
 var deleteData;
 var cartData;
+var cartId;
 var titalAmout;
 String? sharedString;
 var itemCounts;
@@ -43,7 +44,7 @@ class _CartPageState extends State<CartPage> {
     super.initState();
     setState(() {
       names();
-
+      updateCart();
       allDataModelFuture = getAllCart();
     });
   }
@@ -99,42 +100,54 @@ class _CartPageState extends State<CartPage> {
     return cartData;
   }
 
-  // Future updateCart(String cartId) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  int updateDataCount = 1;
+  int get updateDataCounts => updateDataCount;
+  incrementsCart() {
+    setState(() {
+      updateDataCount++;
+    });
+  }
 
-  //   var token = prefs.getString('userToken');
+  decreamentsCart() {
+    setState(() {
+      if (updateDataCount > 1) {
+        updateDataCount--;
+      }
+    });
+  }
 
-  //   try {
-  //     var url = '${AppConfig.BASE_URL}/updatecart';
+  Future updateCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //     final response = await http.post(Uri.parse(url), headers: {
-  //       "Accept": "application/json",
-  //       "Authorization": "Bearer $token",
-  //     }, body: {
-  //       "cart_id": cartId.toString(),
-  //       "count": "1",
-  //     });
+    var token = prefs.getString('userToken');
 
-  //     if (response.statusCode == 200) {
-  //       setState(() {
-  //         var jsonString = response.body;
-  //         var updateParsedData = json.decode(jsonString);
+    try {
+      var url = '${AppConfig.BASE_URL}/updatecart';
 
-  //         updateData = ShowCartModel.fromJson(updateParsedData);
-  //       });
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return updateData;
-  // }
+      final response = await http.post(Uri.parse(url), headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+      }, body: {
+        "cart_id": cartId.toString(),
+        "count": updateDataCounts.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        setState(() {
+          var jsonString = response.body;
+          var updateParsedData = json.decode(jsonString);
+          print('Cartttttttttttt ${cartId}');
+          updateData = ShowCartModel.fromJson(updateParsedData);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+    return updateData;
+  }
 
   // int? janina;
   bool isCliced = false;
-  // name() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   // janina = prefs.getInt('prrrr');
-  // }
 
   Future<DeleteCartModel> deleteCartItems(String cartId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -169,18 +182,18 @@ class _CartPageState extends State<CartPage> {
     return deleteData;
   }
 
-  int count = 1;
-  increments() {
-    setState(() {
-      count++;
-    });
-  }
+  // int count = 1;
+  // increments() {
+  //   setState(() {
+  //     count++;
+  //   });
+  // }
 
-  deCrements() {
-    setState(() {
-      count--;
-    });
-  }
+  // deCrements() {
+  //   setState(() {
+  //     count--;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +328,7 @@ class _CartPageState extends State<CartPage> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width /
-                                                              4.0,
+                                                              3.10,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white10,
                                                         borderRadius:
@@ -338,8 +351,13 @@ class _CartPageState extends State<CartPage> {
                                                                 return IconButton(
                                                                     onPressed:
                                                                         () async {
-                                                                      deCrements();
-
+                                                                      setState(
+                                                                          () {
+                                                                        decreamentsCart();
+                                                                        updateCart();
+                                                                        print(
+                                                                            'Minus');
+                                                                      });
                                                                       // print(
                                                                       //     'Total Amount: ${int.parse(snapshot.data!.data[index].amount) * _.count}');
                                                                     },
@@ -352,6 +370,14 @@ class _CartPageState extends State<CartPage> {
                                                                           .amber,
                                                                     ));
                                                               }),
+                                                          Text(
+                                                            updateDataCounts
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 10),
+                                                          ),
                                                           GetBuilder<
                                                                   CartCotrollerIncreaments>(
                                                               init:
@@ -360,7 +386,7 @@ class _CartPageState extends State<CartPage> {
                                                                 return IconButton(
                                                                     onPressed:
                                                                         () async {
-                                                                      increments();
+                                                                      incrementsCart();
                                                                       SharedPreferences
                                                                           prefs =
                                                                           await SharedPreferences
@@ -371,6 +397,12 @@ class _CartPageState extends State<CartPage> {
                                                                             prefs.getInt('addCount');
                                                                         var clcik =
                                                                             prefs.getInt('ffffffffff');
+                                                                        cartId =
+                                                                            datas.cartId;
+                                                                        print(
+                                                                            'Plus');
+                                                                        print(
+                                                                            'Cart Id: $cartId');
                                                                         print(
                                                                             'Count ${itemCounts}');
                                                                         print(
@@ -412,7 +444,7 @@ class _CartPageState extends State<CartPage> {
                     return Center(child: const CircularProgressIndicator());
                   } else {
                     return Text(
-                      'Total Amount: ₹ ${price }',
+                      'Total Amount: ₹ ${price}',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     );
                   }
