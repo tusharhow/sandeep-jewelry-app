@@ -32,6 +32,7 @@ var deleteData;
 var cartData;
 var titalAmout;
 String? sharedString;
+var itemCounts;
 final cartController = Get.put(CartCotrollerIncreaments());
 var updateData;
 
@@ -48,10 +49,13 @@ class _CartPageState extends State<CartPage> {
   }
 
   var clcik;
-
+  var quan;
   names() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     sharedString = prefs.getString('cartId'.toString());
+    setState(() {
+      quan = prefs.getInt('addCount');
+    });
   }
 
   Future<ShowCartModel>? allDataModelFuture;
@@ -202,8 +206,10 @@ class _CartPageState extends State<CartPage> {
                                     prefs.setInt(
                                         'ffffffffff', int.parse(datas.amount));
                                     clcik = prefs.getInt('ffffffffff');
+                                    itemCounts = prefs.getInt('addCount');
                                   });
                                   print(clcik);
+                                  print('Item Counts: $itemCounts');
                                 },
                                 child: Dismissible(
                                     key: UniqueKey(),
@@ -301,7 +307,7 @@ class _CartPageState extends State<CartPage> {
               initState: (controller) {},
               builder: (controller) {
                 return Text(
-                  'Total Amount: ₹ ${clcik * controller.count}'.toString(),
+                  'Total Amount: ₹ ${clcik * quan}'.toString(),
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 );
               },

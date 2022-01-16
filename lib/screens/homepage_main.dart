@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
+import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/models/show_cart_model.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/search.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
@@ -146,53 +148,83 @@ class _HomePageMainState extends State<HomePageMain> {
             //     image: AssetImage('assets/icons/heart.png'),
             //   ),
             // ),
-
-            // FutureBuildler
-            FutureBuilder<ShowCartModel>(
-                future: allDataModelFuture,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          push(context: context, widget: const NoCartItem());
-                        });
-                      },
-                      child: Image(
+            InkWell(
+              onTap: () {
+                setState(() {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (c) => const CartPage()));
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Column(
+                    children: [
+                      GetBuilder<CartCotrollerIncreaments>(
+                        init: CartCotrollerIncreaments(),
+                        initState: (_) {},
+                        builder: (_) {
+                          return Text(
+                            '${_.totalCartLength}',
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          );
+                        },
+                      ),
+                      Image(
                         image: AssetImage('assets/icons/basket.png'),
                       ),
-                    );
-                  } else {
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (c) => const CartPage()));
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Column(
-                            children: [
-                              Text(
-                                '${snapshot.data!.data.length}',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 12),
-                              ),
-                              Image(
-                                image: AssetImage('assets/icons/basket.png'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                })
+                    ],
+                  ),
+                ),
+              ),
+            )
+
+            // FutureBuilder<ShowCartModel>(
+            //     future: allDataModelFuture,
+            //     builder: (context, snapshot) {
+            //       if (!snapshot.hasData) {
+            //         return InkWell(
+            //           onTap: () {
+            //             setState(() {
+            //               push(context: context, widget: const NoCartItem());
+            //             });
+            //           },
+            //           child: Image(
+            //             image: AssetImage('assets/icons/basket.png'),
+            //           ),
+            //         );
+            //       } else {
+            //         return InkWell(
+            //           onTap: () {
+            //             setState(() {
+            //               Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                       builder: (c) => const CartPage()));
+            //             });
+            //           },
+            //           child: Padding(
+            //             padding: EdgeInsets.symmetric(horizontal: 20),
+            //             child: Padding(
+            //               padding: const EdgeInsets.only(top: 5),
+            //               child: Column(
+            //                 children: [
+            //                   Text(
+            //                     '${snapshot.data!.data.length}',
+            //                     style:
+            //                         TextStyle(color: Colors.red, fontSize: 12),
+            //                   ),
+            //                   Image(
+            //                     image: AssetImage('assets/icons/basket.png'),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //         );
+            //       }
+            //     })
           ],
         ),
         body: screens[_selectedIndex]);

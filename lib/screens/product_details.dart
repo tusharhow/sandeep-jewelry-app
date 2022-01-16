@@ -67,6 +67,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   int groupValue = 0;
   var shopForModel;
   var detailsForModel;
+  var janina;
   var prodName;
   var prodCount;
   var prodSizee;
@@ -111,10 +112,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     return shopForModel;
   }
 
+  int dataCount = 1;
+  int get dataCounts => dataCount;
+  incrementsCart() {
+    setState(() {
+      dataCount++;
+    });
+  }
+
+  decreamentsCart() {
+    setState(() {
+      if (dataCount > 1) {
+        dataCount--;
+      }
+    });
+  }
+
   Future<CartModel> addToCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
+    var itemsCounts = prefs.getInt('itemCounts');
 
     var url = 'https://admin.sandeepjewellers.com/app/public/api/cart';
 
@@ -124,7 +142,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }, body: {
       "product_id": widget.prodId.toString(),
       "product_size": widget.size.toString(),
-      "count": widget.items.toString(),
+      "count": dataCounts.toString(),
       "selectedColor": widget.color,
       "jwellery_name": widget.prodName,
       "assests": ""
@@ -518,7 +536,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             builder: (_) {
                               return TextButton(
                                   onPressed: () {
-                                    _.decrements();
+                                    decreamentsCart();
                                   },
                                   child: const Text(
                                     '-',
@@ -530,7 +548,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             init: CartCotrollerIncreaments(),
                             builder: (_) {
                               return Text(
-                                '${_.counter}',
+                                '${dataCount}',
                                 style: const TextStyle(
                                     fontSize: 18, color: Colors.white),
                               );
@@ -540,7 +558,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             builder: (_) {
                               return TextButton(
                                 onPressed: () {
-                                  _.increments();
+                                  incrementsCart();
                                 },
                                 child: const Text(
                                   '+',
@@ -560,17 +578,35 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MiniButton(
-                    btnText: 'Add to Cart',
-                    onPressed: () {
-                      setState(() {
-                        addToCart();
-                      });
-                    },
-                    btnTextColor: Colors.white,
-                    // btnColor: const Color(0xff393939)
-                    btnColor: Colors.white24,
-                  ),
+                  // MiniButton(
+                  //   btnText: 'Add to Cart',
+                  //   onPressed: () async {
+                  // SharedPreferences prefs =
+                  //     await SharedPreferences.getInstance();
+                  // setState(() {
+                  //   prefs.setString('dataCount', widget.items);
+                  //   addToCart();
+                  // });
+                  // print('Add to cart ${dataCounts}');
+                  //     print('object');
+                  //   },
+                  //   btnTextColor: Colors.white,
+                  //   // btnColor: const Color(0xff393939)
+                  //   btnColor: Colors.white24,
+                  // ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        setState(() {
+                          prefs.setString('dataCount', widget.items);
+                          prefs.setInt('addCount', dataCounts);
+                          janina = prefs.getInt('addCount');
+                          addToCart();
+                        });
+                        print('Add to cart: ${janina}');
+                      },
+                      child: Text('Add to cart')),
                   MiniButton(
                       btnText: 'Buy Now',
                       onPressed: () {

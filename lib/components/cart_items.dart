@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cart/flutter_cart.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
-import 'package:sandeep_jwelery/providers/cart_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartItems extends StatefulWidget {
   CartItems(
@@ -28,6 +27,21 @@ class CartItems extends StatefulWidget {
 var cart = FlutterCart();
 
 class _CartItemsState extends State<CartItems> {
+  @override
+  void initState() {
+    super.initState();
+    names();
+  }
+
+  names() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      quan = prefs.getInt('addCount');
+    });
+  }
+
+  var quan;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -71,7 +85,7 @@ class _CartItemsState extends State<CartItems> {
                         init: CartCotrollerIncreaments(),
                         builder: (_) {
                           return Text(
-                            'Select Quantity: ${_.counter}',
+                            'Quantity: ${quan}',
                             style: const TextStyle(
                                 fontSize: 13, color: Colors.white),
                           );
@@ -82,7 +96,7 @@ class _CartItemsState extends State<CartItems> {
                     //         fontSize: 13,
                     //         color: Colors.white)),
                     const SizedBox(
-                      width: 30,
+                      width: 40,
                     ),
                     Container(
                       height: 35,
@@ -130,7 +144,13 @@ class _CartItemsState extends State<CartItems> {
                                 return IconButton(
                                     onPressed: () async {
                                       _.increments();
-
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      setState(() {
+                                        var itemCounts =
+                                            prefs.getInt('addCount');
+                                        print('nice ${itemCounts}');
+                                      });
                                       // int quantity =
                                       //     _.count;
                                       // int price = int.parse(snapshot

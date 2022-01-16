@@ -7,6 +7,7 @@ class CartCotrollerIncreaments extends GetxController {
   void onInit() {
     super.onInit();
     names();
+    sharedItems();
   }
 
   var nameeees;
@@ -15,7 +16,7 @@ class CartCotrollerIncreaments extends GetxController {
     nameeees = prefs.getInt('ffffffffff');
   }
 
-  int counter = 1;
+  int addCartounter = 1;
 
   List<ShowCartModel> prods = [];
 
@@ -24,7 +25,9 @@ class CartCotrollerIncreaments extends GetxController {
 
   var prodPrice;
 
-  int get count => counter;
+  int get count => addCartounter;
+
+  sharedItems() async {}
 
 // get total price
   double get totalPrice => prods.fold(0, (prev, element) => prev + nameeees);
@@ -55,13 +58,13 @@ class CartCotrollerIncreaments extends GetxController {
   // }
 
   void increments() {
-    counter++;
+    addCartounter++;
     update();
   }
 
   void decrements() {
-    if (counter > 1) {
-      counter--;
+    if (addCartounter > 1) {
+      addCartounter--;
       update();
     }
   }

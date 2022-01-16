@@ -10,8 +10,10 @@ import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/controllers/category_products_details_controller.dart';
+import 'package:sandeep_jwelery/models/cart_model.dart';
 import 'package:sandeep_jwelery/models/category_products_details_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config.dart';
 
 class CategoryProductsDetails extends StatefulWidget {
@@ -61,6 +63,37 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
     }
     return shopForModel;
   }
+
+  // var detailsResponse;
+  // Future<CartModel> addToCart() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //   var token = prefs.getString('userToken');
+
+  //   var url = 'https://admin.sandeepjewellers.com/app/public/api/cart';
+
+  //   final response = await http.post(Uri.parse(url), headers: {
+  //     "Accept": "application/json",
+  //     "Authorization": "Bearer $token",
+  //   }, body: {
+  //     "product_id": widget.prodId.toString(),
+  //     "product_size": widget.size.toString(),
+  //     "count": widget.items.toString(),
+  //     "selectedColor": widget.color,
+  //     "jwellery_name": widget.prodName,
+  //     "assests": ""
+  //   });
+
+  //   if (response.statusCode == 200) {
+  //     setState(() {
+  //       parsedData = json.decode(response.body);
+  //       detailsResponse = CartModel.fromJson(parsedData);
+  //     });
+  //   } else {
+  //     print('failed to get data');
+  //   }
+  //   return detailsResponse;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -408,7 +441,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                             init: CartCotrollerIncreaments(),
                             builder: (_) {
                               return Text(
-                                '${_.counter}',
+                                '${_.addCartounter}',
                                 style: const TextStyle(
                                     fontSize: 18, color: Colors.white),
                               );
@@ -440,7 +473,11 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                 children: [
                   MiniButton(
                     btnText: 'Add to Cart',
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        // addToCart();
+                      });
+                    },
                     btnTextColor: Colors.white,
                     // btnColor: const Color(0xff393939)
                     btnColor: Colors.amber,
