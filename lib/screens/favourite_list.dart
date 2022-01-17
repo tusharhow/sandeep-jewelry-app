@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:sandeep_jwelery/models/delete_cart_model.dart';
 import 'package:sandeep_jwelery/models/delete_wishlist_model.dart';
 import 'package:sandeep_jwelery/models/wishlist_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -144,26 +143,16 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                                         color: Colors.red,
                                       ),
                                       onPressed: () {
-                                        deleteWishList(
-                                            datasss.wishlistId.toString());
+                                        setState(() {
+                                          deleteWishList(
+                                              datasss.wishlistId.toString());
+                                        });
                                         setState(() {
                                           wishModelFuture = getWishList();
                                         });
                                       },
                                     ),
-                                    // ElevatedButton(
-                                    //   onPressed: () {
-                                    //     deleteWishList(
-                                    //         datasss.wishlistId.toString());
-                                    //     setState(() {
-                                    //       wishModelFuture = getWishList();
-                                    //     });
-                                    //   },
-                                    //   child: Text(
-                                    //     'Delete',
-                                    //     style: TextStyle(color: Colors.white),
-                                    //   ),
-                                    // ),
+                                  
                                   ],
                                 ),
                               );

@@ -434,9 +434,17 @@ class _CartPageState extends State<CartPage> {
                   if (!snapshot.hasData) {
                     return Center(child: const CircularProgressIndicator());
                   } else {
-                    return Text(
-                      'Total Amount: ₹ ${totalPrice == null ? 0.0 : totalPrice}',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    return Column(
+                      children: [
+                        Text(
+                          'Total Items: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.count))}',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        Text(
+                          'Total amounts: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
                     );
                   }
                 }),
