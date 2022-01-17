@@ -868,12 +868,69 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 15,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  SimilarProductGrid(),
-                  SimilarProductGrid(),
-                ],
+
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // SimilarProductGrid(),
+                    // SimilarProductGrid(),
+                    FutureBuilder<CategoryProductsDetailsModel>(
+                        future: detailsModelFuture,
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+
+                            default:
+                              if (!snapshot.hasData) {
+                                return Container(
+                                    child: Text(
+                                  snapshot.hasError.toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ));
+                              } else {
+                                return SizedBox(
+                                  height: 230,
+                                  width: 750,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          snapshot.data!.similarProducts.length,
+                                      itemBuilder: (context, index) {
+                                        var datas = snapshot
+                                            .data!.similarProducts[index];
+                                        var url =
+                                            'https://admin.sandeepjewellers.com/app/public/img/product/';
+                                        var img = url + datas.featureImg;
+                                        return Card(
+                                          color: Colors.white10,
+                                          child: SimilarProductGrid(
+                                            label: snapshot
+                                                .data!
+                                                .similarProducts[index]
+                                                .productname,
+                                            desc: snapshot
+                                                .data!
+                                                .similarProducts[index]
+                                                .defaultSize
+                                                .toString(),
+                                            img: img,
+                                            amount: snapshot.data!
+                                                .similarProducts[index].amount,
+                                          ),
+                                        );
+                                      }),
+                                );
+                              }
+                          }
+                        }),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20 * 2,

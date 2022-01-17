@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-
 class SimilarProductGrid extends StatelessWidget {
   const SimilarProductGrid({
     Key? key,
+    required this.img,
+    required this.label,
+    required this.desc,
+    required this.amount,
   }) : super(key: key);
+  final img;
+  final label;
+  final desc;
+  final amount;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,7 @@ class SimilarProductGrid extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 250,
+            height: 220,
             width: 170,
             decoration: BoxDecoration(
               color: Colors.white10,
@@ -29,8 +36,10 @@ class SimilarProductGrid extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Image(
-                  image: AssetImage('assets/images/ring2.png'),
+                Image(
+                  image: NetworkImage(img),
+                  height: 100,
+                  width: 100,
                 ),
                 Padding(
                   padding:
@@ -39,15 +48,15 @@ class SimilarProductGrid extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Ring (Size 8) ',
+                      Text(
+                        label,
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
-                      const Text(
-                        '34 gm , 24kt Gold',
+                      Text(
+                        desc,
                         style: TextStyle(color: Colors.white54, fontSize: 12),
                       ),
                       const SizedBox(
@@ -82,9 +91,9 @@ class SimilarProductGrid extends StatelessWidget {
                         height: 10,
                       ),
                       Row(
-                        children: const [
+                        children: [
                           Text(
-                            '₹${9550}',
+                            '₹${amount}',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
