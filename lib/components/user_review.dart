@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class UserReview extends StatelessWidget {
   const UserReview({
     Key? key,
+    required this.name,
   }) : super(key: key);
+  final name;
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +32,8 @@ class UserReview extends StatelessWidget {
                 height: 25,
               ),
               Row(
-                children: const [
-                  Text('Akhil Jewel',
+                children:  [
+                  Text(name,
                       style: TextStyle(color: Colors.white, fontSize: 16)),
                   SizedBox(
                     width: 20,

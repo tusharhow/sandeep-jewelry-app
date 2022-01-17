@@ -202,27 +202,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     prodSizee = prefs.getString('prodSize');
   }
 
-  // Future<ProductDetailsModel> getProdCall() async {
-  //   try {
-  //     var url = '${AppConfig.BASE_URL}/product_detail';
-
-  //     final response = await http.post(Uri.parse(url), headers: {
-  //       "Accept": "application/json",
-  //     }, body: {
-  //       "product_id": widget.prodId.toString(),
-  //     });
-
-  //     if (response.statusCode == 200) {
-  //       var parsedData = json.decode(response.body);
-
-  //       detailsForModel = ProductDetailsModel.fromJson(parsedData);
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   return detailsForModel;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -261,7 +240,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-
               FutureBuilder<CategoryProductsDetailsModel>(
                   future: detailsModelFuture,
                   builder: (context, snapshot) {
@@ -331,7 +309,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-
               FutureBuilder<CategoryProductsDetailsModel>(
                   future: detailsModelFuture,
                   builder: (context, snapshot) {
@@ -346,7 +323,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       );
                     }
                   }),
-
               const SizedBox(
                 height: 10,
               ),
@@ -387,33 +363,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   const SizedBox(
                     width: 10,
                   ),
-                  // const Text(
-                  //   '₹${5455}',
-                  //   style: TextStyle(
-                  //     fontSize: 15,
-                  //     color: Colors.white,
-                  //     decoration: TextDecoration.lineThrough,
-                  //   ),
-                  // ),
                 ],
               ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // InkWell(
-              //   onTap: () {},
-              //   child: Container(
-              //     alignment: Alignment.bottomLeft,
-              //     child: const Text(
-              //       'Price Breakage',
-              //       style: TextStyle(
-              //         fontSize: 14,
-              //         color: Colors.amber,
-              //         decoration: TextDecoration.underline,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               InkWell(
                 onTap: () {},
                 child: GFAccordion(
@@ -793,52 +744,98 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 20,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 20,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 20,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 20,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 20,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '5.0 (834)',
-                      style: TextStyle(color: Colors.white54, fontSize: 9),
-                    )
+                    // SizedBox(
+                    //   width: 20,
+                    // ),
+                    // Icon(
+                    //   Icons.star,
+                    //   color: Colors.amber,
+                    //   size: 20,
+                    // ),
+                    // Icon(
+                    //   Icons.star,
+                    //   color: Colors.amber,
+                    //   size: 20,
+                    // ),
+                    // Icon(
+                    //   Icons.star,
+                    //   color: Colors.amber,
+                    //   size: 20,
+                    // ),
+                    // Icon(
+                    //   Icons.star,
+                    //   color: Colors.amber,
+                    //   size: 20,
+                    // ),
+                    // Icon(
+                    //   Icons.star,
+                    //   color: Colors.amber,
+                    //   size: 20,
+                    // ),
+                    // SizedBox(
+                    //   width: 5,
+                    // ),
+                    // Text(
+                    //   '5.0 (834)',
+                    //   style: TextStyle(color: Colors.white54, fontSize: 9),
+                    // ),
                   ],
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const UserReview(),
-              const SizedBox(
-                height: 15,
-              ),
-              const UserReview(),
+              // const UserReview(),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // const UserReview(),
+
+              FutureBuilder<CategoryProductsDetailsModel>(
+                  future: detailsModelFuture,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+
+                      default:
+                        if (!snapshot.hasData) {
+                          return Container(
+                              child: Text(
+                            snapshot.hasError.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ));
+                        } else {
+                          return SizedBox(
+                            height: 110,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    snapshot.data!.ratings.data.length == 0
+                                        ? 1
+                                        : snapshot.data!.ratings.data.length,
+                                itemBuilder: (context, index) {
+                                  var datas =
+                                      snapshot.data!.similarProducts[index];
+                                  var url =
+                                      'https://admin.sandeepjewellers.com/app/public/img/product/';
+                                  var img = url + datas.featureImg;
+                                  return Card(
+                                    color: Colors.white10,
+                                    child: UserReview(
+                                      name: 'Tushar',
+                                    ),
+                                  );
+                                }),
+                          );
+                        }
+                    }
+                  }),
+
               const SizedBox(
                 height: 20,
               ),
@@ -867,7 +864,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 15,
               ),
-
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
