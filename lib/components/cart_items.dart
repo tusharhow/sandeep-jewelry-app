@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cart/flutter_cart.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +23,6 @@ class CartItems extends StatefulWidget {
   _CartItemsState createState() => _CartItemsState();
 }
 
-var cart = FlutterCart();
 
 class _CartItemsState extends State<CartItems> {
   @override

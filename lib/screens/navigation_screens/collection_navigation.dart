@@ -1,21 +1,16 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/components/shop_carousel.dart';
 import 'package:sandeep_jwelery/controllers/collection_controllers.dart';
-import 'package:sandeep_jwelery/controllers/collection_details_controller.dart';
 import 'package:sandeep_jwelery/models/collection_all_model.dart';
 import 'package:sandeep_jwelery/models/mens_collection_model.dart';
 import 'package:sandeep_jwelery/models/product_model.dart';
 import 'package:sandeep_jwelery/models/shop_for_category.dart';
 import 'package:sandeep_jwelery/models/womens_collection_model.dart';
 import 'package:sandeep_jwelery/screens/category_details.dart';
-
 import '../../config.dart';
-import '../collection_details_screen.dart';
 import 'home_navigation.dart';
 
 class ShoppingPage extends StatefulWidget {

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/config.dart';
@@ -9,7 +8,6 @@ import 'package:sandeep_jwelery/models/login_response.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyOtp extends StatefulWidget {

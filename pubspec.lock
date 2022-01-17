@@ -139,13 +139,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_cart:
-    dependency: "direct main"
-    description:
-      name: flutter_cart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.6"
   flutter_holo_date_picker:
     dependency: "direct main"
     description:
@@ -464,13 +457,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  shared_value:
-    dependency: "direct main"
-    description:
-      name: shared_value
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   sky_engine:
     dependency: transitive
     description: flutter

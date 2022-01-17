@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/controllers/shop_for_details_controller.dart';
 import 'package:sandeep_jwelery/models/shop_for_details.dart';
 
 import '../config.dart';

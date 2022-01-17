@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/drawer.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/models/show_cart_model.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/search.dart';
 import 'package:sandeep_jwelery/screens/appbar_screens/cart.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/collection_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/home_navigation.dart';
 import 'package:sandeep_jwelery/screens/navigation_screens/profile_navigation.dart';
-import 'package:sandeep_jwelery/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';

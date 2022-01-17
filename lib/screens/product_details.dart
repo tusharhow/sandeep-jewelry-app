@@ -128,7 +128,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
-    var itemsCounts = prefs.getInt('itemCounts');
 
     var url = 'https://admin.sandeepjewellers.com/app/public/api/cart';
 
@@ -858,7 +857,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               Container(
                 alignment: Alignment.bottomLeft,
                 child: const Text(
-                  'Similar Product',
+                  'Similar Products',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -874,8 +873,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // SimilarProductGrid(),
-                    // SimilarProductGrid(),
                     FutureBuilder<CategoryProductsDetailsModel>(
                         future: detailsModelFuture,
                         builder: (context, snapshot) {

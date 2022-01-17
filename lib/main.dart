@@ -4,19 +4,12 @@ import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/splash/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'providers/cart_provider.dart';
 import 'screens/auth/verify_otp.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Provider.debugCheckInvalidValueType = null;
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // var loginStatus = prefs.getBool('isLoggedIn') ?? false;
-  // print(loginStatus);
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var token = prefs.getString('userToken');
-
   runApp(MultiProvider(
     providers: [
       Provider<CartProvider>(create: (_) => CartProvider()),
@@ -30,23 +23,6 @@ Future<void> main() async {
         home: Splash()),
   ));
 }
-
-// class MyApp exteHomeScreennds StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return GetMaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Sandeep Jewellery',
-//       theme: ThemeData(
-//         canvasColor: Colors.black,
-//         primarySwatch: Colors.grey,
-//       ),
-//       home: Splash(),
-//       // home: defaultHome,
-//     );
-//   }
-// }
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

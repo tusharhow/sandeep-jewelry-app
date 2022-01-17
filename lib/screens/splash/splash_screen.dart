@@ -3,7 +3,6 @@ import 'package:after_layout/after_layout.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
-import 'package:sandeep_jwelery/main.dart';
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
 import 'package:sandeep_jwelery/screens/splash/onboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';

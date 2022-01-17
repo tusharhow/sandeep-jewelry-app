@@ -680,7 +680,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               Container(
                 alignment: Alignment.bottomLeft,
                 child: const Text(
-                  'Similar Product',
+                  'Similar Products',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -695,7 +695,6 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  
                     FutureBuilder<CategoryProductsDetailsModel>(
                         future: detailsModelFuture,
                         builder: (context, snapshot) {
