@@ -247,7 +247,9 @@ class _CartPageState extends State<CartPage> {
                                             .data!.data[index].cartId
                                             .toString());
                                       });
-                                      allDataModelFuture = getAllCart();
+                                      setState(() {
+                                        allDataModelFuture = getAllCart();
+                                      });
                                     },
                                     child: Card(
                                       color: Colors.white10,
@@ -435,13 +437,21 @@ class _CartPageState extends State<CartPage> {
                     return Center(child: const CircularProgressIndicator());
                   } else {
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Total Items: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.count))}',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        GetBuilder<CartCotrollerIncreaments>(
+                          init: CartCotrollerIncreaments(),
+                          initState: (_) {},
+                          builder: (_) {
+                            return Text(
+                              'Total Items:  ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.count))}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            );
+                          },
                         ),
                         Text(
-                          'Total amounts: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
+                          'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ],
