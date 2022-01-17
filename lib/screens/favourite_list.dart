@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:sandeep_jwelery/models/delete_cart_model.dart';
+import 'package:sandeep_jwelery/models/delete_wishlist_model.dart';
 import 'package:sandeep_jwelery/models/wishlist_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config.dart';
@@ -50,6 +52,37 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
       print(e);
     }
     return wishData;
+  }
+
+  var deleteData;
+  Future<DeleteWishlistModel> deleteWishList(String wishId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    try {
+      var url = '${AppConfig.BASE_URL}/wishlist/$wishId';
+
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          var jsonDeleteString = response.body;
+          var allDeleteParsedData = json.decode(jsonDeleteString);
+
+          deleteData = DeleteWishlistModel.fromJson(allDeleteParsedData);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+    return deleteData;
   }
 
   @override
@@ -104,6 +137,33 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ),
+                                    Spacer(),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        deleteWishList(
+                                            datasss.wishlistId.toString());
+                                        setState(() {
+                                          wishModelFuture = getWishList();
+                                        });
+                                      },
+                                    ),
+                                    // ElevatedButton(
+                                    //   onPressed: () {
+                                    //     deleteWishList(
+                                    //         datasss.wishlistId.toString());
+                                    //     setState(() {
+                                    //       wishModelFuture = getWishList();
+                                    //     });
+                                    //   },
+                                    //   child: Text(
+                                    //     'Delete',
+                                    //     style: TextStyle(color: Colors.white),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               );

@@ -28,7 +28,7 @@ String? sharedString;
 var itemCounts;
 final cartController = Get.put(CartCotrollerIncreaments());
 var updateData;
-var price;
+var totalPrice;
 
 class _CartPageState extends State<CartPage> {
   @override
@@ -82,8 +82,6 @@ class _CartPageState extends State<CartPage> {
           allParsedData = json.decode(jsonString);
 
           cartData = ShowCartModel.fromJson(allParsedData);
-          // print(
-          //     'Cart List Jsonnnnnnnnnnnn ${allParsedData['data'][0]['amount']}');
         });
       }
     } catch (e) {
@@ -221,8 +219,9 @@ class _CartPageState extends State<CartPage> {
                               var url =
                                   'https://admin.sandeepjewellers.com/app/public/img/product/';
                               var img = url + datas.image;
-                              price = int.parse(datas.amount) *
-                                  int.parse(datas.count);
+                              totalPrice = int.parse(datas.amount) *
+                                  int.parse(datas.count) *
+                                  2;
 
                               return InkWell(
                                 onTap: () async {
@@ -236,7 +235,7 @@ class _CartPageState extends State<CartPage> {
                                   });
                                   print('Clicked ${clcik}');
                                   print('Item Counts: $itemCounts');
-                                  print('All price: ${price}');
+                                  print('All price: ${totalPrice}');
                                   print(
                                       'Item Counts2: ${snapshot.data!.data[index].count}');
                                 },
@@ -436,7 +435,7 @@ class _CartPageState extends State<CartPage> {
                     return Center(child: const CircularProgressIndicator());
                   } else {
                     return Text(
-                      'Total Amount: ₹ ${price}',
+                      'Total Amount: ₹ ${totalPrice == null ? 0.0 : totalPrice}',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     );
                   }
