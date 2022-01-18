@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/address_text_field.dart';
+import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/models/address_confirmation_model.dart';
+import 'package:sandeep_jwelery/screens/checkout_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -49,6 +51,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
       setState(() {
         var parsedData = json.decode(response.body);
         addressResponse = AddressConfirmationModel.fromJson(parsedData);
+        push(context: context, widget: CheckOutScreen());
       });
     } else {
       print('Not Successful');
@@ -56,6 +59,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     return addressResponse;
   }
 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +142,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   textColor: Colors.black,
                   onPressed: () {
                     addressConfirmation();
+
                     print('Cliced');
                   }),
               SizedBox(
