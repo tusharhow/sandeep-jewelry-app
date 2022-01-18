@@ -6,6 +6,7 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
 import 'package:sandeep_jwelery/models/delete_cart_model.dart';
 import 'package:sandeep_jwelery/models/show_cart_model.dart';
+import 'package:sandeep_jwelery/models/total_amount_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../config.dart';
@@ -38,6 +39,7 @@ class _CartPageState extends State<CartPage> {
       names();
       updateCart();
       allDataModelFuture = getAllCart();
+      getTotalAmount();
     });
   }
 
@@ -88,6 +90,37 @@ class _CartPageState extends State<CartPage> {
       print(e);
     }
     return cartData;
+  }
+
+  var amountData;
+  Future<TotalAmountModel> getTotalAmount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    try {
+      var url = '${AppConfig.BASE_URL}/cartlist';
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          var jsonString = response.body;
+          var amountParsedData = json.decode(jsonString);
+
+          amountData = TotalAmountModel.fromJson(amountParsedData);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+    return amountData;
   }
 
   int updateDataCount = 1;
@@ -247,9 +280,8 @@ class _CartPageState extends State<CartPage> {
                                             .data!.data[index].cartId
                                             .toString());
                                       });
-                                      setState(() {
-                                        allDataModelFuture = getAllCart();
-                                      });
+                                      allDataModelFuture = getAllCart();
+                                      // setState(() {});
                                     },
                                     child: Card(
                                       color: Colors.white10,
@@ -444,16 +476,31 @@ class _CartPageState extends State<CartPage> {
                           initState: (_) {},
                           builder: (_) {
                             return Text(
-                              'Total Items:  ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.count))}',
+                              'Total Counts:  ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.count))}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20),
                             );
                           },
                         ),
-                        Text(
-                          'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
+                        FutureBuilder<TotalAmountModel>(
+                            future: getTotalAmount(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: const CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Text(
+                                  'Total Amount:  ${snapshot.data!.totalAmount == null ? 0.0 : snapshot.data!.totalAmount}',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                );
+                              }
+                            }),
+                        // Text(
+                        //   'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
+                        //   style: TextStyle(color: Colors.white, fontSize: 20),
+                        // ),
                       ],
                     );
                   }

@@ -42,19 +42,20 @@ class _ProfileNavigationState extends State<ProfileNavigation> {
 
       authUser = prefs.getString("userToken");
 
-      // print(fullName);
-      // print(emailFull);
-      // print(mobileNo);
-      // print(userToken);
+      print(fullName);
+      print(emailFull);
+      print(mobileNo);
+      print(userToken);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    nameCredential();
-
-    UserController().getUserDetails();
+    setState(() {
+      nameCredential();
+      UserController().getUserDetails();
+    });
   }
 
   @override

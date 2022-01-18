@@ -68,7 +68,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             TextFormField(
               controller: _phoneController,
               keyboardType: TextInputType.number,
-              validator: (input) => input!.length < 10
+              validator: (input) => input!.length < 11
                   ? "Number Should be more than 10 Characters"
                   : null,
               key: globalFormKey,

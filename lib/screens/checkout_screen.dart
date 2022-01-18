@@ -53,12 +53,28 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Check Out'),
-      ),
-      body: Center(
-        child: Text('Check Out'),
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Check Out'),
+        ),
+        body: Column(
+          children: [
+            Container(
+              child: FutureBuilder<AddOrderModel>(
+                future: addOrder(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data!.orderId.toString(),
+                      style: TextStyle(color: Colors.white),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
+              ),
+            )
+          ],
+        ));
   }
 }
