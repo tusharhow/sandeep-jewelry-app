@@ -59,8 +59,6 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     return addressResponse;
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

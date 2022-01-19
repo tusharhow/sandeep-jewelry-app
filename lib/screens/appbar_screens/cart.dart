@@ -482,23 +482,31 @@ class _CartPageState extends State<CartPage> {
                             );
                           },
                         ),
-                        // FutureBuilder<TotalAmountModel>(
-                        //     future: getTotalAmount(),
+                        // FutureBuilder<ShowCartModel>(
+                        //     future: allDataModelFuture,
                         //     builder: (context, snapshot) {
                         //       if (!snapshot.hasData) {
                         //         return Center(
                         //           child: const CircularProgressIndicator(),
                         //         );
                         //       } else {
-                        //         return Text(
-                        //           'Total Amount:  ${snapshot.data!.totalAmount == null ? 0.0 : snapshot.data!.totalAmount}',
-                        //           style: TextStyle(
-                        //               color: Colors.white, fontSize: 20),
+                        //         return SizedBox(
+                        //           height: 50,
+                        //           child: ListView.builder(
+                        //               itemCount: snapshot.data!.data.length,
+                        //               itemBuilder: (context, index) {
+                        //                 return Text(
+                        //                   'Total ids: ₹ ${snapshot.data!.data[index].productId.toString()}',
+                        //                   style: TextStyle(
+                        //                       color: Colors.white,
+                        //                       fontSize: 20),
+                        //                 );
+                        //               }),
                         //         );
                         //       }
                         //     }),
                         Text(
-                          'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
+                          'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[1].count.toString())}',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ],
