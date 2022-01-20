@@ -659,12 +659,16 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               ),
               const UserReview(
                 name: 'Tushar',
+                desc: '',
+                count: '',
               ),
               const SizedBox(
                 height: 15,
               ),
               const UserReview(
                 name: 'Tushar',
+                desc: '',
+                count: '',
               ),
               const SizedBox(
                 height: 20,

@@ -736,7 +736,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               Container(
                 alignment: Alignment.bottomLeft,
                 child: Row(
-                  children: const [
+                  children: [
                     Text(
                       'Ratings & Reviews',
                       style: TextStyle(
@@ -744,9 +744,35 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         color: Colors.white,
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 20,
-                    // ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    FutureBuilder<CategoryProductsDetailsModel>(
+                        future: detailsModelFuture,
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+
+                            default:
+                              if (!snapshot.hasData) {
+                                return Container(
+                                    child: Text(
+                                  snapshot.hasError.toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ));
+                              } else {
+                                return Text(
+                                  snapshot.data!.totalRatings.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                );
+                              }
+                          }
+                        }),
                     // Icon(
                     //   Icons.star,
                     //   color: Colors.amber,
@@ -785,7 +811,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               const SizedBox(
                 height: 20,
               ),
-              // const UserReview(),
+              // cost UserRneview(),
               // const SizedBox(
               //   height: 15,
               // ),
@@ -814,20 +840,25 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             width: MediaQuery.of(context).size.width,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount:
-                                    snapshot.data!.ratings.data.length == 0
-                                        ? 1
-                                        : snapshot.data!.ratings.data.length,
+                                itemCount: snapshot.data!.ratings.data.length,
                                 itemBuilder: (context, index) {
                                   var datas =
-                                      snapshot.data!.similarProducts[index];
+                                      snapshot.data!.ratings.data[index];
                                   var url =
                                       'https://admin.sandeepjewellers.com/app/public/img/product/';
-                                  var img = url + datas.featureImg;
+                                  // var img = url + datas['feature_img'];
                                   return Card(
                                     color: Colors.white10,
                                     child: UserReview(
-                                      name: 'Tushar',
+                                      name: snapshot
+                                          .data!.ratings.data[index]['name']
+                                          .toString(),
+                                      desc: snapshot.data!.ratings
+                                          .data[index]['description']
+                                          .toString(),
+                                      count: snapshot
+                                          .data!.ratings.data[index]['rating']
+                                          .toString(),
                                     ),
                                   );
                                 }),

@@ -4,9 +4,12 @@ class UserReview extends StatelessWidget {
   const UserReview({
     Key? key,
     required this.name,
+    required this.desc,
+    required this.count,
   }) : super(key: key);
   final name;
-
+  final desc;
+  final count;
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +22,28 @@ class UserReview extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage('assets/images/user.png'),
-            ),
-          ),
+          //  Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 20),
+          //   child: CircleAvatar(
+          //     radius: 30,
+          //     backgroundImage: NetworkImage(img),
+          //   ),
+          // ),
           Column(
             children: [
               const SizedBox(
                 height: 25,
               ),
               Row(
-                children:  [
-                  Text(name,
-                      style: TextStyle(color: Colors.white, fontSize: 16)),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20 * 2),
+                    child: Text(
+                      name,
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      maxLines: 1,
+                    ),
+                  ),
                   SizedBox(
                     width: 20,
                   ),
@@ -46,20 +55,22 @@ class UserReview extends StatelessWidget {
                   SizedBox(
                     width: 5,
                   ),
-                  Text('5.0 (834)',
+                  Text('${count} (834)',
                       style: TextStyle(color: Colors.white54, fontSize: 9)),
                 ],
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Flexible(
+              Flexible(
                 child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur \nadipiscing elit. Amet elit non nisl sem.',
-                    style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 11,
-                    )),
+                  desc,
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 11,
+                  ),
+                  maxLines: 1,
+                ),
               ),
             ],
           ),
