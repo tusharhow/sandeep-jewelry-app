@@ -9,6 +9,7 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart
 import 'package:sandeep_jwelery/screens/homepage_main.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyOtpInputScreen extends StatefulWidget {
   VerifyOtpInputScreen({
@@ -224,7 +225,8 @@ class _VerifyOtpInputScreenState extends State<VerifyOtpInputScreen> {
 
       // print("mmmmmmmmmm" + loginArr.toString());
 
-      // SharedPreferences pref = await SharedPreferences.getInstance();
+      SharedPreferences pref = await SharedPreferences.getInstance();
+       pref.setString('userToken', userTok);
       // pref.setString('mobile', widget.phoneNumber);
 
       // push(context: context, widget: HomePageMain());

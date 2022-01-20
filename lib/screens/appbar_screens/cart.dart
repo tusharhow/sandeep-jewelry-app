@@ -482,25 +482,25 @@ class _CartPageState extends State<CartPage> {
                             );
                           },
                         ),
-                        FutureBuilder<TotalAmountModel>(
-                            future: getTotalAmount(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: const CircularProgressIndicator(),
-                                );
-                              } else {
-                                return Text(
-                                  'Total Amount:  ${snapshot.data!.totalAmount == null ? 0.0 : snapshot.data!.totalAmount}',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                );
-                              }
-                            }),
-                        // Text(
-                        //   'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
-                        //   style: TextStyle(color: Colors.white, fontSize: 20),
-                        // ),
+                        // FutureBuilder<TotalAmountModel>(
+                        //     future: getTotalAmount(),
+                        //     builder: (context, snapshot) {
+                        //       if (!snapshot.hasData) {
+                        //         return Center(
+                        //           child: const CircularProgressIndicator(),
+                        //         );
+                        //       } else {
+                        //         return Text(
+                        //           'Total Amount:  ${snapshot.data!.totalAmount == null ? 0.0 : snapshot.data!.totalAmount}',
+                        //           style: TextStyle(
+                        //               color: Colors.white, fontSize: 20),
+                        //         );
+                        //       }
+                        //     }),
+                        Text(
+                          'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[0].count.toString())}',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
                       ],
                     );
                   }

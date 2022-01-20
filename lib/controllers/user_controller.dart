@@ -43,7 +43,7 @@ class UserController extends GetxController {
         // String userToken = token;
 
         prefs.setBool('user', true);
-        prefs.setString('userToken', userToken);
+        // prefs.setString('userToken', userToken);
         isLoading(false);
       }
     } catch (e) {
