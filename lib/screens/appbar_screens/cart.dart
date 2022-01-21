@@ -40,6 +40,8 @@ class _CartPageState extends State<CartPage> {
       updateCart();
       allDataModelFuture = getAllCart();
       getTotalAmount();
+      getAllCart();
+      deleteCartItems(cartId.toString());
     });
   }
 
@@ -47,6 +49,7 @@ class _CartPageState extends State<CartPage> {
   var datasIndex;
   var quan;
   var pppp;
+
   names() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     sharedString = prefs.getString('cartId'.toString());
@@ -99,7 +102,7 @@ class _CartPageState extends State<CartPage> {
     var token = prefs.getString('userToken');
 
     try {
-      var url = '${AppConfig.BASE_URL}/cartlist';
+      var url = '${AppConfig.BASE_URL}/cart/items/total/price';
 
       final response = await http.get(
         Uri.parse(url),
@@ -112,9 +115,11 @@ class _CartPageState extends State<CartPage> {
       if (response.statusCode == 200) {
         setState(() {
           var jsonString = response.body;
-          var amountParsedData = json.decode(jsonString);
+          setState(() {
+            var amountParsedData = json.decode(jsonString);
 
-          amountData = TotalAmountModel.fromJson(amountParsedData);
+            amountData = TotalAmountModel.fromJson(amountParsedData);
+          });
         });
       }
     } catch (e) {
@@ -255,7 +260,6 @@ class _CartPageState extends State<CartPage> {
                               totalPrice = int.parse(datas.amount) *
                                   int.parse(datas.count) *
                                   2;
-
                               return InkWell(
                                 onTap: () async {
                                   SharedPreferences prefs =
@@ -267,8 +271,8 @@ class _CartPageState extends State<CartPage> {
                                     itemCounts = prefs.getInt('addCount');
                                   });
                                   print('Clicked ${clcik}');
-                                  print('Item Counts: $itemCounts');
-                                  print('All price: ${totalPrice}');
+                                  print('Item Counts: $clcik');
+                                  // print('All price: ${totalPrice}');
                                   print(
                                       'Item Counts2: ${snapshot.data!.data[index].count}');
                                 },
@@ -505,10 +509,27 @@ class _CartPageState extends State<CartPage> {
                         //         );
                         //       }
                         //     }),
-                        Text(
-                          'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[1].count.toString())}',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
+
+                        FutureBuilder<TotalAmountModel>(
+                            future: getTotalAmount(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: const CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Text(
+                                  'Total Price: ₹ ${snapshot.data!.totalAmount}',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                );
+                              }
+                            }),
+
+                        // Text(
+                        //   'Total Price: ₹ ${snapshot.data!.data.fold(0, (a, b) => int.parse(a.toString()) + int.parse(b.amount)) * int.parse(snapshot.data!.data[2].count.toString())}',
+                        //   style: TextStyle(color: Colors.white, fontSize: 20),
+                        // ),
                       ],
                     );
                   }
