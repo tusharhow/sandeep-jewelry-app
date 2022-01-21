@@ -7,6 +7,7 @@ import 'package:sandeep_jwelery/models/shop_for_details.dart';
 import '../config.dart';
 import 'category_products_details.dart';
 
+// ignore: must_be_immutable
 class CategoryDetails extends StatefulWidget {
   CategoryDetails({Key? key, required this.varId}) : super(key: key);
 
@@ -91,8 +92,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                                 children: [
                                   Image(
                                     image: NetworkImage(img),
-                                    height: 150,
-                                    width: 150,
+                                    height: 100,
+                                    width: 100,
                                   ),
                                   SizedBox(
                                     width: 20,

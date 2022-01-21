@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/config.dart';
-import 'package:sandeep_jwelery/models/login_response.dart';
 import 'package:sandeep_jwelery/screens/auth/signup.dart';
 import 'package:sandeep_jwelery/screens/auth/verify_otp_input_screen.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +16,7 @@ class VerifyOtp extends StatefulWidget {
   State<VerifyOtp> createState() => _VerifyOtpState();
 }
 
-Future<LoginApiResponse>? _futureJwt;
+// Future<LoginApiResponse>? _futureJwt;
 String? currentText = "";
 var loginArr;
 TextEditingController _phoneController = TextEditingController();
