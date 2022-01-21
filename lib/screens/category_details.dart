@@ -82,9 +82,14 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                           return InkWell(
                             onTap: () {
                               push(
-                                  context: context,
-                                  widget: CategoryProductsDetails(
-                                      prodId: prodId.toString()));
+                                context: context,
+                                widget: CategoryProductsDetails(
+                                  prodId: prodId.toString(),
+                                  size: datas.priceType,
+                                  color: datas.jewelleryColor.toString(),
+                                  prodName: datas.jwelleryName,
+                                ),
+                              );
                             },
                             child: Card(
                               color: Colors.white10,

@@ -9,14 +9,25 @@ import 'package:sandeep_jwelery/components/re_usable_buttons/mini_button.dart';
 import 'package:sandeep_jwelery/components/similar_products_grid.dart';
 import 'package:sandeep_jwelery/components/user_review.dart';
 import 'package:sandeep_jwelery/controllers/cart_cotroller.dart';
+import 'package:sandeep_jwelery/models/cart_model.dart';
 import 'package:sandeep_jwelery/models/category_products_details_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config.dart';
 
 // ignore: must_be_immutable
 class CategoryProductsDetails extends StatefulWidget {
-  CategoryProductsDetails({Key? key, required this.prodId}) : super(key: key);
+  CategoryProductsDetails({
+    Key? key,
+    required this.prodId,
+    required this.color,
+    required this.size,
+    required this.prodName,
+  }) : super(key: key);
   String prodId;
+  String size;
+  String color;
+  String prodName;
   @override
   _CategoryProductsDetailsState createState() =>
       _CategoryProductsDetailsState();
@@ -39,7 +50,53 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
     detailsModelFuture = getProdCall();
   }
 
+  int dataCount = 1;
+  int get dataCounts => dataCount;
+  incrementsCart() {
+    setState(() {
+      dataCount++;
+    });
+  }
+
+  decreamentsCart() {
+    setState(() {
+      if (dataCount > 1) {
+        dataCount--;
+      }
+    });
+  }
+
   Future<CategoryProductsDetailsModel>? detailsModelFuture;
+  var detailsResponse;
+  Future<CartModel> addToCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    var url = 'https://admin.sandeepjewellers.com/app/public/api/cart';
+
+    final response = await http.post(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $token",
+    }, body: {
+      "product_id": widget.prodId.toString(),
+      "product_size": widget.size.toString(),
+      "count": dataCount.toString(),
+      "selectedColor": widget.color,
+      "jwellery_name": widget.prodName,
+      "assests": ""
+    });
+
+    if (response.statusCode == 200) {
+      setState(() {
+        var parsedData = json.decode(response.body);
+        detailsResponse = CartModel.fromJson(parsedData);
+      });
+    } else {
+      print('failed to get data');
+    }
+    return detailsResponse;
+  }
 
   Future<CategoryProductsDetailsModel> getProdCall() async {
     try {
@@ -397,7 +454,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                             builder: (_) {
                               return TextButton(
                                   onPressed: () {
-                                    _.decrements();
+                                    decreamentsCart();
                                   },
                                   child: const Text(
                                     '-',
@@ -409,7 +466,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                             init: CartCotrollerIncreaments(),
                             builder: (_) {
                               return Text(
-                                '${_.count}',
+                                '${dataCount}',
                                 style: const TextStyle(
                                     fontSize: 18, color: Colors.white),
                               );
@@ -419,7 +476,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                             builder: (_) {
                               return TextButton(
                                 onPressed: () {
-                                  _.increments();
+                                  incrementsCart();
                                 },
                                 child: const Text(
                                   '+',
@@ -439,16 +496,24 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MiniButton(
-                    btnText: 'Add to Cart',
-                    onPressed: () {},
-                    btnTextColor: Colors.white,
-                    // btnColor: const Color(0xff393939)
-                    btnColor: Colors.amber,
+                  SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width / 2.30,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            addToCart();
+                          });
+                        },
+                        child: Text('Add to cart')),
                   ),
                   MiniButton(
                       btnText: 'Buy Now',
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          addToCart();
+                        });
+                      },
                       btnTextColor: Colors.black,
                       btnColor: Colors.amber),
                 ],
