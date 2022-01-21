@@ -147,12 +147,12 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                                           deleteWishList(
                                               datasss.wishlistId.toString());
                                         });
-                                        setState(() {
-                                          wishModelFuture = getWishList();
-                                        });
+                                        // setState(() {
+                                        //   wishModelFuture = getWishList();
+                                        // });
+                                        wishModelFuture = getWishList();
                                       },
                                     ),
-                                  
                                   ],
                                 ),
                               );

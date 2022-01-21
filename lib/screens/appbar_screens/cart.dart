@@ -40,7 +40,7 @@ class _CartPageState extends State<CartPage> {
       updateCart();
       allDataModelFuture = getAllCart();
       getTotalAmount();
-      getAllCart();
+      // getAllCart();
       deleteCartItems(cartId.toString());
     });
   }
