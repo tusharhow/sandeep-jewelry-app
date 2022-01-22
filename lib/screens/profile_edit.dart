@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:ui';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +9,7 @@ import 'package:sandeep_jwelery/components/profile_edit_form_field.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/controllers/user_controller.dart';
 import 'package:sandeep_jwelery/models/profile_model.dart';
+import 'package:sandeep_jwelery/models/user_edit_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileEditPage extends StatefulWidget {
@@ -23,8 +25,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _gstController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _panController = TextEditingController();
 
   bool tappedBtn = false;
 
@@ -37,9 +42,12 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   @override
   void initState() {
     super.initState();
-    nameCredential();
-    userEditController.getUserDetails();
-    profileUpdate();
+    setState(() {
+      nameCredential();
+      userEditController.getUserDetails();
+
+      editUser();
+    });
   }
 
   final userEditController = Get.put(UserController());
@@ -54,6 +62,63 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       // print(fullName);
       // print(emailFull);
       // print(mobileNo);
+    });
+  }
+
+  File? uploadimage;
+  var editResponse;
+  Future<UserEditModel> editUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    var url = 'https://admin.sandeepjewellers.com/app/public/api/edit';
+    List<int> imageBytes = uploadimage!.readAsBytesSync();
+    String baseimage = base64Encode(imageBytes);
+    final response = await http.post(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $token",
+    }, body: {
+      "name": _nameController.text,
+      "country": _countryController.text,
+      "address": _addressController.text,
+      "designation": "",
+      "pincode": _pinController.text,
+      "pan_no": _panController.text,
+      "state": _stateController.text,
+      "company_name": "",
+      "email": _emailController.text,
+      "image": baseimage,
+      "city": _cityController.text,
+      "gstno": _gstController.text,
+      "mobile_no": _phoneController.text,
+    });
+
+    if (response.statusCode == 200) {
+      setState(() {
+        var parsedData = json.decode(response.body);
+        editResponse = UserEditModel.fromJson(parsedData);
+        print('done');
+      });
+    } else {
+      // Flutter toast
+      Fluttertoast.showToast(
+        msg: "Something went wrong",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+    return editResponse;
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      uploadimage = File(image!.path);
     });
   }
 
@@ -75,12 +140,53 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
+              // uploadimage == null
+              //     ? Container(
+              //         height: 50,
+              //         width: 50,
+              //         color: Colors.red,
+              //       )
+              //     : //if uploadimage is null then show empty container
+              //     Container(
+              //         //elese show image here
+              //         child: uploadimage == null
+              //             ? Container(
+              //                 height: 50,
+              //                 width: 50,
+              //                 color: Colors.blue,
+              //               )
+              //             : CircleAvatar(
+              //                 radius: 50,
+              //                 backgroundImage: FileImage(
+              //                     uploadimage!), //load image from file
+              //               )),
+              // Container(
+              //     //show upload button after choosing image
+              //     child: Container(
+              //         //elese show uplaod button
+              //         child: ElevatedButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       getImage();
+
+              //     });
+              //   },
+              //   child: Text(
+              //     "Choose Image",
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              //   //set brghtness to dark, because deepOrangeAccent is darker coler
+              //   //so that its text color is light
+              // ))),
+              // const SizedBox(
+              //   height: 20,
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -107,7 +213,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               const SizedBox(
                 height: 20,
               ),
-
               FutureBuilder<UserDetailsModel>(
                   future: userEditController.userModelFuture,
                   builder: (context, snapshot) {
@@ -123,7 +228,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       );
                     }
                   }),
-
               const SizedBox(
                 height: 10,
               ),
@@ -163,35 +267,51 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               const SizedBox(
                 height: 10,
               ),
-              // ProfileEditFormField(
-              //   editingController: _dobController,
-              //   label: 'Date of Birth',
-              //   hint: _dob,
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // ProfileEditFormField(
-              //   editingController: _genderController,
-              //   label: 'Gender',
-              //   hint: _gender,
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // ProfileEditFormField(
-              //   editingController: _addressController,
-              //   label: 'Address',
-              //   hint: _address,
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // ProfileEditFormField(
-              //   editingController: _pinController,
-              //   label: 'Pin Code',
-              //   hint: _pin,
-              // ),
+              ProfileEditFormField(
+                editingController: _addressController,
+                label: 'Address',
+                hint: "Address",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileEditFormField(
+                editingController: _pinController,
+                label: 'Pin Code',
+                hint: "Pin code",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileEditFormField(
+                editingController: _cityController,
+                label: 'City',
+                hint: "City",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileEditFormField(
+                editingController: _gstController,
+                label: 'GST No',
+                hint: "GST No",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileEditFormField(
+                editingController: _panController,
+                label: 'PAN No',
+                hint: "PAN No",
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileEditFormField(
+                editingController: _stateController,
+                label: 'State',
+                hint: "State",
+              ),
               const SizedBox(
                 height: 50,
               ),
@@ -200,11 +320,12 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   buttonColor: const Color(0xffEE0000),
                   textColor: Colors.white,
                   onPressed: () {
-                    Get.snackbar(
-                      'User Data Updated',
-                      'User Data Edit Succesful!',
-                      backgroundColor: Colors.white,
-                    );
+                    editUser();
+                    // Get.snackbar(
+                    //   'User Data Updated',
+                    //   'User Data Edit Succesful!',
+                    //   backgroundColor: Colors.white,
+                    // );
                   }),
               const SizedBox(
                 height: 50,
@@ -214,34 +335,5 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         ),
       ),
     );
-  }
-
-  Future profileUpdate() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userToken = prefs.getString('userToken');
-    userNumber = prefs.getString('mobile');
-    var url =
-        "http://ec2-18-216-225-19.us-east-2.compute.amazonaws.com/app/public/api/edit";
-    var response = await http.post(Uri.parse(url), headers: {
-      "Accept": "application/json",
-      'Authorization': 'Bearer ' + userToken!,
-    }, body: {
-      "mobile_no": userNumber,
-      "state": "west bengal",
-      "city": "kolkata",
-      "email": emailFull,
-      "name": fullName,
-      "company_name": "bandhan",
-      "gstno": "7895423",
-      "pan_no": "clopa3426p",
-      "address": "kestopur kolkata",
-      "designation": "officer",
-      "pincode": "700102",
-      "image": "save back.png",
-    });
-
-    print(response.body);
-
-    var parsedData = json.decode(response.body);
   }
 }

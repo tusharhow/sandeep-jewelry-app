@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sandeep_jwelery/components/address_text_field.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
 import 'package:sandeep_jwelery/models/add_order_model.dart';
 import 'package:sandeep_jwelery/models/address_confirmation_model.dart';
+import 'package:sandeep_jwelery/models/show_cart_model.dart';
 import 'package:sandeep_jwelery/models/total_amount_model.dart';
 import 'package:sandeep_jwelery/screens/checkout_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +31,42 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   TextEditingController _regionController = TextEditingController();
   TextEditingController _pincodeController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
+
+  var cartData;
+  var totAmount;
+  var prodId;
+  Future<ShowCartModel>? allDataModelFuture;
+
+  Future<ShowCartModel> getAllCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('userToken');
+
+    try {
+      var url = '${AppConfig.BASE_URL}/cartlist';
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          var jsonString = response.body;
+          var allParsedData = json.decode(jsonString);
+          prefs.setString('cartids', allParsedData['data'][0]['cart_id']);
+
+          cartData = ShowCartModel.fromJson(allParsedData);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+    return cartData;
+  }
 
   Future<AddressConfirmationModel> addressConfirmation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,7 +96,18 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
         push(context: context, widget: CheckOutScreen());
       });
     } else {
-      print('Not Successful');
+      // Flutter toast
+      Fluttertoast.showToast(
+          msg: "Address Aldready Exist",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      var parsedData = json.decode(response.body);
+      addressResponse = AddressConfirmationModel.fromJson(parsedData);
+      push(context: context, widget: CheckOutScreen());
     }
     return addressResponse;
   }
@@ -85,6 +134,8 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           var jsonString = response.body;
           setState(() {
             var amountParsedData = json.decode(jsonString);
+            prefs.setString(
+                'totalamount', amountParsedData['totalAmount'].toString());
 
             amountData = TotalAmountModel.fromJson(amountParsedData);
           });
@@ -96,13 +147,13 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     return amountData;
   }
 
-var orderResponse;
+  var orderResponse;
   Future<AddOrderModel> addOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
 
-    var url = 'https://admin.sandeepjewellers.com/app/public/api/addorder';
+    var url = '${AppConfig.BASE_URL}/addorder}';
 
     final response = await http.post(Uri.parse(url), headers: {
       "Accept": "application/json",
@@ -114,13 +165,13 @@ var orderResponse;
       "address_id": "1",
       "message": "",
       "delievery_date": "2022-01-19",
-      "totalamount": "123323",
+      "totalamount": totAmount.toString(),
       "coupanCode": "",
       "total_gst": "",
       "delivery_charge": "",
       "total_after_discount": "",
       "discount_amount": "",
-      "product_id": ["1"]
+      "product_id": prodId.toString(),
     });
 
     if (response.statusCode == 200) {
@@ -129,15 +180,23 @@ var orderResponse;
         orderResponse = AddOrderModel.fromJson(parsedData);
       });
     } else {
-      print('failed to get data');
+      print('Something went wrong');
     }
     return orderResponse;
   }
-  
+
   @override
   void initState() {
     super.initState();
     getTotalAmount();
+    getAllCart();
+    names();
+  }
+
+  names() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    totAmount = prefs.getString('totalamount');
+    prodId = prefs.getString('cartids');
   }
 
   @override
@@ -217,10 +276,11 @@ var orderResponse;
               ),
               Container(
                 height: 100,
-                width: MediaQuery.of(context).size.width/1.05,
-               decoration: BoxDecoration(
-                 color: Colors.black54,
-                 borderRadius: BorderRadius.circular(10),),
+                width: MediaQuery.of(context).size.width / 1.05,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -233,11 +293,11 @@ var orderResponse;
                             );
                           } else {
                             return Padding(
-                             padding: const EdgeInsets.only(left: 20,top: 20),
+                              padding: const EdgeInsets.only(left: 20, top: 20),
                               child: Text(
                                 'Total Price: ₹ ${snapshot.data!.totalAmount}',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             );
                           }
@@ -254,7 +314,7 @@ var orderResponse;
                   textColor: Colors.black,
                   onPressed: () {
                     addressConfirmation();
-
+                    addOrder();
                     print('Cliced');
                   }),
               SizedBox(

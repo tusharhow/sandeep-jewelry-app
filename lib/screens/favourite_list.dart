@@ -54,7 +54,7 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
   }
 
   var deleteData;
-  Future<DeleteWishlistModel> deleteWishList(String wishId) async {
+  Future<DeleteWishlistModel> deleteWishList(int wishId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
@@ -73,9 +73,11 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
       if (response.statusCode == 200) {
         setState(() {
           var jsonDeleteString = response.body;
-          var allDeleteParsedData = json.decode(jsonDeleteString);
+          setState(() {
+            var allDeleteParsedData = json.decode(jsonDeleteString);
 
-          deleteData = DeleteWishlistModel.fromJson(allDeleteParsedData);
+            deleteData = DeleteWishlistModel.fromJson(allDeleteParsedData);
+          });
         });
       }
     } catch (e) {
@@ -120,39 +122,44 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                               var url =
                                   'https://admin.sandeepjewellers.com/app/public/img/product/';
                               var img = url + datasss.image;
-                              return Card(
-                                color: Colors.white12,
-                                child: Row(
-                                  children: [
-                                    Image(
-                                      image: NetworkImage(img),
-                                      height: 90,
-                                      width: 90,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Text(
-                                        datasss.productname,
-                                        style: TextStyle(color: Colors.white),
+                              return InkWell(
+                                onTap: () {
+                                  print(datasss.wishlistId);
+                                },
+                                child: Card(
+                                  color: Colors.white12,
+                                  child: Row(
+                                    children: [
+                                      Image(
+                                        image: NetworkImage(img),
+                                        height: 90,
+                                        width: 90,
                                       ),
-                                    ),
-                                    Spacer(),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: Text(
+                                          datasss.productname,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
-                                      onPressed: () {
-                                        setState(() {
-                                          deleteWishList(
-                                              datasss.wishlistId.toString());
-                                        });
-                                        setState(() {
-                                          wishModelFuture = getWishList();
-                                        });
-                                      },
-                                    ),
-                                  ],
+                                      Spacer(),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            deleteWishList(datasss.wishlistId);
+                                          });
+                                          setState(() {
+                                            wishModelFuture = getWishList();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             }));
