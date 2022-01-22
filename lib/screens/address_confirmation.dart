@@ -14,9 +14,10 @@ import 'package:http/http.dart' as http;
 
 import '../config.dart';
 
+// ignore: must_be_immutable
 class AddressConfirmation extends StatefulWidget {
-  AddressConfirmation({Key? key}) : super(key: key);
-
+  AddressConfirmation({Key? key, required this.prodId}) : super(key: key);
+  var prodId;
   @override
   _AddressConfirmationState createState() => _AddressConfirmationState();
 }
@@ -34,7 +35,8 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
 
   var cartData;
   var totAmount;
-  var prodId;
+  var progId;
+  var onclick;
   Future<ShowCartModel>? allDataModelFuture;
 
   Future<ShowCartModel> getAllCart() async {
@@ -57,7 +59,10 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
         setState(() {
           var jsonString = response.body;
           var allParsedData = json.decode(jsonString);
-          prefs.setString('cartids', allParsedData['data'][0]['cart_id']);
+          allParsedData['data'].forEach((element) {
+            progId = element;
+            print('progId $progId');
+          });
 
           cartData = ShowCartModel.fromJson(allParsedData);
         });
@@ -107,7 +112,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           fontSize: 16.0);
       var parsedData = json.decode(response.body);
       addressResponse = AddressConfirmationModel.fromJson(parsedData);
-      push(context: context, widget: CheckOutScreen());
+      // push(context: context, widget: CheckOutScreen());
     }
     return addressResponse;
   }
@@ -165,19 +170,21 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
       "address_id": "1",
       "message": "",
       "delievery_date": "2022-01-19",
-      "totalamount": totAmount.toString(),
+      "totalamount": totAmount,
       "coupanCode": "",
       "total_gst": "",
       "delivery_charge": "",
       "total_after_discount": "",
       "discount_amount": "",
-      "product_id": [prodId],
+      "product_id": widget.prodId.toString(),
     });
 
     if (response.statusCode == 200) {
       setState(() {
         var parsedData = json.decode(response.body);
         orderResponse = AddOrderModel.fromJson(parsedData);
+        print('Cliccccccccccccccccccccccccccccc ${widget.prodId}');
+        // push(context: context, widget: CheckOutScreen());
       });
     } else {
       print('Something went wrong');
@@ -196,7 +203,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   names() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     totAmount = prefs.getString('totalamount');
-    prodId = prefs.getString('cartids');
+    // prodId = prefs.getString('cartids');
   }
 
   @override
@@ -247,6 +254,18 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                       controller: _addressController,
                       hint: 'Address',
                     ),
+                    // SizedBox(
+                    //   height: 100,
+                    //   child: ListView.builder(
+                    //       itemCount: 1,
+                    //       itemBuilder: (context, index) {
+                    //         return Text(
+                    //           'Total ids: ₹ ${widget.prodId}',
+                    //           style:
+                    //               TextStyle(color: Colors.black, fontSize: 20),
+                    //         );
+                    //       }),
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -312,9 +331,10 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   childText: 'Add Order',
                   buttonColor: Colors.amber,
                   textColor: Colors.black,
-                  onPressed: () {
-                    addressConfirmation();
-                    addOrder();
+                  onPressed: () async {
+                    await addressConfirmation();
+
+                    await addOrder();
                     print('Cliced');
                   }),
               SizedBox(

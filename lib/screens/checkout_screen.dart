@@ -62,15 +62,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               child: FutureBuilder<AddOrderModel>(
                 future: addOrder(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      snapshot.data!.orderId.toString(),
-                      style: TextStyle(color: Colors.white),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return FutureBuilder(
+                        future: addOrder(),
+                        builder: (context, snapshot) {
+                          return Card(
+                            color: Colors.white10,
+                            child: Text(
+                              'Order ID: ${snapshot.data}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                          );
+                        });
                   }
-                  return CircularProgressIndicator();
                 },
               ),
             )

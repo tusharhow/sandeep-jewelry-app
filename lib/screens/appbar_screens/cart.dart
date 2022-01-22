@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:get/get.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
@@ -49,7 +50,8 @@ class _CartPageState extends State<CartPage> {
   var datasIndex;
   var quan;
   var pppp;
-
+  var ids;
+  var dicktats;
   names() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     sharedString = prefs.getString('cartId'.toString());
@@ -85,7 +87,13 @@ class _CartPageState extends State<CartPage> {
         setState(() {
           var jsonString = response.body;
           allParsedData = json.decode(jsonString);
+          // dicktats = allParsedData['data'].forEach((element) {
+          //   ids = element;
 
+          //   print('///////////////////////${ids}');
+
+          //   // dicktats = element['product_id'];
+          // });
           cartData = ShowCartModel.fromJson(allParsedData);
         });
       }
@@ -494,19 +502,19 @@ class _CartPageState extends State<CartPage> {
                         //           child: const CircularProgressIndicator(),
                         //         );
                         //       } else {
-                        //         return SizedBox(
-                        //           height: 50,
-                        //           child: ListView.builder(
-                        //               itemCount: snapshot.data!.data.length,
-                        //               itemBuilder: (context, index) {
-                        //                 return Text(
-                        //                   'Total ids: ₹ ${snapshot.data!.data[index].productId.toString()}',
-                        //                   style: TextStyle(
-                        //                       color: Colors.white,
-                        //                       fontSize: 20),
-                        //                 );
-                        //               }),
+                        // return SizedBox(
+                        //   height: 50,
+                        //   child: ListView.builder(
+                        //       itemCount: snapshot.data!.data.length,
+                        //       itemBuilder: (context, index) {
+                        //         return Text(
+                        //           'Total ids: ₹ ${snapshot.data!.data[index].productId.toString()}',
+                        //           style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontSize: 20),
                         //         );
+                        //       }),
+                        // );
                         //       }
                         //     }),
 
@@ -537,12 +545,53 @@ class _CartPageState extends State<CartPage> {
             SizedBox(
               height: 50,
             ),
-            ReusablePrimaryButton(
-                childText: 'Place Order',
-                buttonColor: Colors.orange,
-                textColor: Colors.black,
-                onPressed: () {
-                  push(context: context, widget: AddressConfirmation());
+            FutureBuilder<ShowCartModel>(
+                future: allDataModelFuture,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: const CircularProgressIndicator(),
+                    );
+                  } else {
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            var datas = snapshot.data!.data;
+
+                            return ReusablePrimaryButton(
+                                childText: 'Place Order',
+                                buttonColor: Colors.orange,
+                                textColor: Colors.black,
+                                onPressed: () {
+                                  // datas.forEach((element) async {
+                                  //   ids = element.productId;
+
+                                  //   print('Product Id: ${ids}');
+                                  // });
+                                  // push(
+                                  //     context: context,
+                                  //     widget: AddressConfirmation(
+                                  //       prodId: snapshot
+                                  //           .data!.data[index].productId,
+                                  //     ));
+                                  var nai = datas.map((element) {
+                                    ids = element.productId;
+                                    return ids;
+                                  }).toList();
+                                  // print(datas.map((e) {
+                                  //   return e.productId;
+                                  // }).toList());
+                                  print(nai.toString());
+                                  push(
+                                      context: context,
+                                      widget: AddressConfirmation(
+                                        prodId: nai,
+                                      ));
+                                });
+                          }),
+                    );
+                  }
                 }),
             SizedBox(
               height: 20,
