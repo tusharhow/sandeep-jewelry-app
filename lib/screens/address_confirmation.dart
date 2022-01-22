@@ -176,7 +176,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
       "delivery_charge": "",
       "total_after_discount": "",
       "discount_amount": "",
-      "product_id": widget.prodId.toString(),
+      "product_id": [widget.prodId] as String,
     });
 
     if (response.statusCode == 200) {
@@ -254,18 +254,18 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                       controller: _addressController,
                       hint: 'Address',
                     ),
-                    // SizedBox(
-                    //   height: 100,
-                    //   child: ListView.builder(
-                    //       itemCount: 1,
-                    //       itemBuilder: (context, index) {
-                    //         return Text(
-                    //           'Total ids: ₹ ${widget.prodId}',
-                    //           style:
-                    //               TextStyle(color: Colors.black, fontSize: 20),
-                    //         );
-                    //       }),
-                    // ),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return Text(
+                              'Total ids: ₹ ${widget.prodId}',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            );
+                          }),
+                    ),
                     SizedBox(
                       height: 20,
                     ),

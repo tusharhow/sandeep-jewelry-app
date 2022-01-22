@@ -578,7 +578,7 @@ class _CartPageState extends State<CartPage> {
                                   var nai = datas.map((element) {
                                     ids = element.productId;
                                     return ids;
-                                  }).toList();
+                                  });
                                   // print(datas.map((e) {
                                   //   return e.productId;
                                   // }).toList());
