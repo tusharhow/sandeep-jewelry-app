@@ -171,7 +171,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
       "delivery_charge": "",
       "total_after_discount": "",
       "discount_amount": "",
-      "product_id": prodId.toString(),
+      "product_id": [prodId],
     });
 
     if (response.statusCode == 200) {
