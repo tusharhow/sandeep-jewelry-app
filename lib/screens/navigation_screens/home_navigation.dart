@@ -283,7 +283,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                     ),
                                   ),
                                 );
-                              }),
+                              },),
                         );
                       } else {
                         return Center(
