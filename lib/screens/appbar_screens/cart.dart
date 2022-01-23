@@ -291,8 +291,11 @@ class _CartPageState extends State<CartPage> {
                                         deleteCartItems(snapshot
                                             .data!.data[index].cartId
                                             .toString());
+                                        snapshot.data!.data.remove(datas);
                                       });
-                                      allDataModelFuture = getAllCart();
+                                      setState(() {
+                                        allDataModelFuture = getAllCart();
+                                      });
                                       // setState(() {});
                                     },
                                     child: Card(
@@ -553,7 +556,8 @@ class _CartPageState extends State<CartPage> {
                       child: const CircularProgressIndicator(),
                     );
                   } else {
-                    return Expanded(
+                    return SizedBox(
+                      height: 60,
                       child: ListView.builder(
                           itemCount: 1,
                           itemBuilder: (context, index) {
@@ -563,7 +567,10 @@ class _CartPageState extends State<CartPage> {
                                 childText: 'Place Order',
                                 buttonColor: Colors.orange,
                                 textColor: Colors.black,
-                                onPressed: () {
+                                onPressed: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+
                                   // datas.forEach((element) async {
                                   //   ids = element.productId;
 
@@ -579,15 +586,19 @@ class _CartPageState extends State<CartPage> {
                                     ids = element.productId;
                                     return ids;
                                   });
+                                  prefs.setString('fsrf', nai.toString());
+                                  var dat = prefs.getString('fsrf');
                                   // print(datas.map((e) {
                                   //   return e.productId;
                                   // }).toList());
-                                  print(nai.toString());
+
+                                  print(nai);
+                                  print(dat);
                                   push(
                                       context: context,
                                       widget: AddressConfirmation(
-                                        prodId: nai,
-                                      ));
+                                          // prodId: nai as List<String>,
+                                          ));
                                 });
                           }),
                     );

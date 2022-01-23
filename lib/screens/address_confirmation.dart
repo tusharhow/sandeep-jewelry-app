@@ -16,8 +16,11 @@ import '../config.dart';
 
 // ignore: must_be_immutable
 class AddressConfirmation extends StatefulWidget {
-  AddressConfirmation({Key? key, required this.prodId}) : super(key: key);
-  var prodId;
+  AddressConfirmation({
+    Key? key,
+  }) : super(key: key);
+  // List<String> prodId;
+  //  required this.prodId
   @override
   _AddressConfirmationState createState() => _AddressConfirmationState();
 }
@@ -38,6 +41,20 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   var progId;
   var onclick;
   Future<ShowCartModel>? allDataModelFuture;
+  @override
+  void initState() {
+    super.initState();
+    getTotalAmount();
+    getAllCart();
+    names();
+  }
+
+  names() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    totAmount = prefs.getString('totalamount');
+    onclick = prefs.getString('fsrf');
+    print('/////////////////////////////////////////${onclick}');
+  }
 
   Future<ShowCartModel> getAllCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -153,57 +170,52 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   }
 
   var orderResponse;
-  Future<AddOrderModel> addOrder() async {
+  var parsedData;
+  Future addOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var token = prefs.getString('userToken');
 
     var url = '${AppConfig.BASE_URL}/addorder}';
 
-    final response = await http.post(Uri.parse(url), headers: {
-      "Accept": "application/json",
-      "Authorization": "Bearer $token",
-    }, body: {
-      "paymentMode": "test",
-      "transaction_id": "test",
-      "feedback": "",
-      "address_id": "1",
-      "message": "",
-      "delievery_date": "2022-01-19",
-      "totalamount": totAmount,
-      "coupanCode": "",
-      "total_gst": "",
-      "delivery_charge": "",
-      "total_after_discount": "",
-      "discount_amount": "",
-      "product_id": [widget.prodId] as String,
-    });
+    try {
+      final response = await http.post(Uri.parse(url),
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token",
+          },
+         
+          body: jsonEncode({
+            "paymentMode": "test",
+            "transaction_id": "test",
+            "feedback": "",
+            "address_id": "1",
+            "message": "",
+            "delievery_date": "2022-01-19",
+            "totalamount": "123323",
+            "coupanCode": "",
+            "total_gst": "",
+            "delivery_charge": "",
+            "total_after_discount": "",
+            "discount_amount": "",
+            "product_id": ["4"],
+          }));
 
-    if (response.statusCode == 200) {
-      setState(() {
-        var parsedData = json.decode(response.body);
-        orderResponse = AddOrderModel.fromJson(parsedData);
-        print('Cliccccccccccccccccccccccccccccc ${widget.prodId}');
-        // push(context: context, widget: CheckOutScreen());
-      });
-    } else {
-      print('Something went wrong');
+      if (response.statusCode == 200) {
+        setState(() {
+          parsedData = json.decode(response.body);
+
+          orderResponse = AddOrderModel.fromJson(parsedData);
+         
+          push(context: context, widget: CheckOutScreen());
+        });
+      } else {
+        print(response.body);
+      }
+    } catch (e) {
+      print(e);
     }
-    return orderResponse;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getTotalAmount();
-    getAllCart();
-    names();
-  }
-
-  names() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    totAmount = prefs.getString('totalamount');
-    // prodId = prefs.getString('cartids');
+    return parsedData;
   }
 
   @override
@@ -254,18 +266,18 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                       controller: _addressController,
                       hint: 'Address',
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index) {
-                            return Text(
-                              'Total ids: ₹ ${widget.prodId}',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
-                            );
-                          }),
-                    ),
+                    // SizedBox(
+                    //   height: 50,
+                    //   child: ListView.builder(
+                    //       itemCount: 1,
+                    //       itemBuilder: (context, index) {
+                    //         return Text(
+                    //           'Total ids: ₹ ${widget.prodId}',
+                    //           style:
+                    //               TextStyle(color: Colors.black, fontSize: 20),
+                    //         );
+                    //       }),
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -327,16 +339,21 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
               SizedBox(
                 height: 20 * 2,
               ),
-              ReusablePrimaryButton(
-                  childText: 'Add Order',
-                  buttonColor: Colors.amber,
-                  textColor: Colors.black,
-                  onPressed: () async {
-                    await addressConfirmation();
+              ElevatedButton(
+                  onPressed: () {
+                    addOrder();
+                  },
+                  child: Text('CLICK')),
+              // ReusablePrimaryButton(
+              //     childText: 'Add Order',
+              //     buttonColor: Colors.amber,
+              //     textColor: Colors.black,
+              //     onPressed: () async {
+              //       await addressConfirmation();
 
-                    await addOrder();
-                    print('Cliced');
-                  }),
+              //       await addOrder();
+              //       print('Cliced');
+              //     }),
               SizedBox(
                 height: 20,
               ),
