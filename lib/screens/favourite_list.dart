@@ -123,7 +123,10 @@ class _FavouriteProductListViewState extends State<FavouriteProductListView> {
                               return Dismissible(
                                 key: UniqueKey(),
                                 onDismissed: (direction) {
-                                  deleteWishList(datasss.wishlistId.toString());
+                                  setState(() {
+                                    deleteWishList(
+                                        datasss.wishlistId.toString());
+                                  });
                                   setState(() {
                                     snapshot.data!.data.removeAt(index);
                                   });

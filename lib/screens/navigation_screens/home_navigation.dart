@@ -351,15 +351,17 @@ class _HomeNavigationState extends State<HomeNavigation> {
                                         crossAxisCount: 2),
                                 itemCount: 4,
                                 itemBuilder: (context, index) {
-                                  var datas = snapshot.data!.data[index];
+                                  var shuffledData = snapshot.data!.data;
 
+                                  var datas = shuffledData[index];
+                                 shuffledData.shuffle();
                                   var url =
                                       'https://admin.sandeepjewellers.com/app/public/img/product/';
                                   var img = '${url + datas.image}';
                                   return InkWell(
                                       onTap: () {
                                         setState(() {
-                                          print('Product Id: ${datas.id}');
+                                          // print('Product Id: ${shuffledData}');
                                           push(
                                             context: context,
                                             widget: ProductDetailView(
