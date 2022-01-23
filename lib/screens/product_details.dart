@@ -587,51 +587,56 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  // ChipsChoice<int>.single(
-                  //   choiceStyle: const C2ChoiceStyle(color: Colors.white),
-                  //   value: tag,
-                  //   choiceActiveStyle: const C2ChoiceStyle(color: Colors.amber),
-                  //   onChanged: (val) => setState(() => tag = val),
-                  //   choiceItems: C2Choice.listFrom<int, String>(
-                  //     source: options,
-                  //     value: (i, v) => i,
-                  //     label: (i, v) => v,
-                  //   ),
-                  // ),
-
-                  InkWell(
-                    onTap: () {
-                      setState(
-                        () {
-                          if (isClicked == false) {
-                            {
-                              isClicked = true;
-                            }
-                          } else {
-                            isClicked = false;
-                          }
-                        },
-                      );
-                    },
-                    child: Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width / 4.20,
-                      decoration: BoxDecoration(
-                        color:
-                            isClicked == true ? Colors.amber : Colors.white10,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.size,
-                          style: TextStyle(
-                              color: isClicked == true ? Colors.black : null),
-                        ),
-                      ),
-                    ),
-                  ),
+                  FutureBuilder<CategoryProductsDetailsModel>(
+                      future: detailsModelFuture,
+                      builder: (context, snapshot) {
+                        return SizedBox(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width / 4.20,
+                          child: ListView.builder(
+                              itemCount: 2 != null ? 1 : 0,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      if (isClicked == false) {
+                                        {
+                                          isClicked = true;
+                                        }
+                                      } else {
+                                        isClicked = false;
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width /
+                                        4.20,
+                                    decoration: BoxDecoration(
+                                      color: isClicked == true
+                                          ? Colors.amber
+                                          : Colors.white54,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        widget.size,
+                                        style: TextStyle(
+                                            color: isClicked == true
+                                                ? Colors.black
+                                                : null),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        );
+                      }),
                 ],
               ),
               const SizedBox(
