@@ -332,7 +332,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
-                    )),
+                    ),),
                 const SizedBox(
                   height: 20,
                 ),
