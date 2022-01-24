@@ -173,27 +173,29 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
 
     var token = prefs.getString('userToken');
 
-    var url = '${AppConfig.BASE_URL}/addorder}';
+    var url = 'https://admin.sandeepjewellers.com/app/public/api/addorder';
 
     try {
-      final response = await http.post(Uri.parse(url), headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $token",
-      }, body: {
-        "paymentMode": "test",
-        "transaction_id": "test",
-        "feedback": "",
-        "address_id": "1",
-        "message": "",
-        "delievery_date": "2022-01-25",
-        "totalamount": totAmount,
-        "coupanCode": "",
-        "total_gst": "",
-        "delivery_charge": "",
-        "total_after_discount": "",
-        "discount_amount": "",
-        "product_id": ["2"],
-      });
+      final response = await http.post(Uri.parse(url),
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token",
+          },
+          body: json.encode({
+            "paymentMode": "test",
+            "transaction_id": "test",
+            "feedback": "1",
+            "address_id": "1",
+            "message": "",
+            "delievery_date": "2022-01-19",
+            "totalamount": "",
+            "coupanCode": "1",
+            "total_gst": "1",
+            "delivery_charge": "1",
+            "total_after_discount": "1",
+            "discount_amount": "1",
+            "product_id": ["7"],
+          }));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -204,12 +206,12 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           push(context: context, widget: CheckOutScreen());
         });
       } else {
-        print(response.statusCode);
+        print(response.body);
       }
     } catch (e) {
       print(e);
     }
-    return parsedData;
+    return orderResponse;
   }
 
   @override
