@@ -192,7 +192,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
         "delivery_charge": "",
         "total_after_discount": "",
         "discount_amount": "",
-        "product_id": ["2"] as List<String>,
+        "product_id": ["2"],
       });
 
       if (response.statusCode == 200) {
