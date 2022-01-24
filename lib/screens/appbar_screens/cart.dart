@@ -585,13 +585,10 @@ class _CartPageState extends State<CartPage> {
                                   var nai = datas.map((element) {
                                     ids = element.productId;
                                     return ids;
-                                  });
+                                  }).toList();
                                   prefs.setString('fsrf', nai.toString());
                                   var dat = prefs.getString('fsrf');
-                                  // print(datas.map((e) {
-                                  //   return e.productId;
-                                  // }).toList());
-
+                     
                                   print(nai);
                                   print(dat);
                                   push(

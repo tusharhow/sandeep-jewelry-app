@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -115,12 +114,12 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return editResponse;
   }
 
-  Future getImage() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      uploadimage = File(image!.path);
-    });
-  }
+  // Future getImage() async {
+  //   var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     uploadimage = File(image!.path);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

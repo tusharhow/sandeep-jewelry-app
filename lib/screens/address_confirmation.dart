@@ -56,6 +56,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     print('/////////////////////////////////////////${onclick}');
   }
 
+  var datt;
   Future<ShowCartModel> getAllCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -76,11 +77,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
         setState(() {
           var jsonString = response.body;
           var allParsedData = json.decode(jsonString);
-          allParsedData['data'].forEach((element) {
-            progId = element;
-            print('progId $progId');
-          });
-
+          datt = allParsedData['data'][0]['product_id'];
           cartData = ShowCartModel.fromJson(allParsedData);
         });
       }
@@ -179,38 +176,35 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     var url = '${AppConfig.BASE_URL}/addorder}';
 
     try {
-      final response = await http.post(Uri.parse(url),
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer $token",
-          },
-         
-          body: jsonEncode({
-            "paymentMode": "test",
-            "transaction_id": "test",
-            "feedback": "",
-            "address_id": "1",
-            "message": "",
-            "delievery_date": "2022-01-19",
-            "totalamount": "123323",
-            "coupanCode": "",
-            "total_gst": "",
-            "delivery_charge": "",
-            "total_after_discount": "",
-            "discount_amount": "",
-            "product_id": ["4"],
-          }));
+      final response = await http.post(Uri.parse(url), headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+      }, body: {
+        "paymentMode": "test",
+        "transaction_id": "test",
+        "feedback": "",
+        "address_id": "1",
+        "message": "",
+        "delievery_date": "2022-01-25",
+        "totalamount": totAmount,
+        "coupanCode": "",
+        "total_gst": "",
+        "delivery_charge": "",
+        "total_after_discount": "",
+        "discount_amount": "",
+        "product_id": ["2"] as List<String>,
+      });
 
       if (response.statusCode == 200) {
         setState(() {
           parsedData = json.decode(response.body);
 
           orderResponse = AddOrderModel.fromJson(parsedData);
-         
+
           push(context: context, widget: CheckOutScreen());
         });
       } else {
-        print(response.body);
+        print(response.statusCode);
       }
     } catch (e) {
       print(e);
@@ -305,35 +299,60 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
               SizedBox(
                 height: 20 * 2,
               ),
-              Container(
-                height: 100,
-                width: MediaQuery.of(context).size.width / 1.05,
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FutureBuilder<TotalAmountModel>(
-                        future: getTotalAmount(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: const CircularProgressIndicator(),
-                            );
-                          } else {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 20),
-                              child: Text(
-                                'Total Price: ₹ ${snapshot.data!.totalAmount}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            );
-                          }
-                        }),
-                  ],
+              InkWell(
+                onTap: () {
+                  print(onclick);
+                },
+                child: Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width / 1.05,
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FutureBuilder<TotalAmountModel>(
+                          future: getTotalAmount(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: const CircularProgressIndicator(),
+                              );
+                            } else {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, top: 20),
+                                child: Text(
+                                  'Total Price: ₹ ${snapshot.data!.totalAmount}',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              );
+                            }
+                          }),
+                      FutureBuilder<ShowCartModel>(
+                          future: getAllCart(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: const CircularProgressIndicator(),
+                              );
+                            } else {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, top: 20),
+                                child: Text(
+                                  'Total Price: ₹ ${snapshot.data!.data[0].productId}',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              );
+                            }
+                          }),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
