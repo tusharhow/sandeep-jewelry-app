@@ -112,7 +112,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
         var parsedData = json.decode(response.body);
 
         shopForModel = CategoryProductsDetailsModel.fromJson(parsedData);
-        // print('////////////////// ${parsedData}');
+      
       }
     } catch (e) {
       print(e);
