@@ -5,8 +5,12 @@ import 'package:sandeep_jwelery/models/add_order_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckOutScreen extends StatefulWidget {
-  CheckOutScreen({Key? key}) : super(key: key);
-
+  CheckOutScreen({Key? key,
+  
+  //  required this.orderId
+   
+   }) : super(key: key);
+  // String orderId;
   @override
   _CheckOutScreenState createState() => _CheckOutScreenState();
 }
@@ -58,29 +62,33 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         ),
         body: Column(
           children: [
-            Container(
-              child: FutureBuilder<AddOrderModel>(
-                future: addOrder(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return FutureBuilder(
-                        future: addOrder(),
-                        builder: (context, snapshot) {
-                          return Card(
-                            color: Colors.white10,
-                            child: Text(
-                              'Order ID: ${snapshot.data}',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          );
-                        });
-                  }
-                },
-              ),
-            )
+            // Text(
+            //   'Order ID: ${widget.orderId}',
+            //   style: TextStyle(color: Colors.white, fontSize: 20),
+            // ),
+            // Container(
+            //   child: FutureBuilder<AddOrderModel>(
+            //     future: addOrder(),
+            //     builder: (context, snapshot) {
+            //       if (!snapshot.hasData) {
+            //         return CircularProgressIndicator();
+            //       } else {
+            //         return FutureBuilder(
+            //             future: addOrder(),
+            //             builder: (context, snapshot) {
+            //               return Card(
+            //                 color: Colors.white10,
+            //                 child: Text(
+            //                   'Order ID: ${snapshot.data}',
+            //                   style:
+            //                       TextStyle(color: Colors.white, fontSize: 20),
+            //                 ),
+            //               );
+            //             });
+            //       }
+            //     },
+            //   ),
+            // )
           ],
         ));
   }

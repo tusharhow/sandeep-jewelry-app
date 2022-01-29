@@ -16,11 +16,9 @@ import '../config.dart';
 
 // ignore: must_be_immutable
 class AddressConfirmation extends StatefulWidget {
-  AddressConfirmation({
-    Key? key,
-  }) : super(key: key);
-  // List<String> prodId;
-  //  required this.prodId
+  AddressConfirmation({Key? key, required this.prodId}) : super(key: key);
+  String prodId;
+
   @override
   _AddressConfirmationState createState() => _AddressConfirmationState();
 }
@@ -180,6 +178,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $token",
+            "content-type": "application/json",
           },
           body: json.encode({
             "paymentMode": "test",
@@ -188,13 +187,13 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
             "address_id": "1",
             "message": "",
             "delievery_date": "2022-01-19",
-            "totalamount": "",
+            "totalamount": totAmount,
             "coupanCode": "1",
             "total_gst": "1",
             "delivery_charge": "1",
             "total_after_discount": "1",
             "discount_amount": "1",
-            "product_id": ["7"],
+            "product_id": [widget.prodId],
           }));
 
       if (response.statusCode == 200) {
@@ -202,11 +201,11 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           parsedData = json.decode(response.body);
 
           orderResponse = AddOrderModel.fromJson(parsedData);
-
+          print(response.statusCode);
           push(context: context, widget: CheckOutScreen());
         });
       } else {
-        print(response.body);
+        print(response.statusCode);
       }
     } catch (e) {
       print(e);
@@ -262,18 +261,18 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                       controller: _addressController,
                       hint: 'Address',
                     ),
-                    // SizedBox(
-                    //   height: 50,
-                    //   child: ListView.builder(
-                    //       itemCount: 1,
-                    //       itemBuilder: (context, index) {
-                    //         return Text(
-                    //           'Total ids: ₹ ${widget.prodId}',
-                    //           style:
-                    //               TextStyle(color: Colors.black, fontSize: 20),
-                    //         );
-                    //       }),
-                    // ),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return Text(
+                              'Total ids: ₹ ${widget.prodId}',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            );
+                          }),
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -306,7 +305,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   print(onclick);
                 },
                 child: Container(
-                  height: 100,
+                  height: 200,
                   width: MediaQuery.of(context).size.width / 1.05,
                   decoration: BoxDecoration(
                     color: Colors.amber,
@@ -315,6 +314,16 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 20),
+                        child: Text(
+                          'Confirm Order:',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       FutureBuilder<TotalAmountModel>(
                           future: getTotalAmount(),
                           builder: (context, snapshot) {
@@ -345,10 +354,17 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                               return Padding(
                                 padding:
                                     const EdgeInsets.only(left: 20, top: 20),
-                                child: Text(
-                                  'Total Price: ₹ ${snapshot.data!.data[0].productId}',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
+                                child: Column(
+                                  children: [
+                                    for (int index = 0;
+                                        index < snapshot.data!.data.length;
+                                        index++)
+                                      Text(
+                                        'Total count: ₹ ${snapshot.data!.data[index].productId}',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      ),
+                                  ],
                                 ),
                               );
                             }
@@ -360,11 +376,14 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
               SizedBox(
                 height: 20 * 2,
               ),
-              ElevatedButton(
+              ReusablePrimaryButton(
+                  childText: 'Add Order',
+                  buttonColor: Colors.amber,
+                  textColor: Colors.white,
                   onPressed: () {
                     addOrder();
-                  },
-                  child: Text('CLICK')),
+                  }),
+              // ElevatedButton(onPressed: () {}, child: Text('CLICK')),
               // ReusablePrimaryButton(
               //     childText: 'Add Order',
               //     buttonColor: Colors.amber,

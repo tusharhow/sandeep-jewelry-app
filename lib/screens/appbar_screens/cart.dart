@@ -556,49 +556,51 @@ class _CartPageState extends State<CartPage> {
                       child: const CircularProgressIndicator(),
                     );
                   } else {
-                    return SizedBox(
-                      height: 60,
-                      child: ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index) {
-                            var datas = snapshot.data!.data;
+                    return ReusablePrimaryButton(
+                        childText: 'Place Order',
+                        buttonColor: Colors.orange,
+                        textColor: Colors.black,
+                        onPressed: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
 
-                            return ReusablePrimaryButton(
-                                childText: 'Place Order',
-                                buttonColor: Colors.orange,
-                                textColor: Colors.black,
-                                onPressed: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
+                          // datas.forEach((element) async {
+                          //   ids = element.productId;
 
-                                  // datas.forEach((element) async {
-                                  //   ids = element.productId;
+                          //   print('Product Id: ${ids}');
+                          // });
+                          // push(
+                          //     context: context,
+                          //     widget: AddressConfirmation(
+                          //       prodId: snapshot
+                          //           .data!.data[index].productId,
+                          //     ));
+                          // var nai = datas.map((element) {
+                          //   ids = element.productId;
+                          //   return ids;
+                          // }).toString();
+                          // prefs.setString('fsrf', nai.toString());
+                          // var dat = prefs.getString('fsrf');
 
-                                  //   print('Product Id: ${ids}');
-                                  // });
-                                  // push(
-                                  //     context: context,
-                                  //     widget: AddressConfirmation(
-                                  //       prodId: snapshot
-                                  //           .data!.data[index].productId,
-                                  //     ));
-                                  var nai = datas.map((element) {
-                                    ids = element.productId;
-                                    return ids;
-                                  }).toList();
-                                  prefs.setString('fsrf', nai.toString());
-                                  var dat = prefs.getString('fsrf');
-                     
-                                  print(nai);
-                                  print(dat);
-                                  push(
-                                      context: context,
-                                      widget: AddressConfirmation(
-                                          // prodId: nai as List<String>,
-                                          ));
-                                });
-                          }),
-                    );
+                          // print(nai);
+                          // print(dat);
+
+                          for (int index = 0;
+                              index < snapshot.data!.data.length;
+                              index++)
+                            // Text(
+                            //   'Total count: ₹ ${}',
+                            //   style: TextStyle(
+                            //       color: Colors.white, fontSize: 18),
+                            // );
+                            
+                            push(
+                                context: context,
+                                widget: AddressConfirmation(
+                                  prodId: snapshot.data!.data[index].productId,
+                                ));
+                                // print(snapshot.data!.data[in].productId);
+                        });
                   }
                 }),
             SizedBox(
