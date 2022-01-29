@@ -383,17 +383,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   onPressed: () {
                     addOrder();
                   }),
-              // ElevatedButton(onPressed: () {}, child: Text('CLICK')),
-              // ReusablePrimaryButton(
-              //     childText: 'Add Order',
-              //     buttonColor: Colors.amber,
-              //     textColor: Colors.black,
-              //     onPressed: () async {
-              //       await addressConfirmation();
-
-              //       await addOrder();
-              //       print('Cliced');
-              //     }),
+            
               SizedBox(
                 height: 20,
               ),
