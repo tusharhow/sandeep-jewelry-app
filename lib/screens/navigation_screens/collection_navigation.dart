@@ -300,62 +300,71 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                   child: CircularProgressIndicator(),
                                 );
                               default:
-                                if (snapshot.hasData) {
-                                  return Container(
-                                      child: Text(
-                                    snapshot.error.toString(),
-                                    style: TextStyle(color: Colors.white),
-                                  ));
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
                                 } else {
                                   return SizedBox(
-                                    height: 800,
+                                    height: 140,
                                     child: ListView.builder(
-                                        itemCount: 1,
-                                        itemBuilder: (context, index) {
-                                          var datas = collectionController
-                                              .allWomensData['data'][index];
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: 5,
+                                      itemBuilder: (context, index) {
+                                        var url =
+                                            'https://admin.sandeepjewellers.com/app/public/img/category/';
+                                        var img =
+                                            '${url + shopForController.allParsedData['data'][index]['image']}';
+                                        var podId = shopForController
+                                            .allParsedData['data'][index]['id'];
+                                        return InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              print('Product Id: $podId');
+                                              push(
+                                                  context: context,
+                                                  widget: CategoryDetails(
+                                                      varId: podId.toString()));
+                                            });
 
-                                          var url =
-                                              'https://admin.sandeepjewellers.com/app/public/img/category/';
-                                          var img = url + datas['image'];
-                                          return InkWell(
-                                            onTap: () {
-                                              // print(datas['category']);
-                                            },
-                                            child: Card(
-                                              margin: EdgeInsets.only(top: 15),
+                                            // print(shopForController.allParsedData['data'][index]['id']);
+                                          },
+                                          child: Card(
+                                              elevation: 0,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8),
                                               color: Colors.white10,
                                               child: Row(
                                                 children: [
                                                   Image(
                                                     image: NetworkImage(img),
-                                                    height: 130,
-                                                    width: 130,
+                                                    height: 100,
+                                                    width: 100,
                                                   ),
                                                   SizedBox(
                                                     width: 20,
                                                   ),
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        datas['category'],
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                  Text(
+                                                    shopForController
+                                                                .allParsedData[
+                                                            'data'][index]
+                                                        ['category'],
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
                                                 ],
-                                              ),
-                                            ),
-                                          );
-                                        }),
+                                              )),
+                                        );
+                                      },
+                                    ),
                                   );
                                 }
                             }
                           }),
-                      FutureBuilder<MensCollectionModel>(
-                          future: collectionController.allMensModelFuture,
+                      FutureBuilder<WomensCollectionModel>(
+                          future: collectionController.allWomensModelFuture,
                           builder: (context, snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none:

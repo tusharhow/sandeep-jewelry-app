@@ -183,16 +183,16 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           body: json.encode({
             "paymentMode": "test",
             "transaction_id": "test",
-            "feedback": "1",
-            "address_id": "1",
+            "feedback": "10",
+            "address_id": "10",
             "message": "",
             "delievery_date": "2022-01-19",
             "totalamount": totAmount,
-            "coupanCode": "1",
-            "total_gst": "1",
-            "delivery_charge": "1",
-            "total_after_discount": "1",
-            "discount_amount": "1",
+            "coupanCode": "10",
+            "total_gst": "10",
+            "delivery_charge": "10",
+            "total_after_discount": "10",
+            "discount_amount": "10",
             "product_id": [widget.prodId],
           }));
 
@@ -201,7 +201,8 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
           parsedData = json.decode(response.body);
 
           orderResponse = AddOrderModel.fromJson(parsedData);
-          print(response.statusCode);
+          print(widget.prodId);
+          print(parsedData['order_id']);
           push(context: context, widget: CheckOutScreen());
         });
       } else {
@@ -261,18 +262,18 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                       controller: _addressController,
                       hint: 'Address',
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index) {
-                            return Text(
-                              'Total ids: ₹ ${widget.prodId}',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
-                            );
-                          }),
-                    ),
+                    // SizedBox(
+                    //   height: 50,
+                    //   child: ListView.builder(
+                    //       itemCount: 1,
+                    //       itemBuilder: (context, index) {
+                    //         return Text(
+                    //           'Total ids: ₹ ${widget.prodId}',
+                    //           style:
+                    //               TextStyle(color: Colors.black, fontSize: 20),
+                    //         );
+                    //       }),
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -305,7 +306,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   print(onclick);
                 },
                 child: Container(
-                  height: 200,
+                  height: 120,
                   width: MediaQuery.of(context).size.width / 1.05,
                   decoration: BoxDecoration(
                     color: Colors.amber,
@@ -343,32 +344,32 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                               );
                             }
                           }),
-                      FutureBuilder<ShowCartModel>(
-                          future: getAllCart(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: const CircularProgressIndicator(),
-                              );
-                            } else {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, top: 20),
-                                child: Column(
-                                  children: [
-                                    for (int index = 0;
-                                        index < snapshot.data!.data.length;
-                                        index++)
-                                      Text(
-                                        'Total count: ₹ ${snapshot.data!.data[index].productId}',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            }
-                          }),
+                      // FutureBuilder<ShowCartModel>(
+                      //     future: getAllCart(),
+                      //     builder: (context, snapshot) {
+                      //       if (!snapshot.hasData) {
+                      //         return Center(
+                      //           child: const CircularProgressIndicator(),
+                      //         );
+                      //       } else {
+                      //         return Padding(
+                      //           padding:
+                      //               const EdgeInsets.only(left: 20, top: 20),
+                      //           child: Column(
+                      //             children: [
+                      //               for (int index = 0;
+                      //                   index < snapshot.data!.data.length;
+                      //                   index++)
+                      //                 Text(
+                      //                   'Total count: ₹ ${snapshot.data!.data[index].productId}',
+                      //                   style: TextStyle(
+                      //                       color: Colors.white, fontSize: 18),
+                      //                 ),
+                      //             ],
+                      //           ),
+                      //         );
+                      //       }
+                      //     }),
                     ],
                   ),
                 ),
@@ -383,7 +384,6 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   onPressed: () {
                     addOrder();
                   }),
-            
               SizedBox(
                 height: 20,
               ),

@@ -93,7 +93,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
         detailsResponse = CartModel.fromJson(parsedData);
       });
     } else {
-      print('failed to get data');
+      print('Stock Out');
     }
     return detailsResponse;
   }

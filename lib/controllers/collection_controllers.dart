@@ -60,7 +60,7 @@ class CollectionController extends GetxController {
 
         allWomensData = json.decode(response.body);
         allWomensModelData = WomensCollectionModel.fromJson(allWomensData);
-        print('Collection Data hit successful ' + '${allWomensData}');
+        print('WOMENS Data hit successful ' + '${allWomensData}');
         // print(parsedData);
         isLoading(false);
       }
@@ -86,7 +86,7 @@ class CollectionController extends GetxController {
 
         allMensData = json.decode(response.body);
         allMensModelData = MensCollectionModel.fromJson(allMensData);
-        print('Collection Data hit successful ' + '${allMensData}');
+        print('MENS Data hit successful ' + '${allMensData}');
         // print(parsedData);
         isLoading(false);
       }
