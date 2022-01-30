@@ -489,7 +489,7 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
                   ),
                 ],
               ),
-              const SizedBox(
+               SizedBox(
                 height: 20 * 2,
               ),
               Row(
