@@ -112,7 +112,6 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
         var parsedData = json.decode(response.body);
 
         shopForModel = CategoryProductsDetailsModel.fromJson(parsedData);
-      
       }
     } catch (e) {
       print(e);
@@ -335,95 +334,95 @@ class _CategoryProductsDetailsState extends State<CategoryProductsDetails> {
               //     ),
               //   ),
               // ),
-              InkWell(
-                onTap: () {},
-                child: GFAccordion(
-                  contentBackgroundColor: Colors.transparent,
-                  collapsedTitleBackgroundColor: Colors.transparent,
-                  title: 'Price Breakage',
-                  textStyle: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.amber,
-                    decoration: TextDecoration.underline,
-                  ),
-                  expandedTitleBackgroundColor: Colors.transparent,
-                  contentChild: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'Gold',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                            Text(
-                              '25%',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                            Text(
-                              '₹${9550}',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'Gold',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                            Text(
-                              '25%',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                            Text(
-                              '₹${9550}',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'Gold',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                            Text(
-                              '25%',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                            Text(
-                              '₹${9550}',
-                              style: TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {},
+              //   child: GFAccordion(
+              //     contentBackgroundColor: Colors.transparent,
+              //     collapsedTitleBackgroundColor: Colors.transparent,
+              //     title: 'Price Breakage',
+              //     textStyle: const TextStyle(
+              //       fontSize: 14,
+              //       color: Colors.amber,
+              //       decoration: TextDecoration.underline,
+              //     ),
+              //     expandedTitleBackgroundColor: Colors.transparent,
+              //     contentChild: Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 40),
+              //       child: Column(
+              //         children: [
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: const [
+              //               Text(
+              //                 'Gold',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //               Text(
+              //                 '25%',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //               Text(
+              //                 '₹${9550}',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //             ],
+              //           ),
+              //           const SizedBox(
+              //             height: 20,
+              //           ),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: const [
+              //               Text(
+              //                 'Gold',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //               Text(
+              //                 '25%',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //               Text(
+              //                 '₹${9550}',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //             ],
+              //           ),
+              //           const SizedBox(
+              //             height: 20,
+              //           ),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: const [
+              //               Text(
+              //                 'Gold',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //               Text(
+              //                 '25%',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //               Text(
+              //                 '₹${9550}',
+              //                 style: TextStyle(
+              //                     color: Colors.white54, fontSize: 14),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
-                height: 15,
+                height: 20,
               ),
               Container(
                 alignment: Alignment.bottomLeft,
