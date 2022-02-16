@@ -89,19 +89,19 @@ class _HomePageMainState extends State<HomePageMain> {
                     AssetImage("assets/icons/home.png"),
                     color: Colors.amber,
                   ),
-                  title: Text('Home', style: TextStyle(color: Colors.amber)),
+                  label: 'Home',
                   backgroundColor: Colors.transparent),
               BottomNavigationBarItem(
                   icon: ImageIcon(
                     AssetImage("assets/icons/grid.png"),
                   ),
-                  title: Text('Collection'),
+                  label: 'Collection',
                   backgroundColor: Colors.transparent),
               BottomNavigationBarItem(
                   icon: ImageIcon(
                     AssetImage("assets/icons/auth.png"),
                   ),
-                  title: Text('Profile'),
+                   label: 'Profile',
                   backgroundColor: Colors.transparent),
             ],
             type: BottomNavigationBarType.shifting,

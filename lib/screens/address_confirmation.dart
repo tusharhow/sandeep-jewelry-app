@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:sandeep_jwelery/components/address_text_field.dart';
 import 'package:sandeep_jwelery/components/navigate.dart';
 import 'package:sandeep_jwelery/components/re_usable_buttons/primary_button.dart';
@@ -38,6 +40,10 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   var totAmount;
   var progId;
   var onclick;
+  static const platform = const MethodChannel("razorpay_flutter");
+
+  late Razorpay _razorpay;
+
   Future<ShowCartModel>? allDataModelFuture;
   @override
   void initState() {
@@ -45,12 +51,64 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     getTotalAmount();
     getAllCart();
     names();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  void openCheckout() async {
+    var amount = int.parse(totAmount);
+    var options = {
+      'key': 'rzp_live_ILgsfZCZoFIKMb',
+      'amount': amount * 100,
+      'name': 'Sandeep Jewellery',
+      'description': 'Payment for Order',
+      'retry': {'enabled': true, 'max_count': 2},
+      'send_sms_hash': true,
+      'prefill': {'contact': '01868986430', 'email': 'tushar@razorpay.com'},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Error: e');
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    addOrder();
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        toastLength: Toast.LENGTH_SHORT);
   }
 
   names() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     totAmount = prefs.getString('totalamount');
     onclick = prefs.getString('fsrf');
+    
     print('/////////////////////////////////////////${onclick}');
   }
 
@@ -382,8 +440,10 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   buttonColor: Colors.amber,
                   textColor: Colors.white,
                   onPressed: () {
-                    addOrder();
+                    // addOrder();
+                    openCheckout;
                   }),
+              RaisedButton(onPressed: openCheckout, child: Text('Open')),
               SizedBox(
                 height: 20,
               ),
