@@ -41,7 +41,8 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
   var progId;
   var onclick;
   static const platform = const MethodChannel("razorpay_flutter");
-
+  String? emailFull;
+  String? mobileNo;
   late Razorpay _razorpay;
 
   Future<ShowCartModel>? allDataModelFuture;
@@ -72,7 +73,7 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
       'description': 'Payment for Order',
       'retry': {'enabled': true, 'max_count': 2},
       'send_sms_hash': true,
-      'prefill': {'contact': '01868986430', 'email': 'tushar@razorpay.com'},
+      'prefill': {'contact': mobileNo, 'email': emailFull},
       'external': {
         'wallets': ['paytm']
       }
@@ -108,7 +109,8 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     totAmount = prefs.getString('totalamount');
     onclick = prefs.getString('fsrf');
-    
+    emailFull = prefs.getString('email');
+    mobileNo = prefs.getString('mobile');
     print('/////////////////////////////////////////${onclick}');
   }
 
@@ -439,11 +441,8 @@ class _AddressConfirmationState extends State<AddressConfirmation> {
                   childText: 'Add Order',
                   buttonColor: Colors.amber,
                   textColor: Colors.white,
-                  onPressed: () {
-                    // addOrder();
-                    openCheckout;
-                  }),
-              RaisedButton(onPressed: openCheckout, child: Text('Open')),
+                  onPressed: openCheckout),
+              // RaisedButton(onPressed: openCheckout, child: Text('Open')),
               SizedBox(
                 height: 20,
               ),
